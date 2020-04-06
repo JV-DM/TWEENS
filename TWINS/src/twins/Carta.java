@@ -10,5 +10,17 @@ package twins;
  * @author Javier
  */
 public class Carta {
+    private Imagen imagen;
+    private String nombre;
     
+    public Carta(Imagen imagen, String nombre) {
+        this.imagen = imagen;
+        this.nombre = nombre;
+    }
+    
+    public Imagen GetImagen() {return this.imagen;}
+    public String GetNombre() {return this.nombre;}
+    
+    public void SetImagen(Imagen nuevaImagen) {this.imagen = nuevaImagen;}
+    public void SetNombre(String nuevoNombre) {this.nombre = nuevoNombre;}
 }
