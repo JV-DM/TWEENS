@@ -14,17 +14,23 @@ import java.util.List;
 public class Baraja {
     private List<Carta> cartas;
     private String nombre;
+    private CaraPosterior caraPosterior;
     
-    public Baraja(List<Carta> cartas, String nombre) {
+    public Baraja(List<Carta> cartas, String nombre, CaraPosterior caraPosterior) {
         this.cartas = cartas;
         this.nombre = nombre;
+        this.caraPosterior = caraPosterior;
     }
     
     public List<Carta> GetCartas() {return this.cartas;}
     public String GetNombre() {return this.nombre;}
+    public CaraPosterior GetCaraPosterior(){return this.caraPosterior;}
     
     public void SetCartas(List<Carta> nuevaCartas) {this.cartas = nuevaCartas;}
     public void SetNombre(String nuevoNombre) {this.nombre = nuevoNombre;}
+    public void SetCaraPosterior(CaraPosterior nuevaCaraPosterior){
+        this.caraPosterior = nuevaCaraPosterior;
+    }
     
     public void AñadirCarta(Carta carta){cartas.add(carta);}
     public void EliminarCarta(Carta carta){cartas.remove(carta);}

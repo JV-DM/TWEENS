@@ -5,10 +5,26 @@
  */
 package twins;
 
+import javafx.scene.image.Image;
+
 /**
  *
  * @author Javier
  */
 public class Imagen {
+    private Image imagen;
+    private String rutaImagen;
     
+    public Imagen(String rutaImagen){
+        this.rutaImagen = rutaImagen;
+        this.imagen = new Image(rutaImagen);
+    }
+    
+    public Image GetImage(){return imagen;}
+    public String GetRutaImagen(){return rutaImagen;}
+    
+    public void SetImage(String nuevaRuta){
+        this.rutaImagen = nuevaRuta;
+        this.imagen = new Image(rutaImagen);
+    }
 }
