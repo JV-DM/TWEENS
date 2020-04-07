@@ -37,10 +37,22 @@ public class Baraja {
     }
     public void SetTamaño(int nuevoTamaño){this.tamaño = nuevoTamaño;}
     
-    public void AñadirCarta(Carta carta){
-        cartas.add(carta); tamaño++;
+    public boolean AñadirCarta(Carta carta){
+        if(!ExisteLaCarta(carta)) {
+            cartas.add(carta); tamaño++;
+            return true;
+        }
+        else{ return false; }
     }
+    
     public void EliminarCarta(Carta carta){
         cartas.remove(carta); tamaño--;
+    }
+    
+    public boolean ExisteLaCarta(Carta carta){
+        for(int i = 0; i < cartas.size(); i++){
+            if (cartas.get(i).EqualTo(carta)) return true;
+        }
+        return false;
     }
 }
