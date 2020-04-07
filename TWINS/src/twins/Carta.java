@@ -23,4 +23,8 @@ public class Carta {
     
     public void SetImagen(Imagen nuevaImagen) {this.imagen = nuevaImagen;}
     public void SetNombre(String nuevoNombre) {this.nombre = nuevoNombre;}
+    
+    public boolean EqualTo(Carta carta){
+        return this.nombre.equals(carta.nombre);
+    }
 }
