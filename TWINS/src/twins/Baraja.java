@@ -38,15 +38,20 @@ public class Baraja {
     public void SetTamaño(int nuevoTamaño){this.tamaño = nuevoTamaño;}
     
     public boolean AñadirCarta(Carta carta){
-        if(!ExisteLaCarta(carta)) {
-            cartas.add(carta); tamaño++;
+        if(carta == null) {return false;}
+        else if(!ExisteLaCarta(carta)) {
+            cartas.add(carta);
+            cartas.add(carta);
+            tamaño+= 2;
             return true;
         }
-        else{ return false; }
+        else {return false;}
     }
     
     public void EliminarCarta(Carta carta){
-        cartas.remove(carta); tamaño--;
+        cartas.remove(carta);
+        cartas.remove(carta);
+        tamaño-= 2;
     }
     
     public boolean ExisteLaCarta(Carta carta){
