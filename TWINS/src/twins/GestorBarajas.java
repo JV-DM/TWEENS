@@ -15,16 +15,16 @@ public class GestorBarajas {
     private List<Baraja> barajas;
     private Baraja barajaPorDefecto;
     public GestorBarajas(){
-        cargarBarajaPorDefecto();
+        CargarBarajaPorDefecto();
     }
     
-    public List<Baraja> getBarajas(){return barajas;}
-    public Baraja getBarajaPorDefecto(){return barajaPorDefecto;}
+    public List<Baraja> GetBarajas(){return barajas;}
+    public Baraja GetBarajaPorDefecto(){return barajaPorDefecto;}
     
-    public void setBarajas(List<Baraja> nuevaBarajas){this.barajas = nuevaBarajas;}
-    public void setBarajaPorDefecto(Baraja nuevaBarajaPorDefecto){this.barajaPorDefecto = nuevaBarajaPorDefecto;}
+    public void SetBarajas(List<Baraja> nuevaBarajas){this.barajas = nuevaBarajas;}
+    public void SetBarajaPorDefecto(Baraja nuevaBarajaPorDefecto){this.barajaPorDefecto = nuevaBarajaPorDefecto;}
     
-    public boolean añadirBaraja(Baraja baraja){
+    public boolean AñadirBaraja(Baraja baraja){
         if(baraja == null) return false;
         else if(!ExisteLaBaraja(baraja)) {
             barajas.add(baraja);
@@ -33,7 +33,7 @@ public class GestorBarajas {
         return false;
     }
     
-    public boolean eliminarBaraja(Baraja baraja){
+    public boolean EliminarBaraja(Baraja baraja){
         if(baraja == null) return false;
         else if(ExisteLaBaraja(baraja)){
             barajas.remove(baraja);
@@ -43,7 +43,7 @@ public class GestorBarajas {
     }
     
     //El método será sustituido en el sprint 2
-    public void cargarBarajaPorDefecto(){
+    public void CargarBarajaPorDefecto(){
         CaraPosterior caraPosterior = new CaraPosterior(new Imagen("src\\imagenes\\ImagenesCaraPosterior\\BacCard"),"CaraPosterior por defecto");
         Baraja baraja = new Baraja(null,caraPosterior,"Baraja de animales",0);
         baraja.AñadirCarta(new Carta(new Imagen("src\\imagenes\\ImagenesCartas\\elefante_carta"),"Elefante"));
