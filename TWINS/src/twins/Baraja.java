@@ -38,25 +38,30 @@ public class Baraja {
     public void SetTamaño(int nuevoTamaño){this.tamaño = nuevoTamaño;}
     
     public boolean AñadirCarta(Carta carta){
-        if(carta == null) {return false;}
+        if(carta == null) return false;
         else if(!ExisteLaCarta(carta)) {
             cartas.add(carta);
             cartas.add(carta);
             tamaño+= 2;
             return true;
         }
-        else {return false;}
+        return false;
     }
     
-    public void EliminarCarta(Carta carta){
-        cartas.remove(carta);
-        cartas.remove(carta);
-        tamaño-= 2;
+    public boolean EliminarCarta(Carta carta){
+        if(carta == null) return false;
+        else if(ExisteLaCarta(carta)){
+            cartas.remove(carta);
+            cartas.remove(carta);
+            tamaño-= 2;
+            return true;
+        }
+        return false;
     }
     
-    public boolean ExisteLaCarta(Carta carta){
-        for(int i = 0; i < cartas.size(); i++){
-            if (cartas.get(i).EqualTo(carta)) return true;
+    public boolean ExisteLaCarta(Carta cartaNueva){
+        for(Carta cartaExistente : cartas){
+            if (cartaExistente.EqualTo(cartaNueva)) return true;
         }
         return false;
     }

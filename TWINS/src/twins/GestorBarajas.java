@@ -24,8 +24,30 @@ public class GestorBarajas {
     public void setBarajas(List<Baraja> nuevaBarajas){this.barajas = nuevaBarajas;}
     public void setBarajaPorDefecto(Baraja nuevaBarajaPorDefecto){this.barajaPorDefecto = nuevaBarajaPorDefecto;}
     
-    public void añadirBaraja(Baraja baraja){barajas.add(baraja);}
-    public void eliminarBaraja(Baraja baraja){barajas.remove(baraja);}
+    public boolean añadirBaraja(Baraja baraja){
+        if(baraja == null) return false;
+        else if(!ExisteLaBaraja(baraja)) {
+            barajas.add(baraja);
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean eliminarBaraja(Baraja baraja){
+        if(baraja == null) return false;
+        else if(ExisteLaBaraja(baraja)){
+            barajas.remove(baraja);
+            return true;
+        }
+        return false;
+    }
     
     public void cargarBarajas(){}
+    
+    public boolean ExisteLaBaraja(Baraja barajaNueva){
+        for(Baraja barajaExistente : barajas) {
+            if(barajaExistente.EqualsTo(barajaNueva)) return true;
+        }
+        return false;       
+    }
 }
