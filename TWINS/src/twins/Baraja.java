@@ -17,9 +17,9 @@ public class Baraja {
     private CaraPosterior caraPosterior;
     private int tamaño;
     
-    public Baraja(List<Carta> cartas, String nombre, CaraPosterior caraPosterior,
+    public Baraja(List<Carta> cartas, CaraPosterior caraPosterior, String nombre,
             int tamaño) {
-        this.cartas = cartas;
+        if(cartas != null) this.cartas = cartas;
         this.nombre = nombre;
         this.caraPosterior = caraPosterior;
         this.tamaño = tamaño;

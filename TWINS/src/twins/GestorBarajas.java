@@ -15,7 +15,7 @@ public class GestorBarajas {
     private List<Baraja> barajas;
     private Baraja barajaPorDefecto;
     public GestorBarajas(){
-        cargarBarajas();
+        cargarBarajaPorDefecto();
     }
     
     public List<Baraja> getBarajas(){return barajas;}
@@ -42,7 +42,23 @@ public class GestorBarajas {
         return false;
     }
     
-    public void cargarBarajas(){}
+    //El método será sustituido en el sprint 2
+    public void cargarBarajaPorDefecto(){
+        CaraPosterior caraPosterior = new CaraPosterior(new Imagen("src\\imagenes\\ImagenesCaraPosterior\\BacCard"),"CaraPosterior por defecto");
+        Baraja baraja = new Baraja(null,caraPosterior,"Baraja de animales",0);
+        baraja.AñadirCarta(new Carta(new Imagen("src\\imagenes\\ImagenesCartas\\elefante_carta"),"Elefante"));
+        baraja.AñadirCarta(new Carta(new Imagen("src\\imagenes\\ImagenesCartas\\aguila_carta"),"Aguila"));
+        baraja.AñadirCarta(new Carta(new Imagen("src\\imagenes\\ImagenesCartas\\caballodemar_carta"),"Caballo de mar"));
+        baraja.AñadirCarta(new Carta(new Imagen("src\\imagenes\\ImagenesCartas\\elefante_carta"),"Cocodrilo"));
+        baraja.AñadirCarta(new Carta(new Imagen("src\\imagenes\\ImagenesCartas\\elefante_carta"),"Jirafa"));
+        baraja.AñadirCarta(new Carta(new Imagen("src\\imagenes\\ImagenesCartas\\elefante_carta"),"Leon"));
+        baraja.AñadirCarta( new Carta(new Imagen("src\\imagenes\\ImagenesCartas\\elefante_carta"),"Serpiente"));
+        baraja.AñadirCarta(new Carta(new Imagen("src\\imagenes\\ImagenesCartas\\elefante_carta"),"Tiburon"));
+        baraja.AñadirCarta(new Carta(new Imagen("src\\imagenes\\ImagenesCartas\\elefante_carta"),"Tortuga"));
+        baraja.AñadirCarta(new Carta(new Imagen("src\\imagenes\\ImagenesCartas\\elefante_carta"),"Zebra"));
+        barajas.add(baraja);
+        barajaPorDefecto = baraja;
+    }
     
     public boolean ExisteLaBaraja(Baraja barajaNueva){
         for(Baraja barajaExistente : barajas) {
