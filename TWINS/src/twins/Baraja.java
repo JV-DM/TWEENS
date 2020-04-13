@@ -60,4 +60,8 @@ public class Baraja {
         }
         return false;
     }
+    
+    public boolean EqualsTo(Baraja baraja){
+        return this.nombre.equals(baraja.nombre);
+    }
 }
