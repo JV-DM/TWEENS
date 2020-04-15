@@ -69,7 +69,7 @@ public class GestorBarajas {
         baraja.AñadirCarta(new Carta(new Imagen(new File("src\\imagenes\\ImagenesCartas\\tiburon_carta.jpg")),"Tiburon"));
         baraja.AñadirCarta(new Carta(new Imagen(new File("src\\imagenes\\ImagenesCartas\\tortuga_carta.jpg")),"Tortuga"));
         baraja.AñadirCarta(new Carta(new Imagen(new File("src\\imagenes\\ImagenesCartas\\zebra_carta.jpg")),"Zebra"));
-        barajas.add(baraja);
+        AñadirBaraja(baraja);
         barajaPorDefecto = baraja;      
     }
     
