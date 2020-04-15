@@ -18,14 +18,12 @@ import javax.imageio.ImageIO;
  */
 public class Imagen {
     private Image imagen;
-    private String rutaImagen;
     
     public Imagen(File imagen) throws IOException{
         this.imagen = ImageIO.read(imagen);
     }
     
     public Image GetImage(){return imagen;}
-    public String GetRutaImagen(){return rutaImagen;}
     
     public void SetImage(File imagen) throws IOException{
         this.imagen = ImageIO.read(imagen);
