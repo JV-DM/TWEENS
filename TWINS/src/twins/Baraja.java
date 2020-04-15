@@ -5,6 +5,7 @@
  */
 package twins;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ public class Baraja {
     
     public Baraja(List<Carta> cartas, CaraPosterior caraPosterior, String nombre,
             int tamaño) {
-        if(cartas != null) this.cartas = cartas;
+        this.cartas = new ArrayList();
         this.nombre = nombre;
         this.caraPosterior = caraPosterior;
         this.tamaño = tamaño;
