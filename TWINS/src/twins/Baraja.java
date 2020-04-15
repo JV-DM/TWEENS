@@ -19,8 +19,9 @@ public class Baraja {
     private int tamaño;
     
     public Baraja(List<Carta> cartas, CaraPosterior caraPosterior, String nombre,
-            int tamaño) {
+            int tamaño) {       
         this.cartas = new ArrayList();
+        if (cartas != null) this.cartas = cartas;
         this.nombre = nombre;
         this.caraPosterior = caraPosterior;
         this.tamaño = tamaño;
