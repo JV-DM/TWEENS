@@ -12,15 +12,22 @@ package data_structures;
 public class Carta {
     private final Imagen imagen;
     private final String nombre;
-    
-    public Carta(Imagen imagen, String nombre) {
+    private final int id;
+    private boolean isFound;
+
+    public Carta(Imagen imagen, String nombre,int id) {
         this.imagen = imagen;
         this.nombre = nombre;
+        this.id = id;
     }
 
-    public Imagen GetImagen() {return this.imagen;}
-    public String GetNombre() {return this.nombre;}
-
+    public Imagen getImagen() {return this.imagen;}
+    public String getNombre() {return this.nombre;}
+    public int getId() {return this.id;}
+    public void foundCard(){
+        isFound = true;
+    }
+    public boolean isFound(){ return this.isFound;}
     public boolean EqualTo(Carta carta){
         return this.nombre.equals(carta.nombre);
     }
