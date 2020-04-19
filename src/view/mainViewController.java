@@ -52,12 +52,13 @@ public class mainViewController {
 
     private Map<Carta, ImageView> cardImageViewMap = new HashMap<>();
 
-    private void gridCreation(List<Carta> cardList, ReadOnlyDoubleProperty height, ReadOnlyDoubleProperty width){
+    private void gridCreation(List<Carta> cards, ReadOnlyDoubleProperty height, ReadOnlyDoubleProperty width){
         int cardNumber = 0;
 
         playGridPane = new GridPane();
         playGridPane.setPadding(new Insets(10));
-
+        List<Carta> cardList = new ArrayList<>(cards);
+        Collections.shuffle(cardList);
         for(int i = 0; i < 4; i++){
             for(int j = 0; j < 5; j++){
                 Image image = partida.getBaraja().GetCaraPosterior().GetImagen();
