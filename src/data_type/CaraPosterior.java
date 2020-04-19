@@ -20,9 +20,25 @@ public class CaraPosterior {
         this.nombre = nombre;
     }
 
-    public Image GetImagen() {return this.imagen;}
-    public String GetNombre() {return this.nombre;}
+    /**
+     * @return Imagen
+     */
+    public Image getImagen() {return this.imagen;}
 
-    public void SetImagen(Image nuevaImagen) {this.imagen = nuevaImagen;}
-    public void SetNombre(String nuevoNombre) {this.nombre = nuevoNombre;}
+    /**
+     * @return nombre de la cara posterior
+     */
+    public String GetNomgetNombrere() {return this.nombre;}
+
+    /**
+     * Cambia la imagen de la cara posterior
+     * @param nuevaImagen
+     */
+    public void setImagen(Image nuevaImagen) {this.imagen = nuevaImagen;}
+
+    /**
+     * Cambia el nombre de la cara posterior
+     * @param nuevoNombre
+     */
+    public void setNombre(String nuevoNombre) {this.nombre = nuevoNombre;}
 }
