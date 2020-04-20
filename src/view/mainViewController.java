@@ -106,6 +106,10 @@ public class mainViewController {
         };
     }
 
+    public void setPuntuacion(int puntuacion) {
+        puntuationLabel.setText("PUNTUACION = " + puntuacion);
+    }
+
     private void updateTimer(){
         partida.getTimer().scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -148,7 +152,9 @@ public class mainViewController {
         partida = p;
         List<Carta> cardList = p.getBaraja().GetCartas();
         partida.startGame();
+        partida.setController(this);
         updateTimer();
+        setPuntuacion(0);
         gridCreation(cardList, mainBorderPane.heightProperty(), mainBorderPane.widthProperty());
     }
 }
