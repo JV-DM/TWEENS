@@ -16,7 +16,7 @@ import javafx.scene.layout.*;
 import javafx.scene.input.MouseEvent;
 
 import java.util.*;
-
+import java.util.concurrent.TimeUnit;
 
 
 public class mainViewController {
@@ -48,6 +48,8 @@ public class mainViewController {
     Timer t;
 
     private Map<Carta, ImageView> cardImageViewMap = new HashMap<>();
+
+    private long time = ONE_MINUTE;
 
     /**
      * Crea un gridPane con las cartas (mostrando la parte de atrás de la carta) con su posición random
@@ -126,10 +128,11 @@ public class mainViewController {
             @Override
             public void run() {
                 Platform.runLater(() -> {
-                    long seconds = partida.getTimeLasted().toMillis();
-
-                    timeLabel.setText(formatTime(seconds));
-
+                    time -= ONE_SECOND;
+                    if(time >= 0)
+                        timeLabel.setText(formatTime(time));
+                    if(time <= 0)
+                        partida.stopTimer();
                     if(!partida.isRunning())
                         partida.stopTimer();
                 });

@@ -55,6 +55,7 @@ public class Partida {
             clearSelection();
 
             if(isGameCompleted())
+                isFinished = true;
                 stopTimer();
 
         }
