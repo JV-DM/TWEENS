@@ -123,6 +123,14 @@ public class mainViewController {
     }
 
     /**
+     * Cambia el valor de la puntuación
+     * @param puntuacion
+     */
+    public void setPuntuacion(int puntuacion) {
+        puntuationLabel.setText("PUNTUACION = " + puntuacion);
+    }
+
+    /**
      * Método que actualiza el contador de tiempo a cada segundo
      */
     private void updateTimer(){
@@ -133,14 +141,12 @@ public class mainViewController {
                     time -= ONE_SECOND;
                     if(time >= 0)
                         timeLabel.setText(formatTime(time));
-                    if(time <= 0) {
+                    if(time <= 0){
                         partida.stopTimer();
                         pantallaFinPartida();
                     }
-                    if(partida.isFinished()){
+                    if(!partida.isRunning())
                         partida.stopTimer();
-                        pantallaFinPartida();
-                    }
                 });
             }
         },0,1000);
@@ -172,9 +178,9 @@ public class mainViewController {
         playGridPane.setVisible(false);
         Label finalDePartida = new Label();
         finalDePartida.setText("     PUNTUACIÓN \n               " 
-                + "0 \n"
+                + partida.getPuntuacion()+ " \n"
                 + "TIEMPO DE PARTIDA \n          " 
-                + formatTime(60 - partida.getTimeLasted().getSeconds()));
+                + formatTime(partida.getTimeLasted().getSeconds()));
         finalDePartida.setTextFill(Paint.valueOf("white"));        
         finalDePartida.setFont(Font.font("anton"));
         finalDePartida.setFont(Font.font(50));
@@ -188,6 +194,8 @@ public class mainViewController {
         gestor.cargarBarajaPorDefecto();
         Partida p = new Partida(gestor.getBarajaPorDefecto(),new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
         partida = p;
+        p.setController(this);
+        setPuntuacion(0);
         List<Carta> cardList = p.getBaraja().getCartas();
         partida.startGame();
         updateTimer();
