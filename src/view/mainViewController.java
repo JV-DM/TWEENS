@@ -1,11 +1,9 @@
 package view;
 
-import data_type.Baraja;
 import data_type.Carta;
 import data_type.GestorBarajas;
 import data_type.Partida;
 import javafx.application.Platform;
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -16,10 +14,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 
 import java.util.*;
-
+import java.util.concurrent.TimeUnit;
 
 
 public class mainViewController {
@@ -52,15 +49,25 @@ public class mainViewController {
 
     private Map<Carta, ImageView> cardImageViewMap = new HashMap<>();
 
-    private void gridCreation(List<Carta> cardList, ReadOnlyDoubleProperty height, ReadOnlyDoubleProperty width){
+    private long time = ONE_MINUTE;
+
+    /**
+     * Crea un gridPane con las cartas (mostrando la parte de atrás de la carta) con su posición random
+     * (los parametros height y width en principio se usarán en los próximos sprints, creo)
+     * @param cards lista de cartas de la baraja
+     * @param height numero de columnas
+     * @param width número de filas
+     **/
+    private void gridCreation(List<Carta> cards, ReadOnlyDoubleProperty height, ReadOnlyDoubleProperty width){
         int cardNumber = 0;
-
         playGridPane = new GridPane();
+        // aesthetics
         playGridPane.setPadding(new Insets(10));
-
+        List<Carta> cardList = new ArrayList<>(cards);
+        Collections.shuffle(cardList);
         for(int i = 0; i < 4; i++){
             for(int j = 0; j < 5; j++){
-                Image image = partida.getBaraja().GetCaraPosterior().GetImagen();
+                Image image = partida.getBaraja().getCaraPosterior().getImagen();
                 ImageView imageView = new ImageView(image);
                 imageView.setPreserveRatio(false);
                 imageView.fitWidthProperty().bind(width.divide(9));
@@ -71,6 +78,7 @@ public class mainViewController {
                 cardNumber += 1;
             }
         }
+        //more aesthetics
         playGridPane.setAlignment(Pos.CENTER);
         mainBorderPane.setCenter(playGridPane);
         mainBorderPane.setBackground(new Background(new BackgroundImage(
@@ -81,6 +89,12 @@ public class mainViewController {
                 new BackgroundSize(100, 100, true,true, false, true))));
     }
 
+    /**
+     * Manejador de eventos para TODAS las cartas
+     * @param carta carta que se supone que hay debajo de cada imagen de cara posterior
+     * @param imageView objeto de la imagen que se ha pulsado
+     * @return
+     */
     private EventHandler clickOnCardEventHandler(Carta carta, ImageView imageView) {
         return event ->{
             partida.pickCard(carta);
@@ -99,22 +113,26 @@ public class mainViewController {
                     }
                     for (Carta cardFromMap : cardImageViewMap.keySet())
                         if(!cardFromMap.isFound())
-                            cardImageViewMap.get(cardFromMap).setImage(partida.getBaraja().GetCaraPosterior().GetImagen());
+                            cardImageViewMap.get(cardFromMap).setImage(partida.getBaraja().getCaraPosterior().getImagen());
                     playGridPane.setDisable(false);
                 }
             }).start();
         };
     }
 
+    /**
+     * Método que actualiza el contador de tiempo a cada segundo
+     */
     private void updateTimer(){
         partida.getTimer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 Platform.runLater(() -> {
-                    long seconds = partida.getTimeLasted().toMillis();
-
-                    timeLabel.setText(formatTime(seconds));
-
+                    time -= ONE_SECOND;
+                    if(time >= 0)
+                        timeLabel.setText(formatTime(time));
+                    if(time <= 0)
+                        partida.stopTimer();
                     if(!partida.isRunning())
                         partida.stopTimer();
                 });
@@ -122,6 +140,11 @@ public class mainViewController {
         },0,1000);
     }
 
+    /**
+     * Método para poner formato al label del tiempo
+     * @param duration tiempo que ha pasado desde que ha empezado la partida
+     * @return
+     */
     public static String formatTime(long duration){
         String res;
         duration /= ONE_SECOND;
@@ -143,10 +166,10 @@ public class mainViewController {
     private void initialize(){
         //Esta linea se deberá eliminar posteriormente
         GestorBarajas gestor = new GestorBarajas();
-        gestor.CargarBarajaPorDefecto();
-        Partida p = new Partida(gestor.GetBarajaPorDefecto(),new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
+        gestor.cargarBarajaPorDefecto();
+        Partida p = new Partida(gestor.getBarajaPorDefecto(),new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
         partida = p;
-        List<Carta> cardList = p.getBaraja().GetCartas();
+        List<Carta> cardList = p.getBaraja().getCartas();
         partida.startGame();
         updateTimer();
         gridCreation(cardList, mainBorderPane.heightProperty(), mainBorderPane.widthProperty());
