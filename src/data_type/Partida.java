@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.scene.image.Image;
+import view.mainViewController;
 
 import java.time.Duration;
 import java.util.*;
@@ -18,6 +19,8 @@ public class Partida {
     private Timer timer;
     boolean running;
     private long startTime = 0L, endTime = 0L;
+    private int puntuacion = 0;
+    private mainViewController controller;
 
     public Partida(Baraja b, Image back){
         this.baraja = b;
@@ -44,16 +47,20 @@ public class Partida {
         if(!checkCardsCombination() && getSelectedCards().size() == 2){
             increaseErrors();
             clearSelection();
+            puntuacion -= 3;
         }
         if(checkCardsCombination() && getSelectedCards().size() == 2){
             selectedCards.stream().forEach(x -> x.foundCard());
             System.out.println("cartas encontradas");
             clearSelection();
+            puntuacion += 10;
 
             if(isGameCompleted())
                 stopTimer();
 
         }
+        if (controller != null)
+             controller.setPuntuacion(puntuacion);
     }
 
     private boolean isGameCompleted(){
@@ -66,6 +73,10 @@ public class Partida {
 
     public void increaseErrors(){
         errorCounter += 1;
+    }
+
+    public void setController(mainViewController controller) {
+        this.controller = controller;
     }
 
     public boolean checkCardsCombination(){
