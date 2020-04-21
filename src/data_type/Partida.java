@@ -1,7 +1,7 @@
 package data_type;
 
 import javafx.scene.image.Image;
-
+import view.mainViewController;
 import java.time.Duration;
 import java.util.*;
 import java.util.Timer;
@@ -13,8 +13,11 @@ public class Partida {
     private List<Carta> selectedCards = new ArrayList<>();
     private boolean isFinished = false;
     private Timer timer;
-    boolean running;
+    private boolean running;
+    private int puntuacion = 0;
     private long startTime = 0L, endTime = 0L;
+    private mainViewController controller;
+
 
     public Partida(Baraja b, Image back){
         this.baraja = b;
@@ -49,16 +52,19 @@ public class Partida {
         if(!checkCardsCombination() && getSelectedCards().size() == 2){
             increaseErrors();
             clearSelection();
+            puntuacion -= 3;
         }
         if(checkCardsCombination() && getSelectedCards().size() == 2){
             selectedCards.stream().forEach(x -> x.foundCard());
             clearSelection();
+            puntuacion += 10;
 
             if(isGameCompleted())
                 isFinished = true;
                 stopTimer();
-
         }
+        if (controller != null)
+            controller.setPuntuacion(puntuacion);
     }
 
     /**
@@ -76,6 +82,13 @@ public class Partida {
         selectedCards.clear();
     }
 
+    /**
+     * Sets the controller of the game
+     * @param controller
+     */
+    public void setController(mainViewController controller) {
+        this.controller = controller;
+    }
     /**
      * Incrementa en 1 el número de errores
      */

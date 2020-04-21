@@ -121,6 +121,14 @@ public class mainViewController {
     }
 
     /**
+     * Cambia el valor de la puntuación
+     * @param puntuacion
+     */
+    public void setPuntuacion(int puntuacion) {
+        puntuationLabel.setText("PUNTUACION = " + puntuacion);
+    }
+
+    /**
      * Método que actualiza el contador de tiempo a cada segundo
      */
     private void updateTimer(){
@@ -169,6 +177,8 @@ public class mainViewController {
         gestor.cargarBarajaPorDefecto();
         Partida p = new Partida(gestor.getBarajaPorDefecto(),new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
         partida = p;
+        p.setController(this);
+        setPuntuacion(0);
         List<Carta> cardList = p.getBaraja().getCartas();
         partida.startGame();
         updateTimer();
