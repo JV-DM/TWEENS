@@ -134,8 +134,11 @@ public class Partida {
      * Para el tiempo de la partida
      */
     public void stopTimer(){
+        boolean victoria = false;
         timer.cancel();
-        controller.pantallaFinPartida();
+        if(isGameCompleted())
+            victoria = true;
+        controller.pantallaFinPartida(victoria);
     }
 
     /**

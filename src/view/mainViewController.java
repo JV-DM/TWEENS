@@ -177,17 +177,33 @@ public class mainViewController {
         return res;
     }
 
-    public void pantallaFinPartida(){
+    public void pantallaFinPartida(boolean victoria){
         playGridPane.setVisible(false);
-        Label finalDePartida = new Label();
-        finalDePartida.setText("     PUNTUACIÓN \n               "
+        timeLabel.setVisible(false);
+        puntuationLabel.setVisible(false);
+        
+        String textoFinPartida = "DERROTA";
+        if(victoria) 
+            textoFinPartida = "¡¡VICTORIA!!";
+
+        Label estadisticasPartida = new Label();
+        Label finPartida = new Label();
+        
+        finPartida.setText(""
+                +"\n\n                   "
+                + textoFinPartida);
+        estadisticasPartida.setText(""
+                + "     PUNTUACIÓN \n               "
                 + partida.getPuntuacion()+ " \n"
                 + "TIEMPO DE PARTIDA \n          "
                 + formatTime(TIEMPO_PARTIDA - partida.getTimeLasted().getSeconds()));
-        finalDePartida.setTextFill(Paint.valueOf("white"));
-        finalDePartida.setFont(Font.font("anton"));
-        finalDePartida.setFont(Font.font(50));
-        mainBorderPane.setCenter(finalDePartida);
+        
+        estadisticasPartida.setTextFill(Paint.valueOf("white"));
+        estadisticasPartida.setFont(Font.font(30));
+        finPartida.setTextFill(Paint.valueOf("white"));
+        finPartida.setFont(Font.font(70));
+        mainBorderPane.setTop(finPartida);
+        mainBorderPane.setCenter(estadisticasPartida);
     }
 
     @FXML
