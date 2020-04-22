@@ -22,7 +22,7 @@ import javafx.scene.text.Font;
 
 
 public class mainViewController {
-
+    
     private final static long ONE_SECOND = 1000;
     private final static long SECONDS = 60;
 
@@ -33,6 +33,8 @@ public class mainViewController {
     private final static long HOURS = 24;
 
     private final static long ONE_DAY = ONE_HOUR * 24;
+    
+    private final static long TIEMPO_PARTIDA = ONE_MINUTE;
 
     @FXML
     private BorderPane mainBorderPane;
@@ -51,7 +53,7 @@ public class mainViewController {
 
     private Map<Carta, ImageView> cardImageViewMap = new HashMap<>();
 
-    private long time = ONE_MINUTE;
+    private long time = TIEMPO_PARTIDA;
 
     /**
      * Crea un gridPane con las cartas (mostrando la parte de atrás de la carta) con su posición random
@@ -127,7 +129,7 @@ public class mainViewController {
      * @param puntuacion
      */
     public void setPuntuacion(int puntuacion) {
-        puntuationLabel.setText("PUNTUACION = " + puntuacion);
+        puntuationLabel.setText("PUNTUACIÓN " + puntuacion);
     }
 
     /**
@@ -143,10 +145,11 @@ public class mainViewController {
                         timeLabel.setText(formatTime(time));
                     if(time <= 0){
                         partida.stopTimer();
-                        pantallaFinPartida();
                     }
-                    if(!partida.isRunning())
+                    if(partida.isFinished()){
                         partida.stopTimer();
+                    }
+                        
                 });
             }
         },0,1000);
@@ -180,7 +183,7 @@ public class mainViewController {
         finalDePartida.setText("     PUNTUACIÓN \n               " 
                 + partida.getPuntuacion()+ " \n"
                 + "TIEMPO DE PARTIDA \n          " 
-                + formatTime(partida.getTimeLasted().getSeconds()));
+                + formatTime(TIEMPO_PARTIDA - partida.getTimeLasted().getSeconds()));
         finalDePartida.setTextFill(Paint.valueOf("white"));        
         finalDePartida.setFont(Font.font("anton"));
         finalDePartida.setFont(Font.font(50));

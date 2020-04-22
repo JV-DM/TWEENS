@@ -135,6 +135,7 @@ public class Partida {
      */
     public void stopTimer(){
         timer.cancel();
+        controller.pantallaFinPartida();
     }
 
     /**
@@ -151,6 +152,10 @@ public class Partida {
         return running;
     }
 
+    public boolean isFinished(){
+        return isFinished;
+    }
+    
     /**
      * Empieza la partida
      */
