@@ -141,6 +141,11 @@ public class mainViewController {
                         timeLabel.setText(formatTime(time));
                     if(time <= 0)
                         partida.stopTimer();
+<<<<<<< HEAD:src/view/mainViewController.java
+=======
+                        pantallaFinPartida();
+                    }
+>>>>>>> parent of 339ad62... Implementada la pantalla final de partida:TWINS/src/view/mainViewController.java
                     if(!partida.isRunning())
                         partida.stopTimer();
                 });
@@ -169,6 +174,22 @@ public class mainViewController {
         }
         return res;
     }
+<<<<<<< HEAD:src/view/mainViewController.java
+=======
+    
+    public void pantallaFinPartida(){
+        playGridPane.setVisible(false);
+        Label finalDePartida = new Label();
+        finalDePartida.setText("     PUNTUACIÓN \n               " 
+                + partida.getPuntuacion()+ " \n"
+                + "TIEMPO DE PARTIDA \n          " 
+                + formatTime(partida.getTimeLasted().getSeconds()));
+        finalDePartida.setTextFill(Paint.valueOf("white"));        
+        finalDePartida.setFont(Font.font("anton"));
+        finalDePartida.setFont(Font.font(50));
+        mainBorderPane.setCenter(finalDePartida);
+    }
+>>>>>>> parent of 339ad62... Implementada la pantalla final de partida:TWINS/src/view/mainViewController.java
 
     @FXML
     private void initialize(){
