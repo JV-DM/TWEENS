@@ -182,7 +182,7 @@ public class mainViewController {
         timeLabel.setVisible(false);
         puntuationLabel.setVisible(false);
         
-        String textoFinPartida = "DERROTA";
+        String textoFinPartida = "  DERROTA";
         if(victoria) 
             textoFinPartida = "¡¡VICTORIA!!";
 
@@ -190,7 +190,7 @@ public class mainViewController {
         Label finPartida = new Label();
         
         finPartida.setText(""
-                +"\n\n                   "
+                +"\n\n                 "
                 + textoFinPartida);
         estadisticasPartida.setText(""
                 + "     PUNTUACIÓN \n               "
