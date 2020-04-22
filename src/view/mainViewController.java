@@ -34,6 +34,8 @@ public class mainViewController {
 
     private final static long ONE_DAY = ONE_HOUR * 24;
 
+    private final static long TIEMPO_PARTIDA = ONE_MINUTE;
+
     @FXML
     private BorderPane mainBorderPane;
 
@@ -51,7 +53,7 @@ public class mainViewController {
 
     private Map<Carta, ImageView> cardImageViewMap = new HashMap<>();
 
-    private long time = ONE_MINUTE;
+    private long time = TIEMPO_PARTIDA;
 
     /**
      * Crea un gridPane con las cartas (mostrando la parte de atrás de la carta) con su posición random
@@ -123,6 +125,14 @@ public class mainViewController {
     }
 
     /**
+     * Cambia el valor de la puntuación
+     * @param puntuacion
+     */
+    public void setPuntuacion(int puntuacion) {
+        puntuationLabel.setText("PUNTUACIÓN " + puntuacion);
+    }
+
+    /**
      * Método que actualiza el contador de tiempo a cada segundo
      */
     private void updateTimer(){
@@ -133,14 +143,13 @@ public class mainViewController {
                     time -= ONE_SECOND;
                     if(time >= 0)
                         timeLabel.setText(formatTime(time));
-                    if(time <= 0) {
+                    if(time <= 0){
                         partida.stopTimer();
-                        pantallaFinPartida();
                     }
                     if(partida.isFinished()){
                         partida.stopTimer();
-                        pantallaFinPartida();
                     }
+
                 });
             }
         },0,1000);
@@ -167,15 +176,15 @@ public class mainViewController {
         }
         return res;
     }
-    
+
     public void pantallaFinPartida(){
         playGridPane.setVisible(false);
         Label finalDePartida = new Label();
-        finalDePartida.setText("     PUNTUACIÓN \n               " 
-                + "0 \n"
-                + "TIEMPO DE PARTIDA \n          " 
-                + formatTime(60 - partida.getTimeLasted().getSeconds()));
-        finalDePartida.setTextFill(Paint.valueOf("white"));        
+        finalDePartida.setText("     PUNTUACIÓN \n               "
+                + partida.getPuntuacion()+ " \n"
+                + "TIEMPO DE PARTIDA \n          "
+                + formatTime(TIEMPO_PARTIDA - partida.getTimeLasted().getSeconds()));
+        finalDePartida.setTextFill(Paint.valueOf("white"));
         finalDePartida.setFont(Font.font("anton"));
         finalDePartida.setFont(Font.font(50));
         mainBorderPane.setCenter(finalDePartida);
@@ -188,6 +197,8 @@ public class mainViewController {
         gestor.cargarBarajaPorDefecto();
         Partida p = new Partida(gestor.getBarajaPorDefecto(),new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
         partida = p;
+        p.setController(this);
+        setPuntuacion(0);
         List<Carta> cardList = p.getBaraja().getCartas();
         partida.startGame();
         updateTimer();

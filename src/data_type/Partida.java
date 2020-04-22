@@ -59,9 +59,10 @@ public class Partida {
             clearSelection();
             puntuacion += 10;
 
-            if(isGameCompleted())
+            if(isGameCompleted()) {
                 isFinished = true;
                 stopTimer();
+            }
         }
         if (controller != null)
             controller.setPuntuacion(puntuacion);
@@ -81,6 +82,11 @@ public class Partida {
     public void clearSelection(){
         selectedCards.clear();
     }
+
+    public int getPuntuacion(){
+        return puntuacion;
+    }
+
 
     /**
      * Sets the controller of the game
@@ -129,6 +135,7 @@ public class Partida {
      */
     public void stopTimer(){
         timer.cancel();
+        controller.pantallaFinPartida();
     }
 
     /**
@@ -143,6 +150,10 @@ public class Partida {
      */
     public boolean isRunning() {
         return running;
+    }
+
+    public boolean isFinished(){
+        return isFinished;
     }
 
     /**
