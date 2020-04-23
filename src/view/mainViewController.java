@@ -253,7 +253,6 @@ public class mainViewController {
     EventHandler<MouseEvent> reinicarPartida = (MouseEvent event) -> {
         if(partidaAcabada) {
             partidaAcabada = false;
-            partida.getBaraja().resetBaraja();
             iniciarPartida(gestor);
         }
     };
