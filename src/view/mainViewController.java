@@ -3,14 +3,12 @@ package view;
 import data_type.Carta;
 import data_type.GestorBarajas;
 import data_type.Partida;
-import static java.lang.Thread.sleep;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,7 +16,6 @@ import javafx.scene.layout.*;
 import javafx.scene.input.MouseEvent;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -118,9 +115,9 @@ public class mainViewController {
                 imageView.setImage(carta.getImagen());
 
                 if(partida.getSelectedCards().isEmpty()){
-                    playGridPane.setDisable(false);
+                    playGridPane.setDisable(true);
                     try {
-                        Thread.sleep(500);
+                        Thread.sleep(400);
                     }
                     catch (InterruptedException e) {
                         e.printStackTrace();
@@ -144,9 +141,7 @@ public class mainViewController {
         puntuationLabel.setFont(Font.font("anton"));
         puntuationLabel.setFont(Font.font(30));
         puntuationLabel.setTextFill(Color.web("#FFFFFF"));
-        puntuationLabel.setStyle("-fx-font-weight: bold");
-
-        
+        puntuationLabel.setStyle("-fx-font-weight: bold");     
     }
    
     /**
@@ -258,10 +253,9 @@ public class mainViewController {
         partida.setController(this);
         setPuntuacion(0);
         setTime(TIEMPO_PARTIDA);
-        reiniciarTablero();
-        List<Carta> cardList = partida.getBaraja().getCartas();        
+        reiniciarTablero();     
         updateTimer();
-        gridCreation(cardList, mainBorderPane.heightProperty(), mainBorderPane.widthProperty());
+        gridCreation(partida.getBaraja().getCartas(), mainBorderPane.heightProperty(), mainBorderPane.widthProperty());
         partida.startGame();
     }
     
