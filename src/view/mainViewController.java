@@ -50,8 +50,6 @@ public class mainViewController {
     GridPane playGridPane;
 
     private Partida partida;
-
-    Timer t;
     
     GestorBarajas gestor;
     
@@ -145,8 +143,7 @@ public class mainViewController {
      * @param tiempoPartida 
      */
     public void setTime(long tiempoPartida){
-        time =  tiempoPartida;
-        
+        time =  tiempoPartida;       
     }
     
     /**
@@ -239,7 +236,8 @@ public class mainViewController {
         mainBorderPane.setBottom(repetirPartida);
     }
     
-    public void iniciarPartida(GestorBarajas gestor){         
+    public void iniciarPartida(GestorBarajas gestor){     
+        partidaAcabada = false;
         partida = new Partida(gestor.getBarajaPorDefecto(),new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));       
         partida.setController(this);
         setPuntuacion(0);
@@ -251,8 +249,7 @@ public class mainViewController {
     }
     
     EventHandler<MouseEvent> reinicarPartida = (MouseEvent event) -> {
-        if(partidaAcabada) {
-            partidaAcabada = false;
+        if(partidaAcabada) {            
             iniciarPartida(gestor);
         }
     };
