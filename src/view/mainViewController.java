@@ -3,12 +3,14 @@ package view;
 import data_type.Carta;
 import data_type.GestorBarajas;
 import data_type.Partida;
+import static java.lang.Thread.sleep;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,8 +19,11 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
+
 
 
 public class mainViewController {
@@ -135,6 +140,13 @@ public class mainViewController {
      */
     public void setPuntuacion(int puntuacion) {
         puntuationLabel.setText("PUNTUACIÓN " + puntuacion);
+        //aesthetic puntuacion
+        puntuationLabel.setFont(Font.font("anton"));
+        puntuationLabel.setFont(Font.font(30));
+        puntuationLabel.setTextFill(Color.web("#FFFFFF"));
+        puntuationLabel.setStyle("-fx-font-weight: bold");
+
+        
     }
    
     /**
@@ -143,6 +155,11 @@ public class mainViewController {
      */
     public void setTime(long tiempoPartida){
         time =  tiempoPartida;
+        //aesthetic tiempo
+        timeLabel.setFont(Font.font("anton"));
+        timeLabel.setFont(Font.font(30));
+        timeLabel.setTextFill(Color.web("#FFFFFF"));
+        timeLabel.setStyle("-fx-font-weight: bold");
     }
     
     /**
@@ -152,6 +169,7 @@ public class mainViewController {
         mainBorderPane.setCenter(playGridPane);
         mainBorderPane.setTop(timeLabel);
         mainBorderPane.setBottom(puntuationLabel);
+        mainBorderPane.setPrefSize(1024, 768);
     }
 
     /**
@@ -199,7 +217,6 @@ public class mainViewController {
 
     public void pantallaFinPartida(boolean victoria){    
         partidaAcabada = true;
-        playGridPane = new GridPane();
         
         Label finPartida = new Label();
         Label estadisticasPartida = new Label();
@@ -236,22 +253,21 @@ public class mainViewController {
         mainBorderPane.setBottom(repetirPartida);
     }
     
-    public void iniciarPartida(GestorBarajas gestor){
-        partidaAcabada = false;
-        Partida p = new Partida(gestor.getBarajaPorDefecto(),new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
-        partida = p;
-        p.setController(this);
+    public void iniciarPartida(GestorBarajas gestor){        
+        partida = new Partida(gestor.getBarajaPorDefecto(),new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
+        partida.setController(this);
         setPuntuacion(0);
         setTime(TIEMPO_PARTIDA);
         reiniciarTablero();
-        List<Carta> cardList = p.getBaraja().getCartas();
-        partida.startGame();
+        List<Carta> cardList = partida.getBaraja().getCartas();        
         updateTimer();
         gridCreation(cardList, mainBorderPane.heightProperty(), mainBorderPane.widthProperty());
+        partida.startGame();
     }
     
     EventHandler<MouseEvent> reinicarPartida = (MouseEvent event) -> {
         if(partidaAcabada) {
+            partidaAcabada = false;
             iniciarPartida(gestor);
         }
     };
@@ -263,5 +279,6 @@ public class mainViewController {
         gestor.cargarBarajaPorDefecto();
         iniciarPartida(gestor);
         mainBorderPane.addEventFilter(MouseEvent.MOUSE_CLICKED, reinicarPartida);
+       
     }
 }
