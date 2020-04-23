@@ -9,6 +9,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,6 +18,8 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 
@@ -50,6 +53,7 @@ public class mainViewController {
     private Partida partida;
 
     Timer t;
+
 
     private Map<Carta, ImageView> cardImageViewMap = new HashMap<>();
 
@@ -129,7 +133,7 @@ public class mainViewController {
      * @param puntuacion
      */
     public void setPuntuacion(int puntuacion) {
-        puntuationLabel.setText("PUNTUACIÓN " + puntuacion);
+        puntuationLabel.setText("PUNTUACIÓN  " + puntuacion);
     }
 
     /**
@@ -203,5 +207,19 @@ public class mainViewController {
         partida.startGame();
         updateTimer();
         gridCreation(cardList, mainBorderPane.heightProperty(), mainBorderPane.widthProperty());
+        mainBorderPane.setPrefSize(1024, 768);
+
+        //aesthetic puntuacion
+        puntuationLabel.setFont(Font.font("anton"));
+        puntuationLabel.setFont(Font.font(30));
+        puntuationLabel.setTextFill(Color.web("#FFFFFF"));
+        puntuationLabel.setStyle("-fx-font-weight: bold");
+
+        //aesthetic tiempo
+        timeLabel.setFont(Font.font("anton"));
+        timeLabel.setFont(Font.font(30));
+        timeLabel.setTextFill(Color.web("#FFFFFF"));
+        timeLabel.setStyle("-fx-font-weight: bold");
+
     }
 }
