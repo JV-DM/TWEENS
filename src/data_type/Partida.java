@@ -136,8 +136,10 @@ public class Partida {
     public void stopTimer(){
         boolean victoria = false;
         timer.cancel();
-        if(isGameCompleted())
+        if(isGameCompleted()) {
             victoria = true;
+            baraja.resetBaraja();
+        }
         controller.pantallaFinPartida(victoria);
     }
 
