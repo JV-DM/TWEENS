@@ -15,31 +15,61 @@ import java.util.List;
  * @author Javier
  */
 public class GestorBarajas {
+
     private List<Baraja> barajas;
     private Baraja barajaPorDefecto;
+
     public GestorBarajas(){
         barajas = new ArrayList<>();
         barajaPorDefecto = new Baraja();
     }
-    
-    public List<Baraja> GetBarajas(){return barajas;}
-    public Baraja GetBarajaPorDefecto(){return barajaPorDefecto;}
-    
-    public void SetBarajas(List<Baraja> nuevaBarajas){this.barajas = nuevaBarajas;}
-    public void SetBarajaPorDefecto(Baraja nuevaBarajaPorDefecto){this.barajaPorDefecto = nuevaBarajaPorDefecto;}
-    
-    public boolean AñadirBaraja(Baraja baraja){
+
+    /**
+     *
+     * @return Lista de barajas
+     */
+    public List<Baraja> getBarajas(){ return barajas;}
+
+    /**
+     *
+     * @return Devuelve la barajaPorDefecto
+     */
+    public Baraja getBarajaPorDefecto(){ return barajaPorDefecto;}
+
+    /**
+     * Establece una lista de barajas
+     * @param nuevaBarajas
+     */
+    public void setBarajas(List<Baraja> nuevaBarajas){this.barajas = nuevaBarajas;}
+
+    /**
+     * Establece la baraja por defecto
+     * @param nuevaBarajaPorDefecto
+     */
+    public void setBarajaPorDefecto(Baraja nuevaBarajaPorDefecto){this.barajaPorDefecto = nuevaBarajaPorDefecto;}
+
+    /**
+     * Añade barajas a la lista de barajas
+     * @param baraja
+     * @return
+     */
+    public boolean añadirBaraja(Baraja baraja){
         if(baraja == null) return false;
-        else if(!ExisteLaBaraja(baraja)) {
+        else if(!existeLaBaraja(baraja)) {
             barajas.add(baraja);
             return true;
         }
         return false;
     }
-    
-    public boolean EliminarBaraja(Baraja baraja){
+
+    /**
+     * Elimina una baraja de la lista de barajas
+     * @param baraja
+     * @return
+     */
+    public boolean eliminarBaraja(Baraja baraja){
         if(baraja == null) return false;
-        else if(ExisteLaBaraja(baraja)){
+        else if(existeLaBaraja(baraja)){
             barajas.remove(baraja);
             return true;
         }
@@ -47,7 +77,11 @@ public class GestorBarajas {
     }
     
     //El método será sustituido en el sprint 2
-    public void CargarBarajaPorDefecto(){
+
+    /**
+     * Carga la baraja por defecto
+     */
+    public void cargarBarajaPorDefecto(){
         CaraPosterior caraPosterior = new CaraPosterior(new Image("imagenes/ImagenesCaraPosterior/BacCard.png"),"CaraPosterior por defecto");
         Baraja baraja = new Baraja(null,caraPosterior,"Baraja de animales",0);
         baraja.añadirCarta(new Carta(new Image("imagenes/ImagenesCartas/elefante_carta.jpg"),"Elefante", 1));
@@ -64,8 +98,13 @@ public class GestorBarajas {
         barajas.add(baraja);
         barajaPorDefecto = baraja;
     }
-    
-    public boolean ExisteLaBaraja(Baraja barajaNueva){
+
+    /**
+     * Comprueba si existe una baraja
+     * @param barajaNueva
+     * @return
+     */
+    public boolean existeLaBaraja(Baraja barajaNueva){
         for(Baraja barajaExistente : barajas) {
             if(barajaExistente.EqualsTo(barajaNueva)) return true;
         }

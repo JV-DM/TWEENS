@@ -1,11 +1,7 @@
 package data_type;
 
-import javafx.application.Platform;
-import javafx.beans.property.SimpleListProperty;
-import javafx.collections.FXCollections;
 import javafx.scene.image.Image;
 import view.mainViewController;
-
 import java.time.Duration;
 import java.util.*;
 import java.util.Timer;
@@ -17,10 +13,11 @@ public class Partida {
     private List<Carta> selectedCards = new ArrayList<>();
     private boolean isFinished = false;
     private Timer timer;
-    boolean running;
-    private long startTime = 0L, endTime = 0L;
+    private boolean running;
     private int puntuacion = 0;
+    private long startTime = 0L, endTime = 0L;
     private mainViewController controller;
+
 
     public Partida(Baraja b, Image back){
         this.baraja = b;
@@ -29,12 +26,20 @@ public class Partida {
         running = false;
         timer = new Timer();
     }
+
+    /**
+     * @return Lista de cartas seleccionadas
+     */
     public List<Carta> getSelectedCards(){
         return this.selectedCards;
     }
 
+    /**
+     * Selecciona una carta y la pone como seleccionada
+     * @param card
+     */
     public void pickCard(Carta card){
-        if(!baraja.GetCartas().contains(card) || card.isFound())
+        if(!baraja.getCartas().contains(card) || card.isFound())
             return;
 
         //si la carta ya está seleccionada no la coje
@@ -51,34 +56,56 @@ public class Partida {
         }
         if(checkCardsCombination() && getSelectedCards().size() == 2){
             selectedCards.stream().forEach(x -> x.foundCard());
-            System.out.println("cartas encontradas");
             clearSelection();
             puntuacion += 10;
 
-            if(isGameCompleted())
+            if(isGameCompleted()) {
+                isFinished = true;
                 stopTimer();
-
+            }
         }
         if (controller != null)
-             controller.setPuntuacion(puntuacion);
+            controller.setPuntuacion(puntuacion);
     }
 
+    /**
+     *
+     * @return true si se ha completado el tablero
+     */
     private boolean isGameCompleted(){
-        return baraja.GetCartas().stream().allMatch(Carta::isFound);
+        return baraja.getCartas().stream().allMatch(Carta::isFound);
     }
 
+    /**
+     * limpia la lista de cartas seleccionadas
+     */
     public void clearSelection(){
         selectedCards.clear();
     }
 
+    public int getPuntuacion(){
+        return puntuacion;
+    }
+
+
+    /**
+     * Sets the controller of the game
+     * @param controller
+     */
+    public void setController(mainViewController controller) {
+        this.controller = controller;
+    }
+    /**
+     * Incrementa en 1 el número de errores
+     */
     public void increaseErrors(){
         errorCounter += 1;
     }
 
-    public void setController(mainViewController controller) {
-        this.controller = controller;
-    }
-
+    /**
+     * Comprueba si dos cartas son pareja
+     * @return true si las cartas seleccionadas son parejas
+     */
     public boolean checkCardsCombination(){
         if(getSelectedCards().isEmpty())
             return false;
@@ -88,38 +115,54 @@ public class Partida {
         return getSelectedCards().stream().allMatch(x -> x.getId() == firstId);
     }
 
+    /**
+     * @return Devuelve la baraja de la partida
+     */
     public Baraja getBaraja() { return this.baraja;}
+
+    /**
+     * @return Fondo de pantalla de la partida
+     */
     public Image getBackground(){ return this.background;}
 
+    /**
+     * @return devuelve el timer de la partida
+     */
     public Timer getTimer(){ return timer;}
 
+    /**
+     * Para el tiempo de la partida
+     */
     public void stopTimer(){
         timer.cancel();
+        controller.pantallaFinPartida();
     }
 
+    /**
+     * @return Duración de la partida
+     */
     public Duration getTimeLasted() {
         return Duration.ofMillis((isRunning() ? System.currentTimeMillis() : endTime) - startTime);
     }
-    public boolean isRunning() {
 
+    /**
+     * @return true si la partida está en curso
+     */
+    public boolean isRunning() {
         return running;
     }
-    public void startGame(){
-        if(isRunning())
+
+    public boolean isFinished(){
+        return isFinished;
+    }
+
+    /**
+     * Empieza la partida
+     */
+    public void startGame() {
+        if (isRunning())
             return;
-        if(this.getBaraja().GetCartas().isEmpty())
-            buildCards();
         running = true;
         startTime = System.currentTimeMillis();
     }
-
-    private void buildCards() {
-        Random r = new Random();
-        List<Carta> copiaCartasDesorden = new ArrayList<>();
-        for(int i = 0; i < this.getBaraja().GetCartas().size(); i++){
-            Carta c = this.getBaraja().GetCartas().remove(r.nextInt(this.getBaraja().GetCartas().size()));
-        }
-    }
-
-
 }
