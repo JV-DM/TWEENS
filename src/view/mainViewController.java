@@ -50,10 +50,14 @@ public class mainViewController {
     private Partida partida;
 
     Timer t;
+    
+    GestorBarajas gestor;
+    
+    private boolean partidaAcabada;
 
-    private Map<Carta, ImageView> cardImageViewMap = new HashMap<>();
+    private Map<Carta, ImageView> cardImageViewMap; 
 
-    private long time = TIEMPO_PARTIDA;
+    private long time;
 
     /**
      * Crea un gridPane con las cartas (mostrando la parte de atrás de la carta) con su posición random
@@ -65,6 +69,7 @@ public class mainViewController {
     private void gridCreation(List<Carta> cards, ReadOnlyDoubleProperty height, ReadOnlyDoubleProperty width){
         int cardNumber = 0;
         playGridPane = new GridPane();
+        cardImageViewMap = new HashMap<>();
         // aesthetics
         playGridPane.setPadding(new Insets(10));
         List<Carta> cardList = new ArrayList<>(cards);
@@ -131,6 +136,23 @@ public class mainViewController {
     public void setPuntuacion(int puntuacion) {
         puntuationLabel.setText("PUNTUACIÓN " + puntuacion);
     }
+   
+    /**
+     * Cambia el valor del tiempo
+     * @param tiempoPartida 
+     */
+    public void setTime(long tiempoPartida){
+        time =  tiempoPartida;
+    }
+    
+    /**
+     * Reestablece la pantalla para jugar una partida
+     */
+    public void reiniciarTablero(){
+        mainBorderPane.setCenter(playGridPane);
+        mainBorderPane.setTop(timeLabel);
+        mainBorderPane.setBottom(puntuationLabel);
+    }
 
     /**
      * Método que actualiza el contador de tiempo a cada segundo
@@ -140,16 +162,14 @@ public class mainViewController {
             @Override
             public void run() {
                 Platform.runLater(() -> {
-                    time -= ONE_SECOND;
-                    if(time >= 0)
-                        timeLabel.setText(formatTime(time));
-                    if(time <= 0){
-                        partida.stopTimer();
-                    }
-                    if(partida.isFinished()){
-                        partida.stopTimer();
-                    }
-
+                    if(!partidaAcabada){
+                        time -= ONE_SECOND;
+                        if(time >= 0)
+                            timeLabel.setText(formatTime(time));
+                        if(time <= 0){
+                            partida.stopTimer();                           
+                        }
+                    }                   
                 });
             }
         },0,1000);
@@ -177,17 +197,19 @@ public class mainViewController {
         return res;
     }
 
-    public void pantallaFinPartida(boolean victoria){
-        playGridPane.setVisible(false);
-        timeLabel.setVisible(false);
-        puntuationLabel.setVisible(false);
+    public void pantallaFinPartida(boolean victoria){    
+        partidaAcabada = true;
+        playGridPane = new GridPane();
+        
+        Label finPartida = new Label();
+        Label estadisticasPartida = new Label();
+        Label repetirPartida = new Label();
         
         String textoFinPartida = "  DERROTA";
+        String textoRepetirPartida = "   Haz clic para repetir partida";
+        
         if(victoria) 
-            textoFinPartida = "¡¡VICTORIA!!";
-
-        Label estadisticasPartida = new Label();
-        Label finPartida = new Label();
+            textoFinPartida = "¡VICTORIA!";
         
         finPartida.setText(""
                 +"\n\n                 "
@@ -198,26 +220,48 @@ public class mainViewController {
                 + "TIEMPO DE PARTIDA \n          "
                 + formatTime(TIEMPO_PARTIDA - partida.getTimeLasted().getSeconds()));
         
+        repetirPartida.setText(textoRepetirPartida);
+
+        repetirPartida.setTextFill(Paint.valueOf("white"));
+        repetirPartida.setFont(Font.font(20));
+        
         estadisticasPartida.setTextFill(Paint.valueOf("white"));
         estadisticasPartida.setFont(Font.font(30));
+        
         finPartida.setTextFill(Paint.valueOf("white"));
         finPartida.setFont(Font.font(70));
+        
         mainBorderPane.setTop(finPartida);
-        mainBorderPane.setCenter(estadisticasPartida);
+        mainBorderPane.setCenter(estadisticasPartida);       
+        mainBorderPane.setBottom(repetirPartida);
     }
-
-    @FXML
-    private void initialize(){
-        //Esta linea se deberá eliminar posteriormente
-        GestorBarajas gestor = new GestorBarajas();
-        gestor.cargarBarajaPorDefecto();
+    
+    public void iniciarPartida(GestorBarajas gestor){
+        partidaAcabada = false;
         Partida p = new Partida(gestor.getBarajaPorDefecto(),new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
         partida = p;
         p.setController(this);
         setPuntuacion(0);
+        setTime(TIEMPO_PARTIDA);
+        reiniciarTablero();
         List<Carta> cardList = p.getBaraja().getCartas();
         partida.startGame();
         updateTimer();
         gridCreation(cardList, mainBorderPane.heightProperty(), mainBorderPane.widthProperty());
+    }
+    
+    EventHandler<MouseEvent> reinicarPartida = (MouseEvent event) -> {
+        if(partidaAcabada) {
+            iniciarPartida(gestor);
+        }
+    };
+
+    @FXML
+    private void initialize(){
+        //Esta linea se deberá eliminar posteriormente
+        gestor = new GestorBarajas();
+        gestor.cargarBarajaPorDefecto();
+        iniciarPartida(gestor);
+        mainBorderPane.addEventFilter(MouseEvent.MOUSE_CLICKED, reinicarPartida);
     }
 }
