@@ -6,6 +6,7 @@
 package data_type;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -21,9 +22,11 @@ public class Baraja {
     private String nombre;
     private CaraPosterior caraPosterior;
     private int tamaño;
+    
     public Baraja(){
         cartas = new ArrayList<>();
     }
+    
     public Baraja(List<Carta> cartas, CaraPosterior caraPosterior, String nombre,
             int tamaño) {
         if(cartas != null) this.cartas = cartas;
@@ -131,5 +134,16 @@ public class Baraja {
      */
     public boolean EqualsTo(Baraja baraja){
         return this.nombre.equals(baraja.nombre);
+    }
+    
+    /**
+     * Pone el atributo isFound de todas las cartas 
+     * a false
+     */
+    public void resetBaraja(){
+        cartas.forEach((carta) -> {
+            carta.resetCarta();
+        });
+               
     }
 }

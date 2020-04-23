@@ -90,4 +90,11 @@ public class Carta {
     private void setUuid(UUID uuid) {
         this.uuid.set(uuid);
     }
+    
+    /**
+     * 
+     */
+    public void resetCarta(){
+        this.isFound = false;
+    }
 }

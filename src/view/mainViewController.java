@@ -137,11 +137,7 @@ public class mainViewController {
      */
     public void setPuntuacion(int puntuacion) {
         puntuationLabel.setText("PUNTUACIÓN " + puntuacion);
-        //aesthetic puntuacion
-        puntuationLabel.setFont(Font.font("anton"));
-        puntuationLabel.setFont(Font.font(30));
-        puntuationLabel.setTextFill(Color.web("#FFFFFF"));
-        puntuationLabel.setStyle("-fx-font-weight: bold");     
+          
     }
    
     /**
@@ -150,11 +146,7 @@ public class mainViewController {
      */
     public void setTime(long tiempoPartida){
         time =  tiempoPartida;
-        //aesthetic tiempo
-        timeLabel.setFont(Font.font("anton"));
-        timeLabel.setFont(Font.font(30));
-        timeLabel.setTextFill(Color.web("#FFFFFF"));
-        timeLabel.setStyle("-fx-font-weight: bold");
+        
     }
     
     /**
@@ -211,8 +203,7 @@ public class mainViewController {
     }
 
     public void pantallaFinPartida(boolean victoria){    
-        partidaAcabada = true;
-        
+        partidaAcabada = true;       
         Label finPartida = new Label();
         Label estadisticasPartida = new Label();
         Label repetirPartida = new Label();
@@ -230,7 +221,7 @@ public class mainViewController {
                 + "     PUNTUACIÓN \n               "
                 + partida.getPuntuacion()+ " \n"
                 + "TIEMPO DE PARTIDA \n          "
-                + formatTime(TIEMPO_PARTIDA - partida.getTimeLasted().getSeconds()));
+                + formatTime(TIEMPO_PARTIDA - time));
         
         repetirPartida.setText(textoRepetirPartida);
 
@@ -248,8 +239,8 @@ public class mainViewController {
         mainBorderPane.setBottom(repetirPartida);
     }
     
-    public void iniciarPartida(GestorBarajas gestor){        
-        partida = new Partida(gestor.getBarajaPorDefecto(),new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
+    public void iniciarPartida(GestorBarajas gestor){         
+        partida = new Partida(gestor.getBarajaPorDefecto(),new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));       
         partida.setController(this);
         setPuntuacion(0);
         setTime(TIEMPO_PARTIDA);
@@ -262,6 +253,7 @@ public class mainViewController {
     EventHandler<MouseEvent> reinicarPartida = (MouseEvent event) -> {
         if(partidaAcabada) {
             partidaAcabada = false;
+            partida.getBaraja().resetBaraja();
             iniciarPartida(gestor);
         }
     };
@@ -274,5 +266,16 @@ public class mainViewController {
         iniciarPartida(gestor);
         mainBorderPane.addEventFilter(MouseEvent.MOUSE_CLICKED, reinicarPartida);
        
+        //aesthetic puntuacion
+        puntuationLabel.setFont(Font.font("anton"));
+        puntuationLabel.setFont(Font.font(30));
+        puntuationLabel.setTextFill(Color.web("#FFFFFF"));
+        puntuationLabel.setStyle("-fx-font-weight: bold");   
+        
+        //aesthetic tiempo
+        timeLabel.setFont(Font.font("anton"));
+        timeLabel.setFont(Font.font(30));
+        timeLabel.setTextFill(Color.web("#FFFFFF"));
+        timeLabel.setStyle("-fx-font-weight: bold");
     }
 }
