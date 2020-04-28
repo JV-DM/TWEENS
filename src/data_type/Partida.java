@@ -9,7 +9,7 @@ import java.util.Timer;
 public class Partida {
     private Baraja baraja;
     private Image background;
-    private int errorCounter;
+    private int numberOfErrors;
     private List<Carta> selectedCards = new ArrayList<>();
     private boolean isFinished = false;
     private Timer timer;
@@ -19,10 +19,10 @@ public class Partida {
     private mainViewController controller;
 
 
-    public Partida(Baraja b, Image back){
-        this.baraja = b;
-        this.background = back;
-        errorCounter = 0;
+    public Partida(Baraja baraja, Image background){
+        this.baraja = baraja;
+        this.background = background;
+        numberOfErrors = 0;
         running = false;
         timer = new Timer();
     }
@@ -99,7 +99,7 @@ public class Partida {
      * Incrementa en 1 el número de errores
      */
     public void increaseErrors(){
-        errorCounter += 1;
+        numberOfErrors += 1;
     }
 
     /**

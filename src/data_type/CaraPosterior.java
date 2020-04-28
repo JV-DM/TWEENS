@@ -28,7 +28,7 @@ public class CaraPosterior {
     /**
      * @return nombre de la cara posterior
      */
-    public String GetNomgetNombrere() {return this.nombre;}
+    public String getNombre() {return this.nombre;}
 
     /**
      * Cambia la imagen de la cara posterior
