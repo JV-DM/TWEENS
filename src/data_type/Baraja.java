@@ -63,7 +63,7 @@ public class Baraja {
      * Cambia la lista de cartas de la baraja
      * @param nuevaCartas nueva lista de cartas
      */
-    public void SetCartas(List<Carta> nuevaCartas){this.cartas = nuevaCartas;}
+    public void setCartas(List<Carta> nuevaCartas){this.cartas = nuevaCartas;}
 
     /**
      * Cambia el nombre de la baraja

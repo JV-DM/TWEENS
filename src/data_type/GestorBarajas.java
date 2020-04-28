@@ -5,6 +5,7 @@
  */
 package data_type;
 
+import java.io.File;
 import javafx.scene.image.Image;
 
 import java.util.ArrayList;
@@ -18,10 +19,14 @@ public class GestorBarajas {
 
     private List<Baraja> barajas;
     private Baraja barajaPorDefecto;
+    private CaraPosterior caraPosterior = new CaraPosterior(new Image("imagenes/ImagenesCaraPosterior/BacCard.png"),"CaraPosterior por defecto");
+    private final static String RUTA_BARAJAS = System.getProperty("user.dir") + "/src/imagenes/Barajas/";
+    private final static String RUTA_IMAGENES = "imagenes/Barajas/";
 
     public GestorBarajas(){
         barajas = new ArrayList<>();
         barajaPorDefecto = new Baraja();
+        cargarBarajas();
     }
 
     /**
@@ -77,26 +82,31 @@ public class GestorBarajas {
     }
     
     //El método será sustituido en el sprint 2
-
+    
+    public void cargarBarajas(){
+        Baraja baraja = new Baraja();
+        File carpeta = new File(RUTA_BARAJAS);
+        String[] listaDeBarajas = carpeta.list();      
+        for (String listaDeBaraja : listaDeBarajas) {
+            baraja = new Baraja();
+            File carpetaBaraja = new File(RUTA_BARAJAS + listaDeBaraja + "/");
+            String[] listaCartasBaraja = carpetaBaraja.list();
+            for(int j = 0; j < listaCartasBaraja.length; j++)
+                baraja.añadirCarta(new Carta(new Image(RUTA_IMAGENES
+                        + listaDeBaraja + "/"
+                        + listaCartasBaraja[j]), listaCartasBaraja[j], j));
+            baraja.setNombre(listaDeBaraja);
+            baraja.setCaraPosterior(caraPosterior);
+            añadirBaraja(baraja);  
+        }
+             
+    }
+    
     /**
      * Carga la baraja por defecto
      */
     public void cargarBarajaPorDefecto(){
-        CaraPosterior caraPosterior = new CaraPosterior(new Image("imagenes/ImagenesCaraPosterior/BacCard.png"),"CaraPosterior por defecto");
-        Baraja baraja = new Baraja(null,caraPosterior,"Baraja de animales",0);
-        baraja.añadirCarta(new Carta(new Image("imagenes/ImagenesCartas/elefante_carta.jpg"),"Elefante", 1));
-        baraja.añadirCarta(new Carta(new Image("imagenes/ImagenesCartas/aguila_carta.jpg"),"Aguila", 2));
-        baraja.añadirCarta(new Carta(new Image("imagenes/ImagenesCartas/caballodemar_carta.jpg"),"Caballo de mar", 3));
-        baraja.añadirCarta(new Carta(new Image("imagenes/ImagenesCartas/cocodrilo_carta.jpg"),"Cocodrilo",4));
-        baraja.añadirCarta(new Carta(new Image("imagenes/ImagenesCartas/jirafa_carta.jpg"),"Jirafa",5));
-        baraja.añadirCarta(new Carta(new Image("imagenes/ImagenesCartas/leon_carta.jpg"),"Leon",6));
-        baraja.añadirCarta( new Carta(new Image("imagenes/ImagenesCartas/serpiente_carta.jpg"),"Serpiente",7));
-        baraja.añadirCarta(new Carta(new Image("imagenes/ImagenesCartas/tiburon_carta.jpg"),"Tiburon",8));
-        baraja.añadirCarta(new Carta(new Image("imagenes/ImagenesCartas/tortuga_carta.jpg"),"Tortuga",9));
-        baraja.añadirCarta(new Carta(new Image("imagenes/ImagenesCartas/zebra_carta.jpg"),"Zebra",10));
-
-        barajas.add(baraja);
-        barajaPorDefecto = baraja;
+       barajaPorDefecto = barajas.get(0);
     }
 
     /**
