@@ -156,4 +156,6 @@ public class Perfil {
      */
     public void setDerrotas(int nuevaDerrotas){ this.derrotas = nuevaDerrotas; }
     
+    public void cargarPerfil(){}
+    
 }
