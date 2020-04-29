@@ -35,18 +35,15 @@ public class menuViewController {
     private Button partidaEstandar;
 
 
-    //se usaran en futuros modos de juego
-    @FXML
-    private Button partidaEstandar1;
-
     @FXML
     private Button partidaEstandar2;
-
-
-
-
-
     @FXML
+    private Button perfil;
+
+
+
+
+
     private void initialize() {
 
         Menu m = new Menu(new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
@@ -59,7 +56,6 @@ public class menuViewController {
         menu_Vbox.setAlignment(Pos.CENTER);
 
         //se borra cuando sean necesarios
-        partidaEstandar1.setVisible(false);
         partidaEstandar2.setVisible(false);
 
         //titulo aesthitics
@@ -73,6 +69,15 @@ public class menuViewController {
    @FXML
     private void clickParidaEsntandar(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("MainView.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    private void perfilOnClick(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("PerfilView.fxml"));
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);

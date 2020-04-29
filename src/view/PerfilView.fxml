@@ -1,11 +1,148 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.perfilViewController">
-    
-</AnchorPane>
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" stylesheets="@../css/perfil.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.perfilViewController">
+   <top>
+      <HBox prefHeight="166.0" prefWidth="1024.0" BorderPane.alignment="CENTER">
+         <children>
+            <Pane prefHeight="166.0" prefWidth="22.0" />
+            <VBox prefHeight="174.0" prefWidth="163.0">
+               <children>
+                  <Pane prefHeight="16.0" prefWidth="163.0" />
+                  <ImageView fx:id="imagenPerfil" fitHeight="156.0" fitWidth="155.0" onMouseClicked="#imagenPerfilOnClick" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imagenes/ImagenesSistema/avatar.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </VBox>
+            <Pane prefHeight="156.0" prefWidth="132.0" />
+            <VBox prefHeight="156.0" prefWidth="206.0">
+               <children>
+                  <Pane prefHeight="60.0" prefWidth="206.0" />
+                  <TextField fx:id="nombrePerfil" alignment="CENTER" prefHeight="48.0" prefWidth="218.0" text="Jugador">
+                     <font>
+                        <Font name="Perpetua Titling MT Bold" size="25.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </VBox>
+            <Pane prefHeight="156.0" prefWidth="275.0" />
+            <VBox prefHeight="156.0" prefWidth="191.0">
+               <children>
+                  <Pane prefHeight="21.0" prefWidth="191.0" />
+                  <HBox prefHeight="145.0" prefWidth="122.0">
+                     <children>
+                        <ImageView fx:id="banderaIdioma" fitHeight="32.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true" />
+                        <ChoiceBox fx:id="selectorIdioma" prefWidth="150.0" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </top>
+   <right>
+      <VBox prefHeight="612.0" prefWidth="239.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" prefHeight="17.0" prefWidth="242.0" text="Estadísticas">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
+            <Pane prefHeight="19.0" prefWidth="239.0" />
+            <Label alignment="CENTER" prefHeight="17.0" prefWidth="241.0" text="Victorias">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="numeroVictorias" alignment="CENTER" prefHeight="17.0" prefWidth="239.0" text="numeroVictorias">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Pane prefHeight="19.0" prefWidth="239.0" />
+            <Label alignment="CENTER" prefHeight="17.0" prefWidth="241.0" text="Derrotas">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="numeroDerrotas" alignment="CENTER" prefHeight="17.0" prefWidth="239.0" text="numeroDerrotas">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Pane prefHeight="19.0" prefWidth="239.0" />
+            <Label alignment="CENTER" prefHeight="17.0" prefWidth="241.0" text="Mejor Puntuación">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+            <Label fx:id="numeroMejorPuntuacion" alignment="CENTER" prefHeight="17.0" prefWidth="239.0" text="numeroMejorPuntuacion">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Pane prefHeight="19.0" prefWidth="239.0" />
+            <Label alignment="CENTER" prefHeight="17.0" prefWidth="241.0" text="Puntuación Total">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="numeroPuntuacionTotal" alignment="CENTER" prefHeight="17.0" prefWidth="239.0" text="numeroPuntuacionTotal">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+   </right>
+   <center>
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Pane prefHeight="612.0" prefWidth="161.0" />
+            <VBox alignment="TOP_CENTER" prefHeight="612.0" prefWidth="245.0">
+               <children>
+                  <Pane prefHeight="82.0" prefWidth="200.0" />
+                  <VBox prefHeight="200.0" prefWidth="117.0">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="25.0" prefWidth="250.0" text="Tablero por defecto">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <ImageView fx:id="tableroPorDefecto" fitHeight="168.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+            <Pane prefHeight="612.0" prefWidth="32.0" />
+            <VBox alignment="TOP_CENTER" prefHeight="612.0" prefWidth="245.0">
+               <children>
+                  <Pane prefHeight="82.0" prefWidth="200.0" />
+                  <VBox prefHeight="200.0" prefWidth="117.0">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="25.0" prefWidth="250.0" text="Baraja más utilizada">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <ImageView fx:id="barajaMasUtilizada" fitHeight="168.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </center>
+</BorderPane>
