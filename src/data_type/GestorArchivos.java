@@ -18,7 +18,9 @@ import java.io.OutputStream;
  */
 public class GestorArchivos {
     
-    private final static String RUTA_IMAGENES_SISTEMA =  "imagenes/ImagenesSistema/";
+    private final static String RUTA_IMAGENES_SISTEMA =  "imagenes/ImagenesSistema";
+    
+    private Perfil perfil;
     
     public GestorArchivos(){}
     
@@ -49,4 +51,7 @@ public class GestorArchivos {
     
     public String getRutaImagenesSistema(){ return RUTA_IMAGENES_SISTEMA; }
     
+    public Perfil getPerfil(){return perfil;}
+    
+    public void setPerfil(Perfil nuevoPerfil){ this.perfil = nuevoPerfil; }
 }

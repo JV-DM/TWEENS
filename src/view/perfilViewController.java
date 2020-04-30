@@ -9,8 +9,11 @@ import data_type.GestorArchivos;
 import data_type.Idioma;
 import data_type.Perfil;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -29,6 +32,9 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import org.xml.sax.SAXException;
 
 /**
  * FXML Controller class
@@ -63,13 +69,15 @@ public class perfilViewController implements Initializable {
     private Perfil perfil;
     
     private GestorArchivos gestorArchivos = new GestorArchivos();
+    @FXML
+    private ImageView guardarPerfil;
     
     public void setElements(Perfil perfil){
         nombrePerfil.setText(perfil.getNombre());
         imagenPerfil.setImage(perfil.getImagen());
         banderaIdioma.setImage(perfil.getIdioma().getImagenBandera());
         setIdiomas();
-        tableroPorDefecto.setImage(perfil.getTableroPorDefecto().getImagen());
+        //tableroPorDefecto.setImage(perfil.getTableroPorDefecto().getImagen());
         numeroVictorias.setText(String.valueOf(perfil.getVictorias()));
         numeroDerrotas.setText(String.valueOf(perfil.getDerrotas()));
         numeroMejorPuntuacion.setText(String.valueOf(perfil.getPuntuacionMaxima()));
@@ -103,23 +111,45 @@ public class perfilViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        imagenPerfil.setDisable(true);
+        perfil = new Perfil();
+        try {
+            perfil.cargarPerfil();
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(perfilViewController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SAXException ex) {
+            Logger.getLogger(perfilViewController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(perfilViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         borderPane.setPrefSize(1024, 768);
         borderPane.setBackground(new Background(new BackgroundImage(new Image("imagenes/ImagenesBackground/fondo-verde.jpg"),
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.DEFAULT,
                 new BackgroundSize(100, 100, true,true, false, true))));
-        perfil = new Perfil();
-        perfil.cargarPerfil();
         setElements(perfil);
+        nombrePerfil.textProperty().addListener((observable, oldValue, newValue) -> {
+            guardarPerfil.setVisible(true);
+        });
     }    
 
     @FXML
     private void imagenPerfilOnClick(MouseEvent event) {       
         File archivoImagen = fileChooser();       
-        gestorArchivos.copiarArchivo(archivoImagen.getPath(), gestorArchivos.getRutaImagenesSistema());
-        perfil.setImage(new Image(archivoImagen.getPath()));
-        imagenPerfil.setImage(perfil.getImagen());
+        if(archivoImagen != null){
+            gestorArchivos.copiarArchivo(archivoImagen.getPath(), gestorArchivos.getRutaImagenesSistema());
+            imagenPerfil.setImage(new Image(archivoImagen.getPath()));
+            guardarPerfil.setVisible(true);
+        }
+    }
+
+    @FXML
+    private void guadarPerfilOnClick(MouseEvent event) throws ParserConfigurationException, TransformerException {
+        perfil.setName(nombrePerfil.getText());
+        perfil.setImage(imagenPerfil.getImage());
+        perfil.guardarPerfil();
+        guardarPerfil.setVisible(false);
     }
     
 }

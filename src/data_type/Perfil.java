@@ -5,7 +5,25 @@
  */
 package data_type;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.scene.image.Image;
+import javax.swing.text.Document;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -15,18 +33,21 @@ public class Perfil {
     private String nombre;
     private Image imagen;
     private Idioma idioma;
-    private Baraja barajaMasUtilizada;
-    private Tablero tableroPorDefecto;
+    private String nombreBarajaPorDefecto;
+    private String nomberTableroPorDefecto;
     private int puntuacionTotal;
     private int puntuacionMaxima;
     private int victorias;
     private int derrotas;
     
+    private final String RUTA_XML = "src\\xml\\";
+    private final String NOMBRE_XML = "perfil.xml";
+    private final String RUTA_AVATAR = "imagenes/ImagenesSistema/avatar.png";
+    
     public Perfil(){
         idioma = Idioma.Español;
         nombre = "Jugador";
-        imagen = new Image("imagenes/ImagenesSistema/avatar.png");
-        tableroPorDefecto = new Tablero();
+        imagen = new Image(RUTA_AVATAR);
         puntuacionTotal = 0;
         puntuacionMaxima = 0;
         victorias = 0;
@@ -34,14 +55,14 @@ public class Perfil {
     }
     
     public Perfil(Image image, Idioma language, String name, 
-            Baraja barajaMasUtilizada, Tablero tableroPorDefecto,
+            String barajaPorDefecto, String tableroPorDefecto,
             int puntuacionTotal, int puntuacionMaxima,
             int victorias, int derrotas){
         this.imagen = image;
         this.idioma = language;        
         this.nombre = name;
-        this.barajaMasUtilizada = barajaMasUtilizada;
-        this.tableroPorDefecto = tableroPorDefecto;
+        this.nombreBarajaPorDefecto = barajaPorDefecto;
+        this.nomberTableroPorDefecto = tableroPorDefecto;
         this.puntuacionTotal = puntuacionTotal;
         this.puntuacionMaxima = puntuacionMaxima;
         this.victorias = victorias;
@@ -70,13 +91,13 @@ public class Perfil {
      * Devuelve el Tablero que usa el perfil
      * @return 
      */
-    public Tablero getTableroPorDefecto(){return tableroPorDefecto; }
+    public String getNombreTableroPorDefecto(){return nomberTableroPorDefecto; }
     
     /**
      * Devuelve la baaja mas usada por el perfil
      * @return 
      */
-    public Baraja getBarajaMasUstilizda(){return barajaMasUtilizada;}
+    public String getNombreBarajaPorDefetco(){return nombreBarajaPorDefecto;}
     
     /**
      * Devuelve la puntuacion total obtenida por el perfil
@@ -124,13 +145,13 @@ public class Perfil {
      * Cambia la baraja más usada
      * @param nuevaBaraja 
      */
-    public void setBarajaMasUtilizada(Baraja nuevaBaraja){ this.barajaMasUtilizada = nuevaBaraja; }
+    public void setNombreBarajaPorDefecto(String nuevaBaraja){ this.nombreBarajaPorDefecto = nuevaBaraja; }
     
     /**
      * Cambia el tablero por defecto 
      * @param nuevoTablero 
      */
-    public void setTableroPorDefecto(Tablero nuevoTablero){ this.tableroPorDefecto = nuevoTablero; }
+    public void setNombreTableroPorDefecto(String nuevoTablero){ this.nomberTableroPorDefecto = nuevoTablero; }
     
     /**
      * Cambia la puntuación total
@@ -156,6 +177,102 @@ public class Perfil {
      */
     public void setDerrotas(int nuevaDerrotas){ this.derrotas = nuevaDerrotas; }
     
-    public void cargarPerfil(){}
+    public void cargarPerfil() throws ParserConfigurationException, SAXException, IOException{       
+        File ficheroXML = new File(this.RUTA_XML + this.NOMBRE_XML);       
+        List<String> listaDeElementos = new ArrayList();
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        org.w3c.dom.Document documentoXML = builder.parse(ficheroXML);
+        NodeList perfil = documentoXML.getElementsByTagName("perfil");
+        // Recorro las etiquetas
+            // Cojo el nodo actual
+            Node nodo = perfil.item(0);
+            // Compruebo si el nodo es un elemento
+            if (nodo.getNodeType() == Node.ELEMENT_NODE) {
+                // Lo transformo a Element
+                Element elemento = (Element) nodo;
+                // Obtengo sus hijos
+                NodeList hijos = elemento.getChildNodes();
+                // Recorro sus hijos
+                for (int j = 0; j < hijos.getLength(); j++) {
+                    // Obtengo al hijo actual
+                    Node hijo = hijos.item(j);
+                    // Compruebo si es un nodo
+                    if (hijo.getNodeType() == Node.ELEMENT_NODE) {
+                        // Muestro el contenido
+                        listaDeElementos.add(hijo.getTextContent());
+                    }
+                }
+            }
+            extraerDatos(listaDeElementos);
+        }
+    
+    public void extraerDatos(List<String> datos){
+        this.nombre = datos.get(0);
+        this.imagen = new Image(datos.get(1));
+        this.idioma = Idioma.valueOf(datos.get(2));               
+        this.nombreBarajaPorDefecto =  datos.get(3);
+        this.nomberTableroPorDefecto = datos.get(4);
+        this.puntuacionTotal = Integer.valueOf(datos.get(5));
+        this.puntuacionMaxima = Integer.valueOf(datos.get(6));
+        this.victorias = Integer.valueOf(datos.get(7));
+        this.derrotas = Integer.valueOf(datos.get(8));
+    }
+    
+    public void guardarPerfil() throws ParserConfigurationException, TransformerConfigurationException, TransformerException{
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db = dbf.newDocumentBuilder();
+        org.w3c.dom.Document documentoXML = db.newDocument();
+        
+        Element perfil = documentoXML.createElement("perfil");
+        documentoXML.appendChild(perfil);
+        
+        Element elementoNombre = documentoXML.createElement("nombe");
+        elementoNombre.appendChild(documentoXML.createTextNode(this.nombre));
+        perfil.appendChild(elementoNombre);
+        
+
+        Element elementoImagen = documentoXML.createElement("imagen");
+        elementoImagen.appendChild(documentoXML.createTextNode(RUTA_AVATAR));
+        perfil.appendChild(elementoImagen);
+        
+        
+        Element elementoIdioma = documentoXML.createElement("idioma");
+        elementoIdioma.appendChild(documentoXML.createTextNode(this.idioma.toString()));
+        perfil.appendChild(elementoIdioma);
+        
+        Element elementoBaraja = documentoXML.createElement("nombreBarajaPorDefecto");
+        elementoBaraja.appendChild(documentoXML.createTextNode(this.nombreBarajaPorDefecto));
+        perfil.appendChild(elementoBaraja);
+        
+        Element elementoTablero = documentoXML.createElement("nomberTableroPorDefecto");
+        elementoTablero.appendChild(documentoXML.createTextNode(this.nomberTableroPorDefecto));
+        perfil.appendChild(elementoTablero);
+        
+        Element elementoPuntuacionTotal = documentoXML.createElement("puntuacionTotal");
+        elementoPuntuacionTotal.appendChild(documentoXML.createTextNode(String.valueOf(this.puntuacionTotal)));
+        perfil.appendChild(elementoPuntuacionTotal);
+        
+        Element elementoPuntuacionMaxima = documentoXML.createElement("puntuacionMaxima");
+        elementoPuntuacionMaxima.appendChild(documentoXML.createTextNode(String.valueOf(this.puntuacionMaxima)));
+        perfil.appendChild(elementoPuntuacionMaxima);
+        
+        Element elementoVictorias = documentoXML.createElement("victorias");
+        elementoVictorias.appendChild(documentoXML.createTextNode(String.valueOf(this.victorias)));
+        perfil.appendChild(elementoVictorias);
+        
+        Element elementoDerrotas = documentoXML.createElement("derrotas");
+        elementoDerrotas.appendChild(documentoXML.createTextNode(String.valueOf(this.derrotas)));
+        perfil.appendChild(elementoDerrotas);
+        
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        DOMSource source = new DOMSource(documentoXML);
+        StreamResult result = new StreamResult(new File(this.RUTA_XML + this.NOMBRE_XML));
+        
+        transformer.transform(source, result);
+        
+
+    }
     
 }

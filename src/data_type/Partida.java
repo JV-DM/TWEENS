@@ -17,6 +17,7 @@ public class Partida {
     private int puntuacion = 0;
     private long startTime = 0L, endTime = 0L;
     private mainViewController controller;
+    private Perfil perfil;
 
 
     public Partida(Baraja baraja, Image background){
