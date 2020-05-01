@@ -254,11 +254,14 @@ public class mainViewController {
         }
     };
 
+    public mainViewController(GestorBarajas gestorBarajas){
+        this.gestor = gestorBarajas;
+        
+    }
+    
     @FXML
     private void initialize(){
         //Esta linea se deberá eliminar posteriormente
-        gestor = new GestorBarajas();
-        gestor.cargarBarajaPorDefecto();
         iniciarPartida(gestor);
         mainBorderPane.addEventFilter(MouseEvent.MOUSE_CLICKED, reinicarPartida);
        

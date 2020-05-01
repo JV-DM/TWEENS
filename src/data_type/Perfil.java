@@ -33,7 +33,7 @@ public class Perfil {
     private String nombre;
     private String rutaImagen;
     private Idioma idioma;
-    private String nombreBarajaPorDefecto;
+    private Baraja barajaPorDefecto;
     private String nomberTableroPorDefecto;
     private int puntuacionTotal;
     private int puntuacionMaxima;
@@ -55,13 +55,13 @@ public class Perfil {
     }
     
     public Perfil(String rutaImage, Idioma language, String name, 
-            String barajaPorDefecto, String tableroPorDefecto,
+            Baraja barajaPorDefecto, String tableroPorDefecto,
             int puntuacionTotal, int puntuacionMaxima,
             int victorias, int derrotas){
         this.rutaImagen = rutaImagen;
         this.idioma = language;        
         this.nombre = name;
-        this.nombreBarajaPorDefecto = barajaPorDefecto;
+        this.barajaPorDefecto = barajaPorDefecto;
         this.nomberTableroPorDefecto = tableroPorDefecto;
         this.puntuacionTotal = puntuacionTotal;
         this.puntuacionMaxima = puntuacionMaxima;
@@ -97,7 +97,7 @@ public class Perfil {
      * Devuelve la baaja mas usada por el perfil
      * @return 
      */
-    public String getNombreBarajaPorDefetco(){return nombreBarajaPorDefecto;}
+    public Baraja getBarajaPorDefetco(){return barajaPorDefecto;}
     
     /**
      * Devuelve la puntuacion total obtenida por el perfil
@@ -145,7 +145,7 @@ public class Perfil {
      * Cambia la baraja más usada
      * @param nuevaBaraja 
      */
-    public void setNombreBarajaPorDefecto(String nuevaBaraja){ this.nombreBarajaPorDefecto = nuevaBaraja; }
+    public void setBarajaPorDefecto(Baraja nuevaBaraja){ this.barajaPorDefecto = nuevaBaraja; }
     
     /**
      * Cambia el tablero por defecto 
@@ -211,12 +211,11 @@ public class Perfil {
         this.nombre = datos.get(0);
         this.rutaImagen = datos.get(1);
         this.idioma = Idioma.valueOf(datos.get(2));               
-        this.nombreBarajaPorDefecto =  datos.get(3);
-        this.nomberTableroPorDefecto = datos.get(4);
-        this.puntuacionTotal = Integer.valueOf(datos.get(5));
-        this.puntuacionMaxima = Integer.valueOf(datos.get(6));
-        this.victorias = Integer.valueOf(datos.get(7));
-        this.derrotas = Integer.valueOf(datos.get(8));
+        this.nomberTableroPorDefecto = datos.get(3);
+        this.puntuacionTotal = Integer.valueOf(datos.get(4));
+        this.puntuacionMaxima = Integer.valueOf(datos.get(5));
+        this.victorias = Integer.valueOf(datos.get(6));
+        this.derrotas = Integer.valueOf(datos.get(7));
     }
     
     public void guardarPerfil() throws ParserConfigurationException, TransformerConfigurationException, TransformerException{
@@ -239,11 +238,7 @@ public class Perfil {
         
         Element elementoIdioma = documentoXML.createElement("idioma");
         elementoIdioma.appendChild(documentoXML.createTextNode(this.idioma.toString()));
-        perfil.appendChild(elementoIdioma);
-        
-        Element elementoBaraja = documentoXML.createElement("nombreBarajaPorDefecto");
-        elementoBaraja.appendChild(documentoXML.createTextNode(this.nombreBarajaPorDefecto));
-        perfil.appendChild(elementoBaraja);
+        perfil.appendChild(elementoIdioma);       
         
         Element elementoTablero = documentoXML.createElement("nomberTableroPorDefecto");
         elementoTablero.appendChild(documentoXML.createTextNode(this.nomberTableroPorDefecto));

@@ -54,8 +54,6 @@ public class perfilViewController implements Initializable {
     @FXML
     private ImageView tableroPorDefecto;
     @FXML
-    private ImageView barajaMasUtilizada;
-    @FXML
     private Label numeroVictorias;
     @FXML
     private Label numeroDerrotas;
@@ -72,11 +70,19 @@ public class perfilViewController implements Initializable {
     private GestorArchivos gestorArchivos = new GestorArchivos();
     @FXML
     private ImageView guardarPerfil;
+    @FXML
+    private ImageView barajaPorDefecto;
+    @FXML
+    private Label nombreBarajaPorDefecto;
     
     public void setElements(Perfil perfil){
         nombrePerfil.setText(perfil.getNombre());
         imagenPerfil.setImage(new Image(perfil.getRutaImagen()));
         banderaIdioma.setImage(perfil.getIdioma().getImagenBandera());
+        barajaPorDefecto.setImage(perfil.getBarajaPorDefetco().getCartas().get(0).getImagen());
+        nombreBarajaPorDefecto.setText(perfil.getBarajaPorDefetco().getNombre());
+        barajaPorDefecto.setFitHeight(168);
+        barajaPorDefecto.setFitWidth(250);
         setIdiomas();
         //tableroPorDefecto.setImage(perfil.getTableroPorDefecto().getImagen());
         numeroVictorias.setText(String.valueOf(perfil.getVictorias()));
@@ -106,6 +112,9 @@ public class perfilViewController implements Initializable {
          return archivoDeImagen;
     }
      
+    public perfilViewController(Perfil perfil){
+        this.perfil = perfil;
+    }
     
     /**
      * Initializes the controller class.
@@ -113,16 +122,6 @@ public class perfilViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //imagenPerfil.setDisable(true);
-        perfil = new Perfil();
-        try {
-            perfil.cargarPerfil();
-        } catch (ParserConfigurationException ex) {
-            Logger.getLogger(perfilViewController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SAXException ex) {
-            Logger.getLogger(perfilViewController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(perfilViewController.class.getName()).log(Level.SEVERE, null, ex);
-        }
         borderPane.setPrefSize(829, 543);
         borderPane.setBackground(new Background(new BackgroundImage(new Image("imagenes/ImagenesBackground/fondo-verde.jpg"),
                 BackgroundRepeat.NO_REPEAT,

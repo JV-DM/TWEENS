@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="543.0" prefWidth="820.0" stylesheets="@../css/perfil.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.perfilViewController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="543.0" prefWidth="820.0" stylesheets="@../css/perfil.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <HBox prefHeight="148.0" prefWidth="820.0" BorderPane.alignment="CENTER">
          <children>
@@ -27,7 +27,7 @@
                </children>
             </VBox>
             <Pane prefHeight="166.0" prefWidth="78.0" />
-            <VBox prefHeight="156.0" prefWidth="206.0">
+            <VBox prefHeight="155.0" prefWidth="216.0">
                <children>
                   <Pane prefHeight="72.0" prefWidth="196.0">
                      <children>
@@ -39,7 +39,7 @@
                      </children></Pane>
                   <TextField fx:id="nombrePerfil" alignment="CENTER" prefHeight="48.0" prefWidth="218.0" text="Jugador">
                      <font>
-                        <Font name="Perpetua Titling MT Bold" size="25.0" />
+                        <Font name="Bodoni MT Black" size="29.0" />
                      </font>
                   </TextField>
                </children>
@@ -143,25 +143,30 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <ImageView fx:id="tableroPorDefecto" fitHeight="168.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="tableroPorDefecto" fitHeight="168.0" fitWidth="227.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </VBox>
                </children>
             </VBox>
-            <Pane prefHeight="612.0" prefWidth="32.0" />
+            <Pane prefHeight="388.0" prefWidth="14.0" />
             <VBox alignment="TOP_CENTER" prefHeight="612.0" prefWidth="245.0">
                <children>
                   <Pane prefHeight="44.0" prefWidth="250.0" />
-                  <VBox prefHeight="200.0" prefWidth="117.0">
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="117.0">
                      <children>
-                        <Label alignment="CENTER" prefHeight="25.0" prefWidth="250.0" text="Baraja por defecto">
+                        <Label alignment="CENTER" prefHeight="30.0" prefWidth="226.0" text="Baraja por defecto">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <ImageView fx:id="barajaMasUtilizada" fitHeight="168.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="barajaPorDefecto" fitHeight="168.0" fitWidth="193.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </VBox>
+                  <Label fx:id="nombreBarajaPorDefecto" text="nombre baraja por defecto">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
                </children>
             </VBox>
          </children>

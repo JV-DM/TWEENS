@@ -54,9 +54,14 @@ public class MenuViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        GestorBarajas gestorBarajas = new GestorBarajas();
+        gestorBarajas = new GestorBarajas();
         gestorBarajas.cargarBarajas();
         gestorBarajas.cargarBarajaPorDefecto();
+        perfil = new Perfil();
+        try {
+            perfil.cargarPerfil();
+        } catch (ParserConfigurationException ex) {} catch (SAXException ex) {} catch (IOException ex) {}
+        perfil.setBarajaPorDefecto(gestorBarajas.getBarajaPorDefecto());
         Menu m = new Menu(new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
         menuBorderPane.setPrefSize(1024, 768);
         menuBorderPane.setBackground(new Background(new BackgroundImage(m.getBackground(),
@@ -66,17 +71,13 @@ public class MenuViewController implements Initializable {
                 new BackgroundSize(100, 100, true,true, false, true))));
         
     }    
-
-    public void initData(GestorBarajas gestorBarajas){
-        this.gestorBarajas = gestorBarajas;
-        gestorBarajas.cargarBarajaPorDefecto();
-        System.out.println(gestorBarajas.getBarajaPorDefecto().getNombre());
-    }
     
     @FXML
     private void clickPartidaEstandar(MouseEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("MainView.fxml"));
-        Scene scene = new Scene(root);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainView.fxml"));       
+        mainViewController controller = new mainViewController(gestorBarajas);
+        loader.setController(controller);
+        Scene scene = new Scene(loader.load());
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
@@ -85,7 +86,8 @@ public class MenuViewController implements Initializable {
     @FXML
     private void clickPerfil(MouseEvent event) throws IOException {         
         FXMLLoader loader = new FXMLLoader(getClass().getResource("PerfilView.fxml"));       
-        perfilViewController controller = loader.<perfilViewController>getController();
+        perfilViewController controller = new perfilViewController(perfil);
+        loader.setController(controller);
         Scene scene = new Scene(loader.load());
         Stage stage = new Stage();
         stage.setScene(scene);
