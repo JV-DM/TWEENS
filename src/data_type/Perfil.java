@@ -31,7 +31,7 @@ import org.xml.sax.SAXException;
  */
 public class Perfil {
     private String nombre;
-    private Image imagen;
+    private String rutaImagen;
     private Idioma idioma;
     private String nombreBarajaPorDefecto;
     private String nomberTableroPorDefecto;
@@ -47,18 +47,18 @@ public class Perfil {
     public Perfil(){
         idioma = Idioma.Español;
         nombre = "Jugador";
-        imagen = new Image(RUTA_AVATAR);
+        rutaImagen = RUTA_AVATAR;
         puntuacionTotal = 0;
         puntuacionMaxima = 0;
         victorias = 0;
         derrotas = 0;
     }
     
-    public Perfil(Image image, Idioma language, String name, 
+    public Perfil(String rutaImage, Idioma language, String name, 
             String barajaPorDefecto, String tableroPorDefecto,
             int puntuacionTotal, int puntuacionMaxima,
             int victorias, int derrotas){
-        this.imagen = image;
+        this.rutaImagen = rutaImagen;
         this.idioma = language;        
         this.nombre = name;
         this.nombreBarajaPorDefecto = barajaPorDefecto;
@@ -79,7 +79,7 @@ public class Perfil {
      * Devuelve la imagen del perfil
      * @return 
      */
-    public Image getImagen(){ return imagen; }
+    public String getRutaImagen(){ return rutaImagen; }
     
     /**
      * Devuelve el idioma preferencia del perfil
@@ -133,7 +133,7 @@ public class Perfil {
      * Cambia la imagen del perfil
      * @param newImage 
      */
-    public void setImage(Image newImage){ imagen = newImage; }
+    public void setRutaImagen(String newImage){ rutaImagen = newImage; }
     
     /**
      * Cambia el idioma del jugador
@@ -209,7 +209,7 @@ public class Perfil {
     
     public void extraerDatos(List<String> datos){
         this.nombre = datos.get(0);
-        this.imagen = new Image(datos.get(1));
+        this.rutaImagen = datos.get(1);
         this.idioma = Idioma.valueOf(datos.get(2));               
         this.nombreBarajaPorDefecto =  datos.get(3);
         this.nomberTableroPorDefecto = datos.get(4);
@@ -233,7 +233,7 @@ public class Perfil {
         
 
         Element elementoImagen = documentoXML.createElement("imagen");
-        elementoImagen.appendChild(documentoXML.createTextNode(RUTA_AVATAR));
+        elementoImagen.appendChild(documentoXML.createTextNode(this.rutaImagen));
         perfil.appendChild(elementoImagen);
         
         

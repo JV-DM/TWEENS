@@ -5,6 +5,7 @@
  */
 package view;
 
+import data_type.GestorBarajas;
 import data_type.Menu;
 import data_type.Perfil;
 import java.io.IOException;
@@ -18,6 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
@@ -26,7 +28,9 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
@@ -41,12 +45,18 @@ public class MenuViewController implements Initializable {
     private BorderPane menuBorderPane;
     
     private Perfil perfil;
+    @FXML
+    private ProgressBar progressBar;
+    GestorBarajas gestorBarajas;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        GestorBarajas gestorBarajas = new GestorBarajas();
+        gestorBarajas.cargarBarajas();
+        gestorBarajas.cargarBarajaPorDefecto();
         Menu m = new Menu(new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
         menuBorderPane.setPrefSize(1024, 768);
         menuBorderPane.setBackground(new Background(new BackgroundImage(m.getBackground(),
@@ -57,6 +67,12 @@ public class MenuViewController implements Initializable {
         
     }    
 
+    public void initData(GestorBarajas gestorBarajas){
+        this.gestorBarajas = gestorBarajas;
+        gestorBarajas.cargarBarajaPorDefecto();
+        System.out.println(gestorBarajas.getBarajaPorDefecto().getNombre());
+    }
+    
     @FXML
     private void clickPartidaEstandar(MouseEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("MainView.fxml"));
@@ -71,9 +87,14 @@ public class MenuViewController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("PerfilView.fxml"));       
         perfilViewController controller = loader.<perfilViewController>getController();
         Scene scene = new Scene(loader.load());
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Stage stage = new Stage();
         stage.setScene(scene);
-        stage.show();
+        stage.setTitle("Perfil");
+        stage.getIcons().add(new Image("imagenes/ImagenesCaraPosterior/BacCard.png"));
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner((Stage) ((Node) event.getSource()).getScene().getWindow());
+        stage.setResizable(false);
+        stage.showAndWait();
     }
     
 }

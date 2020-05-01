@@ -99,7 +99,9 @@ public class GestorBarajas {
                 baraja.añadirCarta(new Carta(new Image(RUTA_IMAGENES
                         + listaDeBaraja + "/"
                         + listaCartasBaraja[j]), listaCartasBaraja[j], j));
-            baraja.setNombre(listaDeBaraja);
+            int index = listaDeBaraja.indexOf(";");           
+            baraja.setNombre(listaDeBaraja.substring(0,index));
+            baraja.setTematica(listaDeBaraja.substring(index + 1));
             baraja.setCaraPosterior(caraPosterior);
             añadirBaraja(baraja);  
         }

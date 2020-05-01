@@ -11,11 +11,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" stylesheets="@../css/perfil.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.perfilViewController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="543.0" prefWidth="820.0" stylesheets="@../css/perfil.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.perfilViewController">
    <top>
-      <HBox prefHeight="166.0" prefWidth="1024.0" BorderPane.alignment="CENTER">
+      <HBox prefHeight="148.0" prefWidth="820.0" BorderPane.alignment="CENTER">
          <children>
-            <Pane prefHeight="166.0" prefWidth="22.0" />
+            <Pane prefHeight="166.0" prefWidth="18.0" />
             <VBox prefHeight="174.0" prefWidth="163.0">
                <children>
                   <Pane prefHeight="16.0" prefWidth="163.0" />
@@ -26,10 +26,17 @@
                   </ImageView>
                </children>
             </VBox>
-            <Pane prefHeight="156.0" prefWidth="132.0" />
+            <Pane prefHeight="166.0" prefWidth="78.0" />
             <VBox prefHeight="156.0" prefWidth="206.0">
                <children>
-                  <Pane prefHeight="60.0" prefWidth="206.0" />
+                  <Pane prefHeight="72.0" prefWidth="196.0">
+                     <children>
+                        <Label layoutX="-26.0" layoutY="45.0" text="Nomber del perfil">
+                           <font>
+                              <Font name="System Bold" size="20.0" />
+                           </font>
+                        </Label>
+                     </children></Pane>
                   <TextField fx:id="nombrePerfil" alignment="CENTER" prefHeight="48.0" prefWidth="218.0" text="Jugador">
                      <font>
                         <Font name="Perpetua Titling MT Bold" size="25.0" />
@@ -37,11 +44,11 @@
                   </TextField>
                </children>
             </VBox>
-            <Pane prefHeight="156.0" prefWidth="275.0" />
-            <VBox prefHeight="156.0" prefWidth="191.0">
+            <Pane prefHeight="166.0" prefWidth="222.0" />
+            <VBox prefHeight="167.0" prefWidth="181.0">
                <children>
-                  <Pane prefHeight="21.0" prefWidth="191.0" />
-                  <HBox prefHeight="155.0" prefWidth="191.0">
+                  <Pane prefHeight="8.0" prefWidth="181.0" />
+                  <HBox prefHeight="150.0" prefWidth="159.0">
                      <children>
                         <ImageView fx:id="banderaIdioma" fitHeight="24.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true" />
                         <ChoiceBox fx:id="selectorIdioma" prefWidth="150.0" />
@@ -53,7 +60,7 @@
       </HBox>
    </top>
    <right>
-      <VBox prefHeight="612.0" prefWidth="239.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="405.0" prefWidth="239.0" BorderPane.alignment="CENTER">
          <children>
             <Label alignment="CENTER" prefHeight="17.0" prefWidth="242.0" text="Estadísticas">
                <font>
@@ -104,23 +111,19 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <Pane prefHeight="200.0" prefWidth="200.0" />
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <Pane prefHeight="28.0" prefWidth="239.0" />
+            <HBox prefHeight="83.0" prefWidth="239.0">
                <children>
-                  <Pane prefHeight="200.0" prefWidth="200.0" />
-                  <VBox prefHeight="200.0" prefWidth="100.0">
+                  <VBox prefHeight="200.0" prefWidth="100.0" />
+                  <Pane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <Pane prefHeight="200.0" prefWidth="200.0">
-                           <children>
-                              <ImageView fx:id="guardarPerfil" fitHeight="37.0" fitWidth="63.0" layoutX="-10.0" layoutY="36.0" onMouseClicked="#guadarPerfilOnClick" pickOnBounds="true" preserveRatio="true" visible="false">
-                                 <image>
-                                    <Image url="@../imagenes/ImagenesSistema/iconoGuardar.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </Pane>
+                        <ImageView fx:id="guardarPerfil" fitHeight="37.0" fitWidth="63.0" layoutX="96.0" layoutY="16.0" onMouseClicked="#guadarPerfilOnClick" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../imagenes/ImagenesSistema/iconoGuardar.png" />
+                           </image>
+                        </ImageView>
                      </children>
-                  </VBox>
+                  </Pane>
                </children>
             </HBox>
          </children>
@@ -132,7 +135,7 @@
             <Pane prefHeight="612.0" prefWidth="161.0" />
             <VBox alignment="TOP_CENTER" prefHeight="612.0" prefWidth="245.0">
                <children>
-                  <Pane prefHeight="82.0" prefWidth="200.0" />
+                  <Pane prefHeight="44.0" prefWidth="250.0" />
                   <VBox prefHeight="200.0" prefWidth="117.0">
                      <children>
                         <Label alignment="CENTER" prefHeight="25.0" prefWidth="250.0" text="Tablero por defecto">
@@ -148,7 +151,7 @@
             <Pane prefHeight="612.0" prefWidth="32.0" />
             <VBox alignment="TOP_CENTER" prefHeight="612.0" prefWidth="245.0">
                <children>
-                  <Pane prefHeight="82.0" prefWidth="200.0" />
+                  <Pane prefHeight="44.0" prefWidth="250.0" />
                   <VBox prefHeight="200.0" prefWidth="117.0">
                      <children>
                         <Label alignment="CENTER" prefHeight="25.0" prefWidth="250.0" text="Baraja por defecto">

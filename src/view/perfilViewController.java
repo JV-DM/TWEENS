@@ -67,6 +67,7 @@ public class perfilViewController implements Initializable {
     private BorderPane borderPane;
 
     private Perfil perfil;
+    private String rutaImagen;
     
     private GestorArchivos gestorArchivos = new GestorArchivos();
     @FXML
@@ -74,7 +75,7 @@ public class perfilViewController implements Initializable {
     
     public void setElements(Perfil perfil){
         nombrePerfil.setText(perfil.getNombre());
-        imagenPerfil.setImage(perfil.getImagen());
+        imagenPerfil.setImage(new Image(perfil.getRutaImagen()));
         banderaIdioma.setImage(perfil.getIdioma().getImagenBandera());
         setIdiomas();
         //tableroPorDefecto.setImage(perfil.getTableroPorDefecto().getImagen());
@@ -111,7 +112,7 @@ public class perfilViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        imagenPerfil.setDisable(true);
+        //imagenPerfil.setDisable(true);
         perfil = new Perfil();
         try {
             perfil.cargarPerfil();
@@ -122,7 +123,7 @@ public class perfilViewController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(perfilViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        borderPane.setPrefSize(1024, 768);
+        borderPane.setPrefSize(829, 543);
         borderPane.setBackground(new Background(new BackgroundImage(new Image("imagenes/ImagenesBackground/fondo-verde.jpg"),
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
@@ -135,11 +136,13 @@ public class perfilViewController implements Initializable {
     }    
 
     @FXML
-    private void imagenPerfilOnClick(MouseEvent event) {       
+    private void imagenPerfilOnClick(MouseEvent event) throws IOException {       
         File archivoImagen = fileChooser();       
         if(archivoImagen != null){
-            gestorArchivos.copiarArchivo(archivoImagen.getPath(), gestorArchivos.getRutaImagenesSistema());
-            imagenPerfil.setImage(new Image(archivoImagen.getPath()));
+            //gestorArchivos.copiarArchivo(archivoImagen.getPath(), gestorArchivos.getRutaImagenesSistema());
+            rutaImagen = archivoImagen.getAbsolutePath();
+            System.out.println(rutaImagen);
+            imagenPerfil.setImage(new Image(rutaImagen));
             guardarPerfil.setVisible(true);
         }
     }
@@ -147,7 +150,8 @@ public class perfilViewController implements Initializable {
     @FXML
     private void guadarPerfilOnClick(MouseEvent event) throws ParserConfigurationException, TransformerException {
         perfil.setName(nombrePerfil.getText());
-        perfil.setImage(imagenPerfil.getImage());
+        if(rutaImagen != null)
+            perfil.setRutaImagen(rutaImagen);
         perfil.guardarPerfil();
         guardarPerfil.setVisible(false);
     }
