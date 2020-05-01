@@ -19,6 +19,7 @@ public class GestorBarajas {
 
     private List<Baraja> barajas;
     private Baraja barajaPorDefecto;
+    private String nombreBarajaPorDefecto = "Baraja de animales";
     private CaraPosterior caraPosterior = new CaraPosterior(new Image("imagenes/ImagenesCaraPosterior/BacCard.png"),"CaraPosterior por defecto");
     private final static String RUTA_BARAJAS = System.getProperty("user.dir") + "/src/imagenes/Barajas/";
     private final static String RUTA_IMAGENES = "imagenes/Barajas/";
@@ -81,12 +82,15 @@ public class GestorBarajas {
         return false;
     }
     
-    //El método será sustituido en el sprint 2
     
+    /**
+     * Método que carga las barajas que hay en la carpeta de Barajas en 
+     * src\imagenes\Barajas
+     */
     public void cargarBarajas(){
         Baraja baraja = new Baraja();
-        File carpeta = new File(RUTA_BARAJAS);
-        String[] listaDeBarajas = carpeta.list();      
+        File directorioBarajas = new File(RUTA_BARAJAS);
+        String[] listaDeBarajas = directorioBarajas.list();      
         for (String listaDeBaraja : listaDeBarajas) {
             baraja = new Baraja();
             File carpetaBaraja = new File(RUTA_BARAJAS + listaDeBaraja + "/");
@@ -95,7 +99,9 @@ public class GestorBarajas {
                 baraja.añadirCarta(new Carta(new Image(RUTA_IMAGENES
                         + listaDeBaraja + "/"
                         + listaCartasBaraja[j]), listaCartasBaraja[j], j));
-            baraja.setNombre(listaDeBaraja);
+            int index = listaDeBaraja.indexOf(";");           
+            baraja.setNombre(listaDeBaraja.substring(0,index));
+            baraja.setTematica(listaDeBaraja.substring(index + 1));
             baraja.setCaraPosterior(caraPosterior);
             añadirBaraja(baraja);  
         }
@@ -106,7 +112,7 @@ public class GestorBarajas {
      * Carga la baraja por defecto
      */
     public void cargarBarajaPorDefecto(){
-       barajaPorDefecto = barajas.get(0);
+       barajaPorDefecto = buscarBaraja(nombreBarajaPorDefecto);
     }
 
     /**
@@ -119,5 +125,12 @@ public class GestorBarajas {
             if(barajaExistente.EqualsTo(barajaNueva)) return true;
         }
         return false;       
+    }
+    
+    public Baraja buscarBaraja(String nombreBaraja){       
+        for (Baraja baraja : barajas) 
+            if(baraja.getNombre().equals(nombreBaraja))
+                return baraja;              
+    return null;
     }
 }
