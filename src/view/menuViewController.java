@@ -1,67 +1,54 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
-import data_type.GestorBarajas;
 import data_type.Menu;
-import data_type.Perfil;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
+import javafx.geometry.HPos;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ProgressBar;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Modality;
+import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.stage.Window;
-import javax.xml.parsers.ParserConfigurationException;
-import org.xml.sax.SAXException;
 
-/**
- * FXML Controller class
- *
- * @author Javier
- */
-public class MenuViewController implements Initializable {
+import java.awt.*;
+import java.io.IOException;
+
+public class menuViewController {
 
     @FXML
     private BorderPane menuBorderPane;
-    
-    private Perfil perfil;
-    @FXML
-    private ProgressBar progressBar;
-    GestorBarajas gestorBarajas;
 
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        gestorBarajas = new GestorBarajas();
-        gestorBarajas.cargarBarajas();
-        gestorBarajas.cargarBarajaPorDefecto();
-        perfil = new Perfil();
-        try {
-            perfil.cargarPerfil();
-        } catch (ParserConfigurationException ex) {} catch (SAXException ex) {} catch (IOException ex) {}
-        perfil.setBarajaPorDefecto(gestorBarajas.getBarajaPorDefecto());
+    @FXML
+    private Label tittle_label;
+
+    @FXML
+    private VBox menu_Vbox;
+
+    @FXML
+    private Button partidaEstandar;
+
+
+    //se usaran en futuros modos de juego
+    @FXML
+    private Button partidaEstandar1;
+
+    @FXML
+    private Button partidaEstandar2;
+
+
+
+
+
+    @FXML
+    private void initialize() {
+
         Menu m = new Menu(new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
         menuBorderPane.setPrefSize(1024, 768);
         menuBorderPane.setBackground(new Background(new BackgroundImage(m.getBackground(),
@@ -69,34 +56,27 @@ public class MenuViewController implements Initializable {
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.DEFAULT,
                 new BackgroundSize(100, 100, true,true, false, true))));
-        
-    }    
-    
-    @FXML
-    private void clickPartidaEstandar(MouseEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainView.fxml"));       
-        mainViewController controller = new mainViewController(gestorBarajas);
-        loader.setController(controller);
-        Scene scene = new Scene(loader.load());
+        menu_Vbox.setAlignment(Pos.CENTER);
+
+        //se borra cuando sean necesarios
+        partidaEstandar1.setVisible(false);
+        partidaEstandar2.setVisible(false);
+
+        //titulo aesthitics
+        tittle_label.setAlignment(Pos.TOP_CENTER);
+        tittle_label.setFont(Font.font("anton"));
+        tittle_label.setFont(Font.font(150));
+        tittle_label.setStyle("-fx-font-weight: bold");
+
+    }
+
+   @FXML
+    private void clickParidaEsntandar(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("MainView.fxml"));
+        Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
     }
 
-    @FXML
-    private void clickPerfil(MouseEvent event) throws IOException {         
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("PerfilView.fxml"));       
-        perfilViewController controller = new perfilViewController(perfil);
-        loader.setController(controller);
-        Scene scene = new Scene(loader.load());
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.setTitle("Perfil");
-        stage.getIcons().add(new Image("imagenes/ImagenesCaraPosterior/BacCard.png"));
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner((Stage) ((Node) event.getSource()).getScene().getWindow());
-        stage.setResizable(false);
-        stage.showAndWait();
-    }
-    
 }
