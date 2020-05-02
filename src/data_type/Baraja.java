@@ -22,19 +22,17 @@ public class Baraja {
     private String nombre;
     private CaraPosterior caraPosterior;
     private int tamaño;
-    private String tematica;
     
     public Baraja(){
         cartas = new ArrayList<>();
     }
     
     public Baraja(List<Carta> cartas, CaraPosterior caraPosterior, String nombre,
-            int tamaño, String tematica) {
+            int tamaño) {
         if(cartas != null) this.cartas = cartas;
         this.nombre = nombre;
         this.caraPosterior = caraPosterior;
         this.tamaño = tamaño;
-        this.tematica = tematica;
     }
 
     /**
@@ -62,12 +60,6 @@ public class Baraja {
     public int getTamaño(){return this.tamaño;}
 
     /**
-     * DEvuelve la tematica de la baraja
-     * @return 
-     */
-    public String getTematica() {return this.tematica;}
-    
-    /**
      * Cambia la lista de cartas de la baraja
      * @param nuevaCartas nueva lista de cartas
      */
@@ -88,17 +80,11 @@ public class Baraja {
     }
 
     /**
-     * Cambia el tamaño de la baraja
+     * cambia el tamaño de la baraja
      * @param nuevoTamaño
      */
     public void setTamaño(int nuevoTamaño){this.tamaño = nuevoTamaño;}
 
-    /**
-     * Cambia la tematica de la baraja
-     * @param nuevaTematica 
-     */
-    public void setTematica(String nuevaTematica){this.tematica = nuevaTematica;}
-    
     /**
      * Añade una carta a la baraja
      * @param carta
