@@ -34,7 +34,7 @@ public class Perfil {
     private String rutaImagen;
     private Idioma idioma;
     private Baraja barajaPorDefecto;
-    private String nomberTableroPorDefecto;
+    private String rutaTableroPorDefecto;
     private int puntuacionTotal;
     private int puntuacionMaxima;
     private int victorias;
@@ -43,11 +43,13 @@ public class Perfil {
     private final String RUTA_XML = "src\\xml\\";
     private final String NOMBRE_XML = "perfil.xml";
     private final String RUTA_AVATAR = "imagenes/ImagenesSistema/avatar.png";
+    private final String RUTA_TABLERO_POR_DEFECTO = "imagenes/ImagenesBackground/fondo-verde.jpg";
     
     public Perfil(){
-        idioma = Idioma.Español;
         nombre = "Jugador";
+        idioma = Idioma.Español;        
         rutaImagen = RUTA_AVATAR;
+        rutaTableroPorDefecto = this.RUTA_TABLERO_POR_DEFECTO;
         puntuacionTotal = 0;
         puntuacionMaxima = 0;
         victorias = 0;
@@ -62,7 +64,7 @@ public class Perfil {
         this.idioma = language;        
         this.nombre = name;
         this.barajaPorDefecto = barajaPorDefecto;
-        this.nomberTableroPorDefecto = tableroPorDefecto;
+        this.rutaTableroPorDefecto = tableroPorDefecto;
         this.puntuacionTotal = puntuacionTotal;
         this.puntuacionMaxima = puntuacionMaxima;
         this.victorias = victorias;
@@ -91,7 +93,7 @@ public class Perfil {
      * Devuelve el Tablero que usa el perfil
      * @return 
      */
-    public String getNombreTableroPorDefecto(){return nomberTableroPorDefecto; }
+    public String getRutaTableroPorDefecto(){return rutaTableroPorDefecto; }
     
     /**
      * Devuelve la baaja mas usada por el perfil
@@ -151,7 +153,7 @@ public class Perfil {
      * Cambia el tablero por defecto 
      * @param nuevoTablero 
      */
-    public void setNombreTableroPorDefecto(String nuevoTablero){ this.nomberTableroPorDefecto = nuevoTablero; }
+    public void setRutaTableroPorDefecto(String nuevoTablero){ this.rutaTableroPorDefecto = nuevoTablero; }
     
     /**
      * Cambia la puntuación total
@@ -177,6 +179,25 @@ public class Perfil {
      */
     public void setDerrotas(int nuevaDerrotas){ this.derrotas = nuevaDerrotas; }
     
+    /**
+     * Comprueba si un entero es mayor que la puntuaciónMaxima
+     * @param puntuacion
+     * @return 
+     */
+    public boolean esPuntuacionMaxima(int puntuacion){
+        return puntuacion > puntuacionMaxima;
+    }
+    
+    public boolean nombrePerfilCorrecto(String nombre){
+        return !nombre.equals("");
+    }
+    
+    /**
+     * Carga los datos del perfil a partir del fichero xml
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException 
+     */
     public void cargarPerfil() throws ParserConfigurationException, SAXException, IOException{       
         File ficheroXML = new File(this.RUTA_XML + this.NOMBRE_XML);       
         List<String> listaDeElementos = new ArrayList();
@@ -205,19 +226,41 @@ public class Perfil {
                 }
             }
             extraerDatos(listaDeElementos);
+            validarImagenes();
         }
     
+    /**
+     * Asigna a cada variable su dato correspondiente
+     * @param datos 
+     */
     public void extraerDatos(List<String> datos){
         this.nombre = datos.get(0);
         this.rutaImagen = datos.get(1);
         this.idioma = Idioma.valueOf(datos.get(2));               
-        this.nomberTableroPorDefecto = datos.get(3);
+        this.rutaTableroPorDefecto = datos.get(3);
         this.puntuacionTotal = Integer.valueOf(datos.get(4));
         this.puntuacionMaxima = Integer.valueOf(datos.get(5));
         this.victorias = Integer.valueOf(datos.get(6));
         this.derrotas = Integer.valueOf(datos.get(7));
     }
     
+    /**
+     * Métoodo que comprueba si las imagenes del xml aún existen.
+     * Si no, les asigna las predefinidas
+     */
+    public void validarImagenes(){
+        File imagenPerfil = new File(rutaImagen);
+        File imagenTablero = new File(rutaTableroPorDefecto);
+        if(!imagenPerfil.exists()) this.rutaImagen = this.RUTA_AVATAR;
+        if(!imagenTablero.exists()) this.rutaTableroPorDefecto = this.RUTA_TABLERO_POR_DEFECTO;
+    }
+    
+    /**
+     * Genera el docuemnto xml con los datos nuevos
+     * @throws ParserConfigurationException
+     * @throws TransformerConfigurationException
+     * @throws TransformerException 
+     */
     public void guardarPerfil() throws ParserConfigurationException, TransformerConfigurationException, TransformerException{
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
@@ -241,7 +284,7 @@ public class Perfil {
         perfil.appendChild(elementoIdioma);       
         
         Element elementoTablero = documentoXML.createElement("nomberTableroPorDefecto");
-        elementoTablero.appendChild(documentoXML.createTextNode(this.nomberTableroPorDefecto));
+        elementoTablero.appendChild(documentoXML.createTextNode(this.rutaTableroPorDefecto));
         perfil.appendChild(elementoTablero);
         
         Element elementoPuntuacionTotal = documentoXML.createElement("puntuacionTotal");

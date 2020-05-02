@@ -18,6 +18,7 @@ public class Partida {
     private long startTime = 0L, endTime = 0L;
     private mainViewController controller;
     private Perfil perfil;
+    private boolean victoria = false;
 
 
     public Partida(Baraja baraja, Image background){
@@ -135,13 +136,13 @@ public class Partida {
      * Para el tiempo de la partida
      */
     public void stopTimer(){
-        boolean victoria = false;
         timer.cancel();
         if(isGameCompleted()) {
-            victoria = true;
+            this.victoria = true;
             baraja.resetBaraja();
         }
         controller.pantallaFinPartida(victoria);
+        controller.actualizarPerfil();
     }
 
     /**
@@ -161,7 +162,11 @@ public class Partida {
     public boolean isFinished(){
         return isFinished;
     }
-
+    
+    public boolean isVictoria(){
+        return victoria;
+    }
+    
     /**
      * Empieza la partida
      */

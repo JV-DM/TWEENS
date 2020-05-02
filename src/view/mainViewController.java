@@ -3,6 +3,7 @@ package view;
 import data_type.Carta;
 import data_type.GestorBarajas;
 import data_type.Partida;
+import data_type.Perfil;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.event.EventHandler;
@@ -16,10 +17,14 @@ import javafx.scene.layout.*;
 import javafx.scene.input.MouseEvent;
 
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 
 
@@ -58,6 +63,8 @@ public class mainViewController {
     private Map<Carta, ImageView> cardImageViewMap; 
 
     private long time;
+    
+    private Perfil perfil;
 
     /**
      * Crea un gridPane con las cartas (mostrando la parte de atrás de la carta) con su posición random
@@ -167,9 +174,9 @@ public class mainViewController {
                     if(!partidaAcabada){
                         time -= ONE_SECOND;
                         if(time >= 0)
-                            timeLabel.setText(formatTime(time));
+                            timeLabel.setText(formatTime(time));                           
                         if(time <= 0){
-                            partida.stopTimer();                           
+                            partida.stopTimer();   
                         }
                     }                   
                 });
@@ -236,9 +243,9 @@ public class mainViewController {
         mainBorderPane.setBottom(repetirPartida);
     }
     
-    public void iniciarPartida(GestorBarajas gestor){     
+    public void iniciarPartida(GestorBarajas gestor){  
         partidaAcabada = false;
-        partida = new Partida(gestor.getBarajaPorDefecto(),new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));       
+        partida = new Partida(gestor.getBarajaPorDefecto(),new Image(perfil.getRutaTableroPorDefecto()));       
         partida.setController(this);
         setPuntuacion(0);
         setTime(TIEMPO_PARTIDA);
@@ -249,14 +256,34 @@ public class mainViewController {
     }
     
     EventHandler<MouseEvent> reinicarPartida = (MouseEvent event) -> {
-        if(partidaAcabada) {            
+        if(partidaAcabada) {                   
             iniciarPartida(gestor);
         }
     };
 
-    public mainViewController(GestorBarajas gestorBarajas){
+    public mainViewController(GestorBarajas gestorBarajas, Perfil perfil){
         this.gestor = gestorBarajas;
+        this.perfil = perfil;
         
+    }
+    
+    /**
+     * Método que actualiza las estadisticas del perfil del jugador
+     */
+    public void actualizarPerfil(){
+        if(partida.isVictoria()) {
+            perfil.setVictorias(perfil.getVictorias() + 1);
+            perfil.setPuntuacionTotal(perfil.getPuntuacionTotal() + partida.getPuntuacion());
+            if(perfil.esPuntuacionMaxima(partida.getPuntuacion())) 
+                perfil.setPuntuacionMaxima(partida.getPuntuacion());
+        }
+        else 
+            perfil.setDerrotas(perfil.getDerrotas() + 1);
+                    
+        try {
+            perfil.guardarPerfil();
+        } catch (ParserConfigurationException ex) {
+        } catch (TransformerException ex) {}
     }
     
     @FXML

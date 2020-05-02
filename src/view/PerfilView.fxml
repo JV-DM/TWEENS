@@ -31,7 +31,7 @@
                <children>
                   <Pane prefHeight="72.0" prefWidth="196.0">
                      <children>
-                        <Label layoutX="-26.0" layoutY="45.0" text="Nomber del perfil">
+                        <Label layoutX="-26.0" layoutY="45.0" text="Nombre del perfil">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
@@ -44,14 +44,15 @@
                   </TextField>
                </children>
             </VBox>
-            <Pane prefHeight="166.0" prefWidth="222.0" />
+            <Pane prefHeight="155.0" prefWidth="190.0" />
             <VBox prefHeight="167.0" prefWidth="181.0">
                <children>
-                  <Pane prefHeight="8.0" prefWidth="181.0" />
-                  <HBox prefHeight="150.0" prefWidth="159.0">
+                  <Pane prefHeight="10.0" prefWidth="171.0" />
+                  <HBox prefHeight="110.0" prefWidth="171.0">
                      <children>
                         <ImageView fx:id="banderaIdioma" fitHeight="24.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true" />
                         <ChoiceBox fx:id="selectorIdioma" prefWidth="150.0" />
+                        <Pane prefHeight="110.0" prefWidth="35.0" />
                      </children>
                   </HBox>
                </children>
@@ -143,7 +144,7 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <ImageView fx:id="tableroPorDefecto" fitHeight="168.0" fitWidth="227.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="tableroPorDefecto" fitHeight="168.0" fitWidth="227.0" nodeOrientation="INHERIT" onMouseClicked="#imagenTableroOnClick" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </VBox>
                </children>

@@ -75,7 +75,7 @@ public class MenuViewController implements Initializable {
     @FXML
     private void clickPartidaEstandar(MouseEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainView.fxml"));       
-        mainViewController controller = new mainViewController(gestorBarajas);
+        mainViewController controller = new mainViewController(gestorBarajas,perfil);
         loader.setController(controller);
         Scene scene = new Scene(loader.load());
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

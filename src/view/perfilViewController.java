@@ -5,7 +5,6 @@
  */
 package view;
 
-import data_type.GestorArchivos;
 import data_type.Idioma;
 import data_type.Perfil;
 import java.io.File;
@@ -18,6 +17,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -65,15 +66,18 @@ public class perfilViewController implements Initializable {
     private BorderPane borderPane;
 
     private Perfil perfil;
-    private String rutaImagen;
+    private String rutaImagenPerfil;
+    private String rutaImagenTablero;
     
-    private GestorArchivos gestorArchivos = new GestorArchivos();
     @FXML
     private ImageView guardarPerfil;
     @FXML
     private ImageView barajaPorDefecto;
     @FXML
     private Label nombreBarajaPorDefecto;
+    
+    private boolean imagenCambiadaPerfil = false;
+    private boolean imagenCambiadaTablero = false;
     
     public void setElements(Perfil perfil){
         nombrePerfil.setText(perfil.getNombre());
@@ -84,7 +88,7 @@ public class perfilViewController implements Initializable {
         barajaPorDefecto.setFitHeight(168);
         barajaPorDefecto.setFitWidth(250);
         setIdiomas();
-        //tableroPorDefecto.setImage(perfil.getTableroPorDefecto().getImagen());
+        tableroPorDefecto.setImage(new Image(perfil.getRutaTableroPorDefecto()));
         numeroVictorias.setText(String.valueOf(perfil.getVictorias()));
         numeroDerrotas.setText(String.valueOf(perfil.getDerrotas()));
         numeroMejorPuntuacion.setText(String.valueOf(perfil.getPuntuacionMaxima()));
@@ -137,22 +141,50 @@ public class perfilViewController implements Initializable {
     @FXML
     private void imagenPerfilOnClick(MouseEvent event) throws IOException {       
         File archivoImagen = fileChooser();       
-        if(archivoImagen != null){
-            //gestorArchivos.copiarArchivo(archivoImagen.getPath(), gestorArchivos.getRutaImagenesSistema());
-            rutaImagen = archivoImagen.getAbsolutePath();
-            System.out.println(rutaImagen);
-            imagenPerfil.setImage(new Image(rutaImagen));
+        if(archivoImagen != null && archivoImagen.exists()){
+            rutaImagenPerfil = "File:///" + archivoImagen.getAbsolutePath();
+            System.out.println(archivoImagen.exists());
+            imagenPerfil.setImage(new Image(rutaImagenPerfil));
+            imagenCambiadaPerfil = true;
             guardarPerfil.setVisible(true);
         }
     }
 
+    public void mensajeDeError(){
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText("No puedes dejar vacio el campo del nombre");
+        alert.showAndWait();
+    }
+    
     @FXML
     private void guadarPerfilOnClick(MouseEvent event) throws ParserConfigurationException, TransformerException {
-        perfil.setName(nombrePerfil.getText());
-        if(rutaImagen != null)
-            perfil.setRutaImagen(rutaImagen);
+        if(perfil.nombrePerfilCorrecto(nombrePerfil.getText())) 
+            perfil.setName(nombrePerfil.getText());
+        else 
+            mensajeDeError();
+        if(imagenCambiadaPerfil) {
+            perfil.setRutaImagen(rutaImagenPerfil);
+            imagenCambiadaPerfil = false;
+        }
+        if(imagenCambiadaTablero){
+            perfil.setRutaTableroPorDefecto(rutaImagenTablero);
+            imagenCambiadaTablero = false;
+        }
         perfil.guardarPerfil();
         guardarPerfil.setVisible(false);
+    }
+
+    @FXML
+    private void imagenTableroOnClick(MouseEvent event) {
+         File archivoImagen = fileChooser();       
+        if(archivoImagen != null && archivoImagen.exists()){
+            rutaImagenTablero = "File:///" + archivoImagen.getAbsolutePath();
+            tableroPorDefecto.setImage(new Image(rutaImagenTablero));
+            imagenCambiadaTablero = true;
+            guardarPerfil.setVisible(true);
+        }
     }
     
 }

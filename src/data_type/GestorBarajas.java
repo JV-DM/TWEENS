@@ -27,7 +27,6 @@ public class GestorBarajas {
     public GestorBarajas(){
         barajas = new ArrayList<>();
         barajaPorDefecto = new Baraja();
-        cargarBarajas();
     }
 
     /**
