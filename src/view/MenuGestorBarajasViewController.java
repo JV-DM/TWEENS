@@ -7,9 +7,11 @@ package view;
 
 import data_type.Baraja;
 import data_type.Carta;
+import data_type.GestorArchivos;
 import data_type.GestorBarajas;
 import data_type.Perfil;
-import java.awt.Font;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
@@ -17,17 +19,15 @@ import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -37,12 +37,9 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -71,6 +68,8 @@ public class MenuGestorBarajasViewController implements Initializable {
     
     private final double CARTA_WIDTH = 126;
     private final double CARTA_HEIGHT = 106;
+    
+    private GestorArchivos gestorArchivos = new GestorArchivos();
     private GridPane gridPaneBarajas = new GridPane();
     private GridPane gridPaneCartas = new GridPane();
     @FXML
@@ -80,6 +79,8 @@ public class MenuGestorBarajasViewController implements Initializable {
     @FXML
     private Button atrasButton;
     private Baraja baraja;   
+    @FXML
+    private ImageView añadir;
 
     MenuGestorBarajasViewController(GestorBarajas gestorBarajas, Perfil perfil) {
         this.perfil = perfil;
@@ -165,6 +166,8 @@ public class MenuGestorBarajasViewController implements Initializable {
         borderPane.setCenter(gridPaneCartas);
         borderPane.setRight(null);
         atrasButton.setVisible(true);
+        añadir.setVisible(true);
+        textoCabecera.setText(baraja.getNombre());
     };
     
     /**
@@ -218,9 +221,9 @@ public class MenuGestorBarajasViewController implements Initializable {
         alert.setTitle("Error");
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
-        alert.showAndWait();
-    
+        alert.showAndWait();  
     }
+    
     
     /**
      * Initializes the controller class.
@@ -241,7 +244,53 @@ public class MenuGestorBarajasViewController implements Initializable {
         borderPane.setCenter(gridPaneBarajas);
         borderPane.setRight(paneDerecho);
         atrasButton.setVisible(false);
+        textoCabecera.setText("Barajas");
         baraja = null;
     }
+
     
-}
+    public String mensajeConCampoDeTexto(String titulo, String texto, String nombrePredefinido){
+        TextInputDialog dialog = new TextInputDialog(nombrePredefinido);
+        dialog.setTitle(titulo);
+        dialog.setHeaderText(null);
+        dialog.setContentText(texto);
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()){
+            return result.get();
+        }
+        return null;
+    }
+    
+    /**
+     * Añade o una baraja o una carta en función de si hay una baraja seleccionada
+     * @param event
+     * @throws IOException 
+     */
+    @FXML
+    private void añadirOnClick(MouseEvent event) throws IOException {
+        if(baraja != null) {
+            File archivoImagen = gestorArchivos.fileChooser(borderPane);
+            String rutaDestino = gestorArchivos.getRuta_Barajas() + baraja.getNombre() 
+                                 + ";" + baraja.getTematica() + "/";
+            if (archivoImagen != null){                
+                    String nombreCarta = mensajeConCampoDeTexto("Nombre de la carta", "Introduce el nombre de la carta", archivoImagen.getName());
+                    gestorArchivos.copyFile(archivoImagen, rutaDestino + nombreCarta);
+                    baraja.añadirCarta(new Carta(new Image("File:///" + rutaDestino + nombreCarta),nombreCarta,(baraja.getTamaño()/2) + 1));
+                    createGridPaneCartas(baraja);
+                    borderPane.setCenter(gridPaneCartas);
+            }
+        
+        }
+        else{
+            String nombreBaraja = mensajeConCampoDeTexto("Nombre de la baraja", "Introduce el nombre de la baraja", "");
+            String tematicaBaraja = mensajeConCampoDeTexto("Temática de la baraja", "Introduce la temática de la baraja", "");
+            baraja = new Baraja(nombreBaraja,tematicaBaraja,gestorBarajas.getCaraPosterior());
+            gestorArchivos.createDirectory(gestorArchivos.getRuta_Barajas() + nombreBaraja + ";" + tematicaBaraja);
+            //gestorBarajas.añadirBaraja(baraja);
+            createGridPaneCartas(baraja);
+            borderPane.setCenter(gridPaneCartas);
+            borderPane.setRight(null);
+        }
+    }
+    }
+    

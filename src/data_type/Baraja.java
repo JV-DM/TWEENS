@@ -5,6 +5,7 @@
  */
 package data_type;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -18,14 +19,25 @@ import java.util.List;
  * Constructor de la baraja
  */
 public class Baraja {
+    GestorArchivos gestorArchivos = new GestorArchivos();
+    
     private List<Carta> cartas;
     private String nombre;
     private CaraPosterior caraPosterior;
     private int tamaño;
-    private String tematica;
+    private String tematica;   
     
     public Baraja(){
         cartas = new ArrayList<>();
+    }
+    
+    public Baraja(String nombre, String tematica, CaraPosterior caraPosterior){
+        cartas = new ArrayList<>();
+        this.nombre = nombre;
+        this.tematica = tematica;
+        this.caraPosterior = caraPosterior;
+        this.tamaño = 0;
+        
     }
     
     public Baraja(List<Carta> cartas, CaraPosterior caraPosterior, String nombre,
@@ -121,6 +133,7 @@ public class Baraja {
     /**
      * Elimina una carta de la baraja
      * @param carta carta a eliminar
+     * @return 
      */
     public boolean eliminarCarta(Carta carta){
         if(carta == null) return false;
@@ -128,7 +141,9 @@ public class Baraja {
             int indice = cartas.indexOf(carta);
             cartas.remove(indice);
             cartas.remove(indice);
-            tamaño-= 2;
+            tamaño-= 2;           
+            gestorArchivos.deleteFile(new File(gestorArchivos.getRuta_Barajas() 
+                    + nombre + ";" + tematica + "/"+ carta.getNombre()));
             return true;
         }
         return false;

@@ -104,7 +104,7 @@ public class perfilViewController implements Initializable {
         selectorIdioma.setValue(perfil.getIdioma().name());
     }
     
-    public File fileChooser() {
+    public File fileChooser(BorderPane borderPane) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Buscar Imagen");
 
@@ -140,7 +140,7 @@ public class perfilViewController implements Initializable {
 
     @FXML
     private void imagenPerfilOnClick(MouseEvent event) throws IOException {       
-        File archivoImagen = fileChooser();       
+        File archivoImagen = fileChooser(borderPane);       
         if(archivoImagen != null && archivoImagen.exists()){
             rutaImagenPerfil = "File:///" + archivoImagen.getAbsolutePath();
             System.out.println(archivoImagen.exists());
@@ -178,7 +178,7 @@ public class perfilViewController implements Initializable {
 
     @FXML
     private void imagenTableroOnClick(MouseEvent event) {
-         File archivoImagen = fileChooser();       
+         File archivoImagen = fileChooser(borderPane);       
         if(archivoImagen != null && archivoImagen.exists()){
             rutaImagenTablero = "File:///" + archivoImagen.getAbsolutePath();
             tableroPorDefecto.setImage(new Image(rutaImagenTablero));

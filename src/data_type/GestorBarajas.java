@@ -41,6 +41,7 @@ public class GestorBarajas {
      */
     public Baraja getBarajaPorDefecto(){ return barajaPorDefecto;}
 
+    public CaraPosterior getCaraPosterior(){return caraPosterior;}
     /**
      * Establece una lista de barajas
      * @param nuevaBarajas
@@ -60,7 +61,7 @@ public class GestorBarajas {
      */
     public boolean añadirBaraja(Baraja baraja){
         if(baraja == null) return false;
-        else if(!existeLaBaraja(baraja)) {
+        else if(!existeLaBaraja(baraja) && baraja.getTamaño() >= 8) {
             barajas.add(baraja);
             return true;
         }
