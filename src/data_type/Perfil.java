@@ -99,7 +99,7 @@ public class Perfil {
      * Devuelve la baaja mas usada por el perfil
      * @return 
      */
-    public Baraja getBarajaPorDefetco(){return barajaPorDefecto;}
+    public Baraja getBarajaPorDefecto(){return barajaPorDefecto;}
     
     /**
      * Devuelve la puntuacion total obtenida por el perfil

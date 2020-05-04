@@ -124,9 +124,10 @@ public class Baraja {
      */
     public boolean eliminarCarta(Carta carta){
         if(carta == null) return false;
-        else if(!existeLaCarta(carta)){
-            cartas.remove(carta);
-            cartas.remove(carta);
+        else if(existeLaCarta(carta)){
+            int indice = cartas.indexOf(carta);
+            cartas.remove(indice);
+            cartas.remove(indice);
             tamaño-= 2;
             return true;
         }
@@ -159,5 +160,17 @@ public class Baraja {
             carta.resetCarta();
         });
                
+    }
+    
+    /**
+     * Busca la carta a partir de su nombre
+     * @param nombreCarta
+     * @return 
+     */
+    public Carta buscarCarta(String nombreCarta){
+        for(Carta carta : cartas){
+            if(carta.getNombre().equals(nombreCarta)) return carta;
+        }
+        return null;
     }
 }

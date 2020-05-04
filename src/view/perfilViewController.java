@@ -83,8 +83,8 @@ public class perfilViewController implements Initializable {
         nombrePerfil.setText(perfil.getNombre());
         imagenPerfil.setImage(new Image(perfil.getRutaImagen()));
         banderaIdioma.setImage(perfil.getIdioma().getImagenBandera());
-        barajaPorDefecto.setImage(perfil.getBarajaPorDefetco().getCartas().get(0).getImagen());
-        nombreBarajaPorDefecto.setText(perfil.getBarajaPorDefetco().getNombre());
+        barajaPorDefecto.setImage(perfil.getBarajaPorDefecto().getCartas().get(0).getImagen());
+        nombreBarajaPorDefecto.setText(perfil.getBarajaPorDefecto().getNombre());
         barajaPorDefecto.setFitHeight(168);
         barajaPorDefecto.setFitWidth(250);
         setIdiomas();

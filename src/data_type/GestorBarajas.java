@@ -126,6 +126,11 @@ public class GestorBarajas {
         return false;       
     }
     
+    /**
+     * Busca la baraja a partir de su nombre
+     * @param nombreBaraja
+     * @return 
+     */
     public Baraja buscarBaraja(String nombreBaraja){       
         for (Baraja baraja : barajas) 
             if(baraja.getNombre().equals(nombreBaraja))

@@ -45,8 +45,6 @@ public class MenuViewController implements Initializable {
     private BorderPane menuBorderPane;
     
     private Perfil perfil;
-    @FXML
-    private ProgressBar progressBar;
     GestorBarajas gestorBarajas;
 
     /**
@@ -92,11 +90,27 @@ public class MenuViewController implements Initializable {
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.setTitle("Perfil");
-        stage.getIcons().add(new Image("imagenes/ImagenesCaraPosterior/BacCard.png"));
         stage.initModality(Modality.WINDOW_MODAL);
         stage.initOwner((Stage) ((Node) event.getSource()).getScene().getWindow());
+        stage.getIcons().add(new Image("imagenes/ImagenesCaraPosterior/BacCard.png"));
         stage.setResizable(false);
         stage.showAndWait();
     }
-    
+
+    @FXML
+    private void gestorDeBarajasOnClick(MouseEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("MenuGestorBarajasView.fxml"));       
+        MenuGestorBarajasViewController controller = new MenuGestorBarajasViewController(gestorBarajas,perfil);
+        loader.setController(controller);
+        Scene scene = new Scene(loader.load());
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Gestor de barajas");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner((Stage) ((Node) event.getSource()).getScene().getWindow());
+        stage.getIcons().add(new Image("imagenes/ImagenesCaraPosterior/BacCard.png"));
+        stage.setResizable(false);
+        stage.showAndWait();
+    }
+        
 }
