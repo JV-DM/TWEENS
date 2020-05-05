@@ -13,10 +13,8 @@
    <right>
       <Pane fx:id="paneDerecho" prefHeight="610.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button layoutX="21.0" layoutY="227.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="161.0" text="Añadir Baraja" />
-            <Button layoutX="21.0" layoutY="280.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="162.0" text="Editar Baraja" />
-            <Button layoutX="19.0" layoutY="331.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="164.0" text="Eliminar Baraja" />
-            <Button layoutX="19.0" layoutY="382.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="167.0" text="Cambiar Baraja Por Defecto " />
+            <Button layoutX="18.0" layoutY="218.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="164.0" text="Eliminar Baraja" />
+            <Button layoutX="19.0" layoutY="270.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="164.0" text="Cambiar Baraja Por Defecto " />
             <VBox alignment="CENTER" layoutX="19.0" layoutY="7.0" prefHeight="158.0" prefWidth="159.0">
                <children>
                   <Label text="Baraja por defecto">

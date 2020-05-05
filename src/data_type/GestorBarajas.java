@@ -16,7 +16,7 @@ import java.util.List;
  * @author Javier
  */
 public class GestorBarajas {
-
+    
     private List<Baraja> barajas;
     private Baraja barajaPorDefecto;
     private String nombreBarajaPorDefecto = "Baraja de animales";
@@ -61,7 +61,7 @@ public class GestorBarajas {
      */
     public boolean añadirBaraja(Baraja baraja){
         if(baraja == null) return false;
-        else if(!existeLaBaraja(baraja) && baraja.getTamaño() >= 8) {
+        else if(!existeLaBaraja(baraja)) {
             barajas.add(baraja);
             return true;
         }
@@ -88,22 +88,25 @@ public class GestorBarajas {
      * src\imagenes\Barajas
      */
     public void cargarBarajas(){
-        Baraja baraja = new Baraja();
+        GestorArchivos gestor = new GestorArchivos();
         File directorioBarajas = new File(RUTA_BARAJAS);
         String[] listaDeBarajas = directorioBarajas.list();      
         for (String listaDeBaraja : listaDeBarajas) {
-            baraja = new Baraja();
+            Baraja baraja = new Baraja();
             File carpetaBaraja = new File(RUTA_BARAJAS + listaDeBaraja + "/");
             String[] listaCartasBaraja = carpetaBaraja.list();
-            for(int j = 0; j < listaCartasBaraja.length; j++)
-                baraja.añadirCarta(new Carta(new Image(RUTA_IMAGENES
-                        + listaDeBaraja + "/"
-                        + listaCartasBaraja[j]), listaCartasBaraja[j], j));
-            int index = listaDeBaraja.indexOf(";");           
-            baraja.setNombre(listaDeBaraja.substring(0,index));
-            baraja.setTematica(listaDeBaraja.substring(index + 1));
-            baraja.setCaraPosterior(caraPosterior);
-            añadirBaraja(baraja);  
+            if(listaCartasBaraja.length != 0){
+                for(int j = 0; j < listaCartasBaraja.length; j++)
+                    baraja.añadirCarta(new Carta(new Image(RUTA_IMAGENES
+                            + listaDeBaraja + "/"
+                            + listaCartasBaraja[j]), listaCartasBaraja[j], j));
+                int index = listaDeBaraja.indexOf(";");           
+                baraja.setNombre(listaDeBaraja.substring(0,index));
+                baraja.setTematica(listaDeBaraja.substring(index + 1));
+                baraja.setCaraPosterior(caraPosterior);
+                añadirBaraja(baraja);  
+            }
+            else gestor.deleteFile(carpetaBaraja);
         }
              
     }

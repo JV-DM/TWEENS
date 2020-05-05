@@ -20,9 +20,11 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -40,6 +42,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -57,7 +61,7 @@ public class MenuGestorBarajasViewController implements Initializable {
     private GestorBarajas gestorBarajas;
     @FXML
     private BorderPane borderPane;
-    private final int TAMAÑO_CELDAS_GRID_PANE_BARAJAS = 4;
+    private final int TAMAÑO_CELDAS_GRID_PANE_BARAJAS = 5;
     private final int TAMAÑO_CELDAS_GRID_PANE_CARTAS = 5;
     
     private final int MENSAJE_CARTAS_INSUFICIENTES = 1;
@@ -69,6 +73,12 @@ public class MenuGestorBarajasViewController implements Initializable {
     private final double CARTA_WIDTH = 126;
     private final double CARTA_HEIGHT = 106;
     
+    private final int MODO_VER_BARAJAS = 0;
+    private final int MODO_VER_CARTAS = 1;
+    private final int MODO_CREAR_BARAJA = 2;
+    
+    private boolean barajaCreada = false;
+    private int modo;
     private GestorArchivos gestorArchivos = new GestorArchivos();
     private GridPane gridPaneBarajas = new GridPane();
     private GridPane gridPaneCartas = new GridPane();
@@ -105,7 +115,7 @@ public class MenuGestorBarajasViewController implements Initializable {
         int indice = 0;
         for(int i = 0; indice < listaDeBarajas.size(); i++){
             for(int j = 0; j < TAMAÑO_CELDAS_GRID_PANE_BARAJAS; j++){      
-                if(indice < listaDeBarajas.size()) {
+                if(indice < listaDeBarajas.size() && listaDeBarajas.get(indice).getCartas().size() > 0) {
                     ImageView imagenBaraja = new ImageView(listaDeBarajas.get(indice).getCartas().get(0).getImagen());
                     imagenBaraja.setPreserveRatio(false);
                     imagenBaraja.setFitWidth(CARTA_WIDTH);
@@ -157,18 +167,23 @@ public class MenuGestorBarajasViewController implements Initializable {
      * Evento para ver las cartas de una baraja
      */
     EventHandler<MouseEvent> verBaraja = (MouseEvent event) -> {
+        modo = this.MODO_VER_CARTAS;
         VBox vbox = (VBox) event.getSource();
         ObservableList<Node> listaNodos = vbox.getChildren();
         Label label = (Label) listaNodos.get(1);
         Baraja baraja = gestorBarajas.buscarBaraja(label.getText());
-        createGridPaneCartas(baraja);
         this.baraja = baraja;
+        modoVerCartas();
+    };
+    
+    public void modoVerCartas(){
+        createGridPaneCartas(baraja);
         borderPane.setCenter(gridPaneCartas);
         borderPane.setRight(null);
         atrasButton.setVisible(true);
         añadir.setVisible(true);
         textoCabecera.setText(baraja.getNombre());
-    };
+    }
     
     /**
      * Evento para borrar una carta
@@ -217,20 +232,25 @@ public class MenuGestorBarajasViewController implements Initializable {
             default : 
                 mensaje = "El nombre de la carta no se puede dejar vacio";
         }
+        mensajeError(mensaje);
+    }
+    
+    public void mensajeError(String texto){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Error");
         alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.showAndWait();  
+        alert.setContentText(texto);
+        alert.showAndWait();
     }
-    
     
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        borderPane.setRight(null);
         setElements();
+        modo = this.MODO_VER_BARAJAS;
         borderPane.setPrefSize(924, 668);
         borderPane.setBackground(new Background(new BackgroundImage(new Image(RUTA_BACKGROUND),
                 BackgroundRepeat.NO_REPEAT,
@@ -239,13 +259,32 @@ public class MenuGestorBarajasViewController implements Initializable {
                 new BackgroundSize(100, 100, true,true, false, true))));    
     }    
 
-    @FXML
-    private void atrasOnClick(ActionEvent event) {
+    public void modoVerBarajas(){
+        createGridPaneBarajas();
+        modo = this.MODO_VER_BARAJAS;
         borderPane.setCenter(gridPaneBarajas);
-        borderPane.setRight(paneDerecho);
+        //borderPane.setRight(paneDerecho);
         atrasButton.setVisible(false);
         textoCabecera.setText("Barajas");
         baraja = null;
+    }
+    
+    @FXML
+    private void atrasOnClick(ActionEvent event) {
+        if(modo == this.MODO_CREAR_BARAJA){
+            if(baraja.getTamaño() >= 8){
+                modoVerBarajas();
+                gestorBarajas.añadirBaraja(baraja);
+                modo = this.MODO_VER_BARAJAS;
+                barajaCreada = false;
+            }
+            else mensajeError("La baraja debe tener 4 cartas como mínimo");               
+        }
+        
+        else {
+            modoVerBarajas();
+            modo = this.MODO_VER_BARAJAS;
+        }
     }
 
     
@@ -256,9 +295,14 @@ public class MenuGestorBarajasViewController implements Initializable {
         dialog.setContentText(texto);
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()){
-            return result.get();
+                return result.get();
         }
         return null;
+    }
+    
+    public void barajaCreada(Baraja baraja){
+        this.baraja = baraja;
+        barajaCreada = true;
     }
     
     /**
@@ -278,18 +322,31 @@ public class MenuGestorBarajasViewController implements Initializable {
                     baraja.añadirCarta(new Carta(new Image("File:///" + rutaDestino + nombreCarta),nombreCarta,(baraja.getTamaño()/2) + 1));
                     createGridPaneCartas(baraja);
                     borderPane.setCenter(gridPaneCartas);
-            }
-        
+            }       
         }
         else{
-            String nombreBaraja = mensajeConCampoDeTexto("Nombre de la baraja", "Introduce el nombre de la baraja", "");
-            String tematicaBaraja = mensajeConCampoDeTexto("Temática de la baraja", "Introduce la temática de la baraja", "");
-            baraja = new Baraja(nombreBaraja,tematicaBaraja,gestorBarajas.getCaraPosterior());
-            gestorArchivos.createDirectory(gestorArchivos.getRuta_Barajas() + nombreBaraja + ";" + tematicaBaraja);
-            //gestorBarajas.añadirBaraja(baraja);
-            createGridPaneCartas(baraja);
-            borderPane.setCenter(gridPaneCartas);
-            borderPane.setRight(null);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("FormularioCrearBaraja.fxml"));       
+            FormularioCrearBarajaController controller = new FormularioCrearBarajaController(gestorBarajas,this);
+            loader.setController(controller);
+            Scene scene = new Scene(loader.load());
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Crear baraja");
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner((Stage) ((Node) event.getSource()).getScene().getWindow());
+            stage.getIcons().add(new Image("imagenes/ImagenesCaraPosterior/BacCard.png"));
+            stage.setResizable(false);
+            stage.showAndWait();           
+            modo = this.MODO_CREAR_BARAJA;
+                if(barajaCreada) {
+                    createGridPaneCartas(baraja);
+                    modoVerCartas();
+                    gestorArchivos.createDirectory(gestorArchivos.getRuta_Barajas() + baraja.getNombre() + ";" + baraja.getTematica());
+                    createGridPaneCartas(baraja);
+                    modoVerCartas();
+                    modo = this.MODO_CREAR_BARAJA;
+                }
+            
         }
     }
     }
