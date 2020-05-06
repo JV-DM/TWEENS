@@ -21,6 +21,8 @@
             <Pane prefHeight="113.0" prefWidth="1024.0" />
             <Button mnemonicParsing="false" onMouseClicked="#clickPartidaEstandar" prefHeight="39.0" prefWidth="128.0" text="Partida Rápida" />
             <Pane prefHeight="9.0" prefWidth="1024.0" />
+            <Button mnemonicParsing="false" onAction="#clickModoTrios" prefHeight="41.0" prefWidth="134.0" text="Modo trios" />
+            <Pane prefHeight="10.0" prefWidth="1024.0" />
             <Button mnemonicParsing="false" onMouseClicked="#clickPerfil" prefHeight="41.0" prefWidth="129.0" text="Perfil" />
             <Pane prefHeight="10.0" prefWidth="1024.0" />
             <Button mnemonicParsing="false" onMouseClicked="#gestorDeBarajasOnClick" prefHeight="43.0" prefWidth="127.0" text="Gestor de Barajas" />

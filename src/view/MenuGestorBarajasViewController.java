@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,7 +25,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
@@ -40,7 +38,6 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -52,8 +49,7 @@ import javafx.stage.Stage;
  */
 public class MenuGestorBarajasViewController implements Initializable {
 
-    private ImageView imagenBarajaPorDefecto;
-    private Label nombreBarajaPorDefecto;
+
     private final String RUTA_BACKGROUND = "imagenes/ImagenesBackground/fondo-verde.jpg";
     private Perfil perfil;
     private GestorBarajas gestorBarajas;
@@ -62,9 +58,8 @@ public class MenuGestorBarajasViewController implements Initializable {
     private final int TAMAÑO_CELDAS_GRID_PANE_BARAJAS = 5;
     private final int TAMAÑO_CELDAS_GRID_PANE_CARTAS = 5;
     
-    private final int MENSAJE_CARTAS_INSUFICIENTES = 1;
-    private final int NOMBRE_BARAJA_NO_VALIDO = 2;
-    private final int NOMBRE_CARTA_REPETIDO = 3;
+    private final String MENSAJE_CARTAS_INSUFICIENTES = "La baraja debe tener 4 cartas como mínimo";
+    private final String NOMBRE_CARTA_YA_EXISTENTE = "Ya existe una carta con ese nombre";
     
     private final int TAMAÑO_DE_BARAJA_MINIMO = 4;
     
@@ -73,7 +68,6 @@ public class MenuGestorBarajasViewController implements Initializable {
     
     private final int MODO_VER_BARAJAS = 0;
     private final int MODO_VER_CARTAS = 1;
-    private final int MODO_CREAR_BARAJA = 2;
     
     private boolean barajaCreada = false;
     private int modo;
@@ -217,27 +211,6 @@ public class MenuGestorBarajasViewController implements Initializable {
         return action.get() == ButtonType.OK;
     }
     
-    /**
-     * Mensajes de error 
-     * @param tipo 
-     */
-    public void mensajeError(int tipo){
-        String mensaje = "";
-        switch (tipo){
-            case  MENSAJE_CARTAS_INSUFICIENTES: 
-                mensaje = "No puede haber menos de 4 cartas";
-                break;
-            case NOMBRE_BARAJA_NO_VALIDO:
-                mensaje = "El nombre de la baraja no es valido";
-                break;
-            case NOMBRE_CARTA_REPETIDO:
-                mensaje = "El nombre de la carta ya existe";
-                break;
-            default : 
-                mensaje = "El nombre de la carta no se puede dejar vacio";
-        }
-        mensajeError(mensaje);
-    }
     
     public void mensajeError(String texto){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -279,6 +252,21 @@ public class MenuGestorBarajasViewController implements Initializable {
         barajaCreada = true;
     }
     
+    public void formularioCrearBaraja(MouseEvent event) throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FormularioCrearBaraja.fxml"));       
+        FormularioCrearBarajaController controller = new FormularioCrearBarajaController(gestorBarajas,this);
+        loader.setController(controller);
+        Scene scene = new Scene(loader.load());
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Crear baraja");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner((Stage) ((Node) event.getSource()).getScene().getWindow());
+        stage.getIcons().add(new Image("imagenes/ImagenesCaraPosterior/BacCard.png"));
+        stage.setResizable(false);
+        stage.showAndWait();    
+    }
+    
     /**
      * Añade o una baraja o una carta en función de si hay una baraja seleccionada
      * @param event
@@ -298,30 +286,17 @@ public class MenuGestorBarajasViewController implements Initializable {
                         createGridPaneCartas(baraja);
                         borderPane.setCenter(gridPaneCartas);
                     }
-                    else mensajeError("Ya existe una carta con ese nombre");
+                    else mensajeError(NOMBRE_CARTA_YA_EXISTENTE);
             }       
         }
         else{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("FormularioCrearBaraja.fxml"));       
-            FormularioCrearBarajaController controller = new FormularioCrearBarajaController(gestorBarajas,this);
-            loader.setController(controller);
-            Scene scene = new Scene(loader.load());
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.setTitle("Crear baraja");
-            stage.initModality(Modality.WINDOW_MODAL);
-            stage.initOwner((Stage) ((Node) event.getSource()).getScene().getWindow());
-            stage.getIcons().add(new Image("imagenes/ImagenesCaraPosterior/BacCard.png"));
-            stage.setResizable(false);
-            stage.showAndWait();           
-            modo = this.MODO_CREAR_BARAJA;
+                formularioCrearBaraja(event);     
                 if(barajaCreada) {
                     createGridPaneCartas(baraja);
                     modoVerCartas();
                     gestorArchivos.createDirectory(gestorArchivos.getRuta_Barajas() + baraja.getNombre() + ";" + baraja.getTematica());
                     createGridPaneCartas(baraja);
                     modoVerCartas();
-                    modo = this.MODO_CREAR_BARAJA;
                 }
             
         }
@@ -348,14 +323,15 @@ public class MenuGestorBarajasViewController implements Initializable {
 
     @FXML
     private void atrasOnClick(MouseEvent event) {
-        if(modo == this.MODO_CREAR_BARAJA){
+
+        if(modo == MODO_VER_CARTAS && barajaCreada){
             if(baraja.getTamaño() >= 8){
-                modoVerBarajas();               
                 gestorBarajas.añadirBaraja(baraja);
                 modo = this.MODO_VER_BARAJAS;
                 barajaCreada = false;
+                modoVerBarajas();  
             }
-            else mensajeError("La baraja debe tener 4 cartas como mínimo");               
+            else mensajeError(MENSAJE_CARTAS_INSUFICIENTES);               
         }
         
         else {
