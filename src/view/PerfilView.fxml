@@ -155,19 +155,18 @@
                   <Pane prefHeight="44.0" prefWidth="250.0" />
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="117.0">
                      <children>
-                        <Label alignment="CENTER" prefHeight="30.0" prefWidth="226.0" text="Baraja por defecto">
+                        <Label alignment="CENTER" prefHeight="30.0" prefWidth="226.0" text="Número de barajas">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <ImageView fx:id="barajaPorDefecto" fitHeight="168.0" fitWidth="193.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" />
+                        <Label fx:id="numeroBarajas" alignment="CENTER" prefHeight="171.0" prefWidth="203.0" text="5">
+                           <font>
+                              <Font size="96.0" />
+                           </font>
+                        </Label>
                      </children>
                   </VBox>
-                  <Label fx:id="nombreBarajaPorDefecto" text="nombre baraja por defecto">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
                </children>
             </VBox>
          </children>

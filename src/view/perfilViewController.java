@@ -5,6 +5,7 @@
  */
 package view;
 
+import data_type.GestorBarajas;
 import data_type.Idioma;
 import data_type.Perfil;
 import java.io.File;
@@ -70,23 +71,18 @@ public class perfilViewController implements Initializable {
     private String rutaImagenTablero;
     
     @FXML
-    private ImageView guardarPerfil;
-    @FXML
-    private ImageView barajaPorDefecto;
-    @FXML
-    private Label nombreBarajaPorDefecto;
-    
+    private ImageView guardarPerfil;   
     private boolean imagenCambiadaPerfil = false;
     private boolean imagenCambiadaTablero = false;
+    @FXML
+    private Label numeroBarajas;
+    private GestorBarajas gestorBarajas;
     
     public void setElements(Perfil perfil){
         nombrePerfil.setText(perfil.getNombre());
         imagenPerfil.setImage(new Image(perfil.getRutaImagen()));
         banderaIdioma.setImage(perfil.getIdioma().getImagenBandera());
-        barajaPorDefecto.setImage(perfil.getBarajaPorDefecto().getCartas().get(0).getImagen());
-        nombreBarajaPorDefecto.setText(perfil.getBarajaPorDefecto().getNombre());
-        barajaPorDefecto.setFitHeight(168);
-        barajaPorDefecto.setFitWidth(250);
+        numeroBarajas.setText(String.valueOf(gestorBarajas.getBarajas().size()));
         setIdiomas();
         tableroPorDefecto.setImage(new Image(perfil.getRutaTableroPorDefecto()));
         numeroVictorias.setText(String.valueOf(perfil.getVictorias()));
@@ -116,8 +112,9 @@ public class perfilViewController implements Initializable {
          return archivoDeImagen;
     }
      
-    public perfilViewController(Perfil perfil){
+    public perfilViewController(Perfil perfil,GestorBarajas gestorBarajas){
         this.perfil = perfil;
+        this.gestorBarajas = gestorBarajas;
     }
     
     /**

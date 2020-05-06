@@ -88,6 +88,7 @@ public class GestorBarajas {
      * src\imagenes\Barajas
      */
     public void cargarBarajas(){
+        barajas.clear();
         GestorArchivos gestor = new GestorArchivos();
         File directorioBarajas = new File(RUTA_BARAJAS);
         String[] listaDeBarajas = directorioBarajas.list();      

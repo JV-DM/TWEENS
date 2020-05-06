@@ -52,9 +52,7 @@ import javafx.stage.Stage;
  */
 public class MenuGestorBarajasViewController implements Initializable {
 
-    @FXML
     private ImageView imagenBarajaPorDefecto;
-    @FXML
     private Label nombreBarajaPorDefecto;
     private final String RUTA_BACKGROUND = "imagenes/ImagenesBackground/fondo-verde.jpg";
     private Perfil perfil;
@@ -83,14 +81,17 @@ public class MenuGestorBarajasViewController implements Initializable {
     private GridPane gridPaneBarajas = new GridPane();
     private GridPane gridPaneCartas = new GridPane();
     @FXML
-    private Pane paneDerecho;
-    @FXML
     private Label textoCabecera;
-    @FXML
-    private Button atrasButton;
     private Baraja baraja;   
     @FXML
     private ImageView añadir;
+    private ImageView ver;
+    @FXML
+    private ImageView verCartas;
+    @FXML
+    private ImageView eliminarBaraja;
+    @FXML
+    private ImageView atras;
 
     MenuGestorBarajasViewController(GestorBarajas gestorBarajas, Perfil perfil) {
         this.perfil = perfil;
@@ -98,19 +99,10 @@ public class MenuGestorBarajasViewController implements Initializable {
     }
     
     /**
-     * Establece los elementos principales de la pantalla al iniciar
-     */
-    public void setElements(){
-        imagenBarajaPorDefecto.setImage(perfil.getBarajaPorDefecto().getCartas().get(0).getImagen());
-        nombreBarajaPorDefecto.setText(perfil.getBarajaPorDefecto().getNombre());
-        createGridPaneBarajas();
-        borderPane.setCenter(gridPaneBarajas);
-    }
-    
-    /**
      * Crear el GridPane para visualizar las barajas
      */
     public void createGridPaneBarajas(){
+        gridPaneBarajas.getChildren().clear();
         List<Baraja> listaDeBarajas = gestorBarajas.getBarajas();
         int indice = 0;
         for(int i = 0; indice < listaDeBarajas.size(); i++){
@@ -167,21 +159,33 @@ public class MenuGestorBarajasViewController implements Initializable {
      * Evento para ver las cartas de una baraja
      */
     EventHandler<MouseEvent> verBaraja = (MouseEvent event) -> {
-        modo = this.MODO_VER_CARTAS;
         VBox vbox = (VBox) event.getSource();
         ObservableList<Node> listaNodos = vbox.getChildren();
         Label label = (Label) listaNodos.get(1);
         Baraja baraja = gestorBarajas.buscarBaraja(label.getText());
         this.baraja = baraja;
-        modoVerCartas();
+        verCartas.setVisible(true);     
+        eliminarBaraja.setVisible(true);
     };
+    
+    public void modoVerBarajas(){
+        createGridPaneBarajas();
+        modo = this.MODO_VER_BARAJAS;
+        borderPane.setCenter(gridPaneBarajas);
+        atras.setVisible(false);
+        verCartas.setVisible(false);
+        eliminarBaraja.setVisible(false);
+        textoCabecera.setText("Barajas");
+        baraja = null;
+    }
     
     public void modoVerCartas(){
         createGridPaneCartas(baraja);
+        modo = this.MODO_VER_CARTAS;
         borderPane.setCenter(gridPaneCartas);
-        borderPane.setRight(null);
-        atrasButton.setVisible(true);
-        añadir.setVisible(true);
+        atras.setVisible(true);
+        verCartas.setVisible(false);
+        eliminarBaraja.setVisible(false);
         textoCabecera.setText(baraja.getNombre());
     }
     
@@ -193,7 +197,7 @@ public class MenuGestorBarajasViewController implements Initializable {
         ObservableList<Node> listaNodos = vbox.getChildren();
         Label label = (Label) listaNodos.get(1);  
         if(baraja.getTamaño() != TAMAÑO_DE_BARAJA_MINIMO * 2){
-            if(mensajeDeConfirmacion())
+            if(mensajeDeConfirmacion("¿Estás seguro de que quieres eliminar la carta?"))
                 baraja.eliminarCarta(baraja.buscarCarta(label.getText()));
         }
         else mensajeError(this.MENSAJE_CARTAS_INSUFICIENTES) ;
@@ -204,11 +208,11 @@ public class MenuGestorBarajasViewController implements Initializable {
      * Mensaje para confrimar la eliminación de una carta
      * @return 
      */
-    public boolean mensajeDeConfirmacion(){
+    public boolean mensajeDeConfirmacion(String texto){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText(null);
         alert.setTitle("¿Eliminar la carta?");
-        alert.setContentText("¿Estás seguro de que quieres eliminar la carta?");
+        alert.setContentText(texto);
         Optional<ButtonType> action = alert.showAndWait();
         return action.get() == ButtonType.OK;
     }
@@ -249,44 +253,14 @@ public class MenuGestorBarajasViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         borderPane.setRight(null);
-        setElements();
-        modo = this.MODO_VER_BARAJAS;
+        modoVerBarajas();
         borderPane.setPrefSize(924, 668);
         borderPane.setBackground(new Background(new BackgroundImage(new Image(RUTA_BACKGROUND),
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.DEFAULT,
                 new BackgroundSize(100, 100, true,true, false, true))));    
-    }    
-
-    public void modoVerBarajas(){
-        createGridPaneBarajas();
-        modo = this.MODO_VER_BARAJAS;
-        borderPane.setCenter(gridPaneBarajas);
-        //borderPane.setRight(paneDerecho);
-        atrasButton.setVisible(false);
-        textoCabecera.setText("Barajas");
-        baraja = null;
-    }
-    
-    @FXML
-    private void atrasOnClick(ActionEvent event) {
-        if(modo == this.MODO_CREAR_BARAJA){
-            if(baraja.getTamaño() >= 8){
-                modoVerBarajas();
-                gestorBarajas.añadirBaraja(baraja);
-                modo = this.MODO_VER_BARAJAS;
-                barajaCreada = false;
-            }
-            else mensajeError("La baraja debe tener 4 cartas como mínimo");               
-        }
-        
-        else {
-            modoVerBarajas();
-            modo = this.MODO_VER_BARAJAS;
-        }
-    }
-
+    }       
     
     public String mensajeConCampoDeTexto(String titulo, String texto, String nombrePredefinido){
         TextInputDialog dialog = new TextInputDialog(nombrePredefinido);
@@ -312,16 +286,19 @@ public class MenuGestorBarajasViewController implements Initializable {
      */
     @FXML
     private void añadirOnClick(MouseEvent event) throws IOException {
-        if(baraja != null) {
+        if(modo == this.MODO_VER_CARTAS) {
             File archivoImagen = gestorArchivos.fileChooser(borderPane);
             String rutaDestino = gestorArchivos.getRuta_Barajas() + baraja.getNombre() 
                                  + ";" + baraja.getTematica() + "/";
             if (archivoImagen != null){                
                     String nombreCarta = mensajeConCampoDeTexto("Nombre de la carta", "Introduce el nombre de la carta", archivoImagen.getName());
-                    gestorArchivos.copyFile(archivoImagen, rutaDestino + nombreCarta);
-                    baraja.añadirCarta(new Carta(new Image("File:///" + rutaDestino + nombreCarta),nombreCarta,(baraja.getTamaño()/2) + 1));
-                    createGridPaneCartas(baraja);
-                    borderPane.setCenter(gridPaneCartas);
+                    if(baraja.buscarCarta(nombreCarta) == null){
+                        gestorArchivos.copyFile(archivoImagen, rutaDestino + nombreCarta);
+                        baraja.añadirCarta(new Carta(new Image("File:///" + rutaDestino + nombreCarta),nombreCarta,(baraja.getTamaño()/2) + 1));
+                        createGridPaneCartas(baraja);
+                        borderPane.setCenter(gridPaneCartas);
+                    }
+                    else mensajeError("Ya existe una carta con ese nombre");
             }       
         }
         else{
@@ -349,5 +326,44 @@ public class MenuGestorBarajasViewController implements Initializable {
             
         }
     }
+
+    @FXML
+    private void verCartasOnClick(MouseEvent event) {
+        modoVerCartas();
     }
+
+    @FXML
+    private void eliminarBarajaOnClick(MouseEvent event) {
+        if(mensajeDeConfirmacion("¿Estás seguro de que quieres eliminar la baraja?")){
+            String rutaBaraja = gestorArchivos.getRuta_Barajas() 
+                    + baraja.getNombre() +";" + baraja.getTematica() + "/";
+            baraja.getCartas().forEach((carta) -> {
+                gestorArchivos.deleteFile(new File(rutaBaraja + carta.getNombre()));
+            });
+            gestorArchivos.deleteFile(new File(rutaBaraja));
+            gestorBarajas.eliminarBaraja(baraja);
+            modoVerBarajas();
+        }
+    }
+
+    @FXML
+    private void atrasOnClick(MouseEvent event) {
+        if(modo == this.MODO_CREAR_BARAJA){
+            if(baraja.getTamaño() >= 8){
+                modoVerBarajas();               
+                gestorBarajas.añadirBaraja(baraja);
+                modo = this.MODO_VER_BARAJAS;
+                barajaCreada = false;
+            }
+            else mensajeError("La baraja debe tener 4 cartas como mínimo");               
+        }
+        
+        else {
+            modoVerBarajas();
+            modo = this.MODO_VER_BARAJAS;
+        }
+        verCartas.setVisible(false);
+        eliminarBaraja.setVisible(false);
+    }
+}
     

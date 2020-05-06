@@ -1,58 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="641.0" prefWidth="984.0" stylesheets="@../css/perfil.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <right>
-      <Pane fx:id="paneDerecho" prefHeight="610.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button layoutX="18.0" layoutY="218.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="164.0" text="Eliminar Baraja" />
-            <Button layoutX="19.0" layoutY="270.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="164.0" text="Cambiar Baraja Por Defecto " />
-            <VBox alignment="CENTER" layoutX="19.0" layoutY="7.0" prefHeight="158.0" prefWidth="159.0">
-               <children>
-                  <Label text="Baraja por defecto">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </Label>
-                  <ImageView fx:id="imagenBarajaPorDefecto" fitHeight="146.0" fitWidth="166.0" pickOnBounds="true" preserveRatio="true" />
-                  <Label fx:id="nombreBarajaPorDefecto" text="nombre baraja por defecto">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font></Label>
-               </children>
-            </VBox>
-         </children>
-      </Pane>
-   </right>
    <top>
-      <Pane prefHeight="62.0" prefWidth="984.0" BorderPane.alignment="CENTER">
+      <Pane prefHeight="71.0" prefWidth="984.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="textoCabecera" layoutX="316.0" layoutY="4.0" text="Barajas">
+            <Label fx:id="textoCabecera" alignment="CENTER" contentDisplay="CENTER" layoutX="458.0" layoutY="8.0" text="Barajas">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Button fx:id="atrasButton" layoutX="22.0" layoutY="10.0" mnemonicParsing="false" onAction="#atrasOnClick" text="Atras" visible="false" />
-            <ImageView fx:id="añadir" fitHeight="41.0" fitWidth="42.0" layoutX="877.0" layoutY="11.0" onMouseClicked="#añadirOnClick" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="añadir" fitHeight="42.0" fitWidth="42.0" layoutX="877.0" layoutY="11.0" onMouseClicked="#añadirOnClick" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../imagenes/ImagenesSistema/iconoAñadir.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="verCartas" fitHeight="42.0" fitWidth="42.0" layoutX="824.0" layoutY="11.0" onMouseClicked="#verCartasOnClick" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@../imagenes/ImagenesSistema/iconoVer.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="eliminarBaraja" fitHeight="42.0" fitWidth="42.0" layoutX="773.0" layoutY="13.0" onMouseClicked="#eliminarBarajaOnClick" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@../imagenes/ImagenesSistema/iconoEliminar.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="atras" fitHeight="42.0" fitWidth="42.0" layoutX="14.0" layoutY="13.0" onMouseClicked="#atrasOnClick" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@../imagenes/ImagenesSistema/iconoAtras.png" />
                </image>
             </ImageView>
          </children>
       </Pane>
    </top>
    <left>
-      <Pane prefHeight="610.0" prefWidth="40.0" BorderPane.alignment="CENTER" />
+      <Pane prefHeight="579.0" prefWidth="44.0" BorderPane.alignment="CENTER" />
    </left>
    <center>
       <Pane prefHeight="576.0" prefWidth="674.0" BorderPane.alignment="CENTER" />
    </center>
+   <right>
+      <Pane prefHeight="579.0" prefWidth="44.0" BorderPane.alignment="CENTER" />
+   </right>
 </BorderPane>

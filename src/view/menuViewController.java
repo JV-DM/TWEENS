@@ -84,7 +84,7 @@ public class MenuViewController implements Initializable {
     @FXML
     private void clickPerfil(MouseEvent event) throws IOException {         
         FXMLLoader loader = new FXMLLoader(getClass().getResource("PerfilView.fxml"));       
-        perfilViewController controller = new perfilViewController(perfil);
+        perfilViewController controller = new perfilViewController(perfil, gestorBarajas);
         loader.setController(controller);
         Scene scene = new Scene(loader.load());
         Stage stage = new Stage();
