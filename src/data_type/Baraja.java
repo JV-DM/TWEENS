@@ -48,7 +48,7 @@ public class Baraja {
         this.tamaño = tamaño;
         this.tematica = tematica;
     }
-
+    
     /**
      * Devuelve la lista de cartas
      * @return lista de cartas

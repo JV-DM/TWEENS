@@ -5,8 +5,11 @@
  */
 package view;
 
+import data_type.Baraja;
 import data_type.GestorBarajas;
 import data_type.Menu;
+import data_type.ModoJuegoNormal;
+import data_type.ModoTrios;
 import data_type.Perfil;
 import java.io.IOException;
 import java.net.URL;
@@ -74,7 +77,10 @@ public class MenuViewController implements Initializable {
     @FXML
     private void clickPartidaEstandar(MouseEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainView.fxml"));       
-        mainViewController controller = new mainViewController(gestorBarajas,perfil);
+        mainViewController controller = new mainViewController(gestorBarajas.getBarajaPorDefecto(),gestorBarajas,perfil);
+        controller.modoJuego = new ModoJuegoNormal();
+        controller.modoJuego.setPartida(controller.getPartida());
+        controller.gestor = gestorBarajas;       
         loader.setController(controller);
         Scene scene = new Scene(loader.load());
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -115,7 +121,19 @@ public class MenuViewController implements Initializable {
     }
 
     @FXML
-    private void clickModoTrios(ActionEvent event) {
+    private void clickModoTrios(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainView.fxml"));
+        Baraja barajaTrios = gestorBarajas.barajaATrios(gestorBarajas.getBarajaPorDefecto());
+        mainViewController controller = new mainViewController(barajaTrios,gestorBarajas,perfil);
+        Parent root = loader.load();
+        GestorBarajas gestor = new GestorBarajas();
+        controller.modoJuego = new ModoTrios();
+        controller.modoJuego.setPartida(controller.getPartida());
+        controller.gestor = gestor;
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
         
 }

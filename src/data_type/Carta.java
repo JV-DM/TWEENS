@@ -21,7 +21,7 @@ public class Carta {
     private boolean isFound;
 
     //id para identificar los pares de cartas
-    private final int id;
+    private int id;
     //id para identificar cada carta individualmente
     private final ObjectProperty<UUID> uuid = new SimpleObjectProperty<>();
 
@@ -82,6 +82,8 @@ public class Carta {
     public ObjectProperty<UUID> uuidProperty() {
         return uuid;
     }
+    
+    public void setId(int nuevaId){ this.id = nuevaId;}
 
     /**
      * Estaablece el id único de la carta

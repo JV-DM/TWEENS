@@ -1,7 +1,10 @@
 package view;
 
+import data_type.Baraja;
 import data_type.Carta;
+import data_type.EstrategiaModoJuego;
 import data_type.GestorBarajas;
+import data_type.ModoTrios;
 import data_type.Partida;
 import data_type.Perfil;
 import javafx.application.Platform;
@@ -63,10 +66,19 @@ public class mainViewController {
     private Map<Carta, ImageView> cardImageViewMap; 
 
     private long time;
+    EstrategiaModoJuego modoJuego;   
     
-    private Perfil perfil;
+    private Perfil perfil;   
+    private Baraja baraja;
+    
+    public mainViewController(Baraja baraja,GestorBarajas gestorBarajas, Perfil perfil){
+        this.baraja = baraja;
+        this.gestor = gestorBarajas;
+        this.perfil = perfil;
+        
+    }
 
-    /**
+     /**
      * Crea un gridPane con las cartas (mostrando la parte de atrás de la carta) con su posición random
      * (los parametros height y width en principio se usarán en los próximos sprints, creo)
      * @param cards lista de cartas de la baraja
@@ -81,8 +93,8 @@ public class mainViewController {
         playGridPane.setPadding(new Insets(10));
         List<Carta> cardList = new ArrayList<>(cards);
         Collections.shuffle(cardList);
-        for(int i = 0; i < 4; i++){
-            for(int j = 0; j < 5; j++){
+        for(int i = 0; i < (int) Math.sqrt(cardList.size()); i++){
+            for(int j = 0; j < (int) Math.sqrt(cardList.size()) +1; j++){
                 Image image = partida.getBaraja().getCaraPosterior().getImagen();
                 ImageView imageView = new ImageView(image);
                 imageView.setPreserveRatio(false);
@@ -113,7 +125,7 @@ public class mainViewController {
      */
     private EventHandler clickOnCardEventHandler(Carta carta, ImageView imageView) {
         return event ->{
-            partida.pickCard(carta);
+            modoJuego.pickCard(carta);
             //hago un nuevo hilo para que no lagee la interfaz
             new Thread(()->
             {
@@ -174,9 +186,9 @@ public class mainViewController {
                     if(!partidaAcabada){
                         time -= ONE_SECOND;
                         if(time >= 0)
-                            timeLabel.setText(formatTime(time));                           
+                            timeLabel.setText(formatTime(time));
                         if(time <= 0){
-                            partida.stopTimer();   
+                            partida.stopTimer();                           
                         }
                     }                   
                 });
@@ -242,10 +254,17 @@ public class mainViewController {
         mainBorderPane.setCenter(estadisticasPartida);       
         mainBorderPane.setBottom(repetirPartida);
     }
-    
-    public void iniciarPartida(GestorBarajas gestor){  
+
+    public Partida getPartida() {
+        return partida;
+    }
+
+    public void iniciarPartida(Baraja baraja){
         partidaAcabada = false;
-        partida = new Partida(gestor.getBarajaPorDefecto(),new Image(perfil.getRutaTableroPorDefecto()));       
+        partida = new Partida(baraja,new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
+        if(this.modoJuego == null) modoJuego = new ModoTrios();
+        modoJuego.setPartida(partida);
+
         partida.setController(this);
         setPuntuacion(0);
         setTime(TIEMPO_PARTIDA);
@@ -256,16 +275,10 @@ public class mainViewController {
     }
     
     EventHandler<MouseEvent> reinicarPartida = (MouseEvent event) -> {
-        if(partidaAcabada) {                   
-            iniciarPartida(gestor);
+        if(partidaAcabada) {            
+            iniciarPartida(baraja);
         }
     };
-
-    public mainViewController(GestorBarajas gestorBarajas, Perfil perfil){
-        this.gestor = gestorBarajas;
-        this.perfil = perfil;
-        
-    }
     
     /**
      * Método que actualiza las estadisticas del perfil del jugador
@@ -285,11 +298,11 @@ public class mainViewController {
         } catch (ParserConfigurationException ex) {
         } catch (TransformerException ex) {}
     }
-    
+
     @FXML
     private void initialize(){
-        //Esta linea se deberá eliminar posteriormente
-        iniciarPartida(gestor);
+
+        iniciarPartida(baraja);
         mainBorderPane.addEventFilter(MouseEvent.MOUSE_CLICKED, reinicarPartida);
        
         //aesthetic puntuacion

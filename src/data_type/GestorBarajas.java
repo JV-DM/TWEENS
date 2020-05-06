@@ -112,6 +112,23 @@ public class GestorBarajas {
              
     }
     
+    public Baraja barajaATrios(Baraja baraja){
+        List<Carta> cartas = new ArrayList();
+        baraja.getCartas().forEach((carta) -> {
+            cartas.addAll(multiplicarCarta(3,carta));
+        });       
+        Baraja barajaTrios = new Baraja(cartas,baraja.getCaraPosterior(),baraja.getNombre(),(baraja.getTamaño()/2)*3,baraja.getTematica());        
+        return barajaTrios;
+    }
+    
+    public List<Carta> multiplicarCarta(int i, Carta carta){
+        List<Carta> cartaMultiplicada = new ArrayList();
+        for(int j = 0; j < i; j++) {
+            cartaMultiplicada.add(carta);
+        }
+        return cartaMultiplicada;
+    }
+    
     /**
      * Carga la baraja por defecto
      */

@@ -9,7 +9,7 @@ import java.util.Timer;
 public class Partida {
     private Baraja baraja;
     private Image background;
-    private int numberOfErrors;
+    private int errorCounter;
     private List<Carta> selectedCards = new ArrayList<>();
     private boolean isFinished = false;
     private Timer timer;
@@ -17,14 +17,14 @@ public class Partida {
     private int puntuacion = 0;
     private long startTime = 0L, endTime = 0L;
     private mainViewController controller;
-    private Perfil perfil;
+    private EstrategiaModoJuego modoJuego;
     private boolean victoria = false;
+    
 
-
-    public Partida(Baraja baraja, Image background){
-        this.baraja = baraja;
-        this.background = background;
-        numberOfErrors = 0;
+    public Partida(Baraja b, Image back){
+        this.baraja = b;
+        this.background = back;
+        errorCounter = 0;
         running = false;
         timer = new Timer();
     }
@@ -41,40 +41,14 @@ public class Partida {
      * @param card
      */
     public void pickCard(Carta card){
-        if(!baraja.getCartas().contains(card) || card.isFound())
-            return;
-
-        //si la carta ya está seleccionada no la coje
-        if(getSelectedCards().stream().anyMatch(x -> x.getUuid() == card.getUuid())){
-            return;
-        }
-
-        getSelectedCards().add(card);
-
-        if(!checkCardsCombination() && getSelectedCards().size() == 2){
-            increaseErrors();
-            clearSelection();
-            puntuacion -= 3;
-        }
-        if(checkCardsCombination() && getSelectedCards().size() == 2){
-            selectedCards.stream().forEach(x -> x.foundCard());
-            clearSelection();
-            puntuacion += 10;
-
-            if(isGameCompleted()) {
-                isFinished = true;
-                stopTimer();
-            }
-        }
-        if (controller != null)
-            controller.setPuntuacion(puntuacion);
+        modoJuego.pickCard(card);
     }
 
     /**
      *
      * @return true si se ha completado el tablero
      */
-    private boolean isGameCompleted(){
+    public boolean isGameCompleted(){
         return baraja.getCartas().stream().allMatch(Carta::isFound);
     }
 
@@ -101,21 +75,10 @@ public class Partida {
      * Incrementa en 1 el número de errores
      */
     public void increaseErrors(){
-        numberOfErrors += 1;
+        errorCounter += 1;
     }
 
-    /**
-     * Comprueba si dos cartas son pareja
-     * @return true si las cartas seleccionadas son parejas
-     */
-    public boolean checkCardsCombination(){
-        if(getSelectedCards().isEmpty())
-            return false;
-
-        int firstId = getSelectedCards().get(0).getId();
-
-        return getSelectedCards().stream().allMatch(x -> x.getId() == firstId);
-    }
+    public void setPuntuacion(int n){ puntuacion = n;}
 
     /**
      * @return Devuelve la baraja de la partida
@@ -135,7 +98,7 @@ public class Partida {
     /**
      * Para el tiempo de la partida
      */
-    public void stopTimer(){
+   public void stopTimer(){
         timer.cancel();
         if(isGameCompleted()) {
             this.victoria = true;
@@ -163,10 +126,13 @@ public class Partida {
         return isFinished;
     }
     
+    /**
+     * Devuelve si la partida está ganada
+     * @return 
+     */
     public boolean isVictoria(){
         return victoria;
     }
-    
     /**
      * Empieza la partida
      */
@@ -175,5 +141,14 @@ public class Partida {
             return;
         running = true;
         startTime = System.currentTimeMillis();
+    }
+
+    public void finish(){ this.isFinished = true;}
+
+    public mainViewController getController(){
+        return controller;
+    }
+    public void setModoJuego(EstrategiaModoJuego modoJuego){
+        this.modoJuego = modoJuego;
     }
 }
