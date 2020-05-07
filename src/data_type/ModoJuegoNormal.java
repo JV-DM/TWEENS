@@ -36,12 +36,5 @@ public class ModoJuegoNormal extends EstrategiaModoJuego {
            partida.getController().setPuntuacion(partida.getPuntuacion());
     }
 
-    private boolean checkCardsCombination() {
-        if(partida.getSelectedCards().isEmpty())
-            return false;
 
-        int firstId = partida.getSelectedCards().get(0).getId();
-
-        return partida.getSelectedCards().stream().allMatch(x -> x.getId() == firstId);
-    }
 }

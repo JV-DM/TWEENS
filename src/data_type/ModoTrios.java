@@ -32,13 +32,4 @@ public class ModoTrios extends EstrategiaModoJuego {
         if (partida.getController() != null)
             partida.getController().setPuntuacion(partida.getPuntuacion());
     }
-
-    public boolean checkCardsCombination() {
-        if(partida.getSelectedCards().isEmpty())
-            return false;
-
-        int firstId = partida.getSelectedCards().get(0).getId();
-
-        return partida.getSelectedCards().stream().allMatch(x -> x.getId() == firstId);
-    }
 }

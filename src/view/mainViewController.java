@@ -70,13 +70,6 @@ public class mainViewController {
     
     private Perfil perfil;   
     private Baraja baraja;
-    
-    public mainViewController(Baraja baraja,GestorBarajas gestorBarajas, Perfil perfil){
-        this.baraja = baraja;
-        this.gestor = gestorBarajas;
-        this.perfil = perfil;
-        
-    }
 
      /**
      * Crea un gridPane con las cartas (mostrando la parte de atrás de la carta) con su posición random
@@ -125,6 +118,7 @@ public class mainViewController {
      */
     private EventHandler clickOnCardEventHandler(Carta carta, ImageView imageView) {
         return event ->{
+            //patron estrategia
             modoJuego.pickCard(carta);
             //hago un nuevo hilo para que no lagee la interfaz
             new Thread(()->
@@ -154,7 +148,6 @@ public class mainViewController {
      */
     public void setPuntuacion(int puntuacion) {
         puntuationLabel.setText("PUNTUACIÓN " + puntuacion);
-          
     }
    
     /**
@@ -276,7 +269,7 @@ public class mainViewController {
     
     EventHandler<MouseEvent> reinicarPartida = (MouseEvent event) -> {
         if(partidaAcabada) {            
-            iniciarPartida(baraja);
+            iniciarPartida(gestor.getBarajaPorDefecto());
         }
     };
     
@@ -301,8 +294,8 @@ public class mainViewController {
 
     @FXML
     private void initialize(){
-
-        iniciarPartida(baraja);
+        //iniciarPartida(baraja);
+       // gestor = new GestorBarajas();
         mainBorderPane.addEventFilter(MouseEvent.MOUSE_CLICKED, reinicarPartida);
        
         //aesthetic puntuacion
@@ -316,5 +309,9 @@ public class mainViewController {
         timeLabel.setFont(Font.font(30));
         timeLabel.setTextFill(Color.web("#FFFFFF"));
         timeLabel.setStyle("-fx-font-weight: bold");
+    }
+
+    public void setPerfil(Perfil perfil){
+        this.perfil = perfil;
     }
 }
