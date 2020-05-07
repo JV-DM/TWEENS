@@ -115,13 +115,19 @@ public class GestorBarajas {
     public Baraja barajaATrios(Baraja baraja){
         List<Carta> cartas = new ArrayList();
         baraja.getCartas().forEach((carta) -> {
-            cartas.addAll(multiplicarCarta(3,carta));
-        });       
+            boolean checkExists = false;
+            for(int i = 0 ; i < cartas.size(); i++){
+                if( carta.getId() == cartas.get(i).getId())
+                    checkExists = true;
+            }
+            if(!checkExists)
+                cartas.addAll(multiplicarCarta(3,carta));
+        });
         Baraja barajaTrios = new Baraja(cartas,baraja.getCaraPosterior(),baraja.getNombre(),(baraja.getTamaño()/2)*3,baraja.getTematica());        
         return barajaTrios;
     }
     
-    public List<Carta> multiplicarCarta(int i, Carta carta){
+    private List<Carta> multiplicarCarta(int i, Carta carta){
         List<Carta> cartaMultiplicada = new ArrayList();
         for(int j = 0; j < i; j++) {
             cartaMultiplicada.add(carta);
