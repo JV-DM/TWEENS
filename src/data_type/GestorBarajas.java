@@ -16,9 +16,10 @@ import java.util.List;
  * @author Javier
  */
 public class GestorBarajas {
-
+    
     private List<Baraja> barajas;
     private Baraja barajaPorDefecto;
+    private String nombreBarajaPorDefecto = "Baraja de animales";
     private CaraPosterior caraPosterior = new CaraPosterior(new Image("imagenes/ImagenesCaraPosterior/BacCard.png"),"CaraPosterior por defecto");
     private final static String RUTA_BARAJAS = System.getProperty("user.dir") + "/src/imagenes/Barajas/";
     private final static String RUTA_IMAGENES = "imagenes/Barajas/";
@@ -26,7 +27,6 @@ public class GestorBarajas {
     public GestorBarajas(){
         barajas = new ArrayList<>();
         barajaPorDefecto = new Baraja();
-        cargarBarajas();
     }
 
     /**
@@ -41,6 +41,7 @@ public class GestorBarajas {
      */
     public Baraja getBarajaPorDefecto(){ return barajaPorDefecto;}
 
+    public CaraPosterior getCaraPosterior(){return caraPosterior;}
     /**
      * Establece una lista de barajas
      * @param nuevaBarajas
@@ -81,32 +82,58 @@ public class GestorBarajas {
         return false;
     }
     
-    //El método será sustituido en el sprint 2
     
+    /**
+     * Método que carga las barajas que hay en la carpeta de Barajas en 
+     * src\imagenes\Barajas
+     */
     public void cargarBarajas(){
-        Baraja baraja = new Baraja();
-        File carpeta = new File(RUTA_BARAJAS);
-        String[] listaDeBarajas = carpeta.list();      
+        barajas.clear();
+        GestorArchivos gestor = new GestorArchivos();
+        File directorioBarajas = new File(RUTA_BARAJAS);
+        String[] listaDeBarajas = directorioBarajas.list();      
         for (String listaDeBaraja : listaDeBarajas) {
-            baraja = new Baraja();
+            Baraja baraja = new Baraja();
             File carpetaBaraja = new File(RUTA_BARAJAS + listaDeBaraja + "/");
             String[] listaCartasBaraja = carpetaBaraja.list();
-            for(int j = 0; j < listaCartasBaraja.length; j++)
-                baraja.añadirCarta(new Carta(new Image(RUTA_IMAGENES
-                        + listaDeBaraja + "/"
-                        + listaCartasBaraja[j]), listaCartasBaraja[j], j));
-            baraja.setNombre(listaDeBaraja);
-            baraja.setCaraPosterior(caraPosterior);
-            añadirBaraja(baraja);  
+            if(listaCartasBaraja.length != 0){
+                for(int j = 0; j < listaCartasBaraja.length; j++)
+                    baraja.añadirCarta(new Carta(new Image(RUTA_IMAGENES
+                            + listaDeBaraja + "/"
+                            + listaCartasBaraja[j]), listaCartasBaraja[j], j));
+                int index = listaDeBaraja.indexOf(";");           
+                baraja.setNombre(listaDeBaraja.substring(0,index));
+                baraja.setTematica(listaDeBaraja.substring(index + 1));
+                baraja.setCaraPosterior(caraPosterior);
+                añadirBaraja(baraja);  
+            }
+            else gestor.deleteFile(carpetaBaraja);
         }
              
+    }
+    
+    public Baraja barajaATrios(Baraja baraja){
+        List<Carta> cartas = new ArrayList();
+        baraja.getCartas().forEach((carta) -> {
+            cartas.addAll(multiplicarCarta(3,carta));
+        });       
+        Baraja barajaTrios = new Baraja(cartas,baraja.getCaraPosterior(),baraja.getNombre(),(baraja.getTamaño()/2)*3,baraja.getTematica());        
+        return barajaTrios;
+    }
+    
+    public List<Carta> multiplicarCarta(int i, Carta carta){
+        List<Carta> cartaMultiplicada = new ArrayList();
+        for(int j = 0; j < i; j++) {
+            cartaMultiplicada.add(carta);
+        }
+        return cartaMultiplicada;
     }
     
     /**
      * Carga la baraja por defecto
      */
     public void cargarBarajaPorDefecto(){
-       barajaPorDefecto = barajas.get(0);
+       barajaPorDefecto = buscarBaraja(nombreBarajaPorDefecto);
     }
 
     /**
@@ -119,5 +146,17 @@ public class GestorBarajas {
             if(barajaExistente.EqualsTo(barajaNueva)) return true;
         }
         return false;       
+    }
+    
+    /**
+     * Busca la baraja a partir de su nombre
+     * @param nombreBaraja
+     * @return 
+     */
+    public Baraja buscarBaraja(String nombreBaraja){       
+        for (Baraja baraja : barajas) 
+            if(baraja.getNombre().equals(nombreBaraja))
+                return baraja;              
+    return null;
     }
 }

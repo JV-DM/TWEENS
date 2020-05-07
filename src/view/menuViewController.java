@@ -1,54 +1,69 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package view;
 
+import data_type.Baraja;
+import data_type.GestorBarajas;
 import data_type.Menu;
+import data_type.ModoJuegoNormal;
+import data_type.ModoTrios;
+import data_type.Perfil;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.HPos;
-import javafx.geometry.Pos;
-import javafx.geometry.VPos;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
-import javafx.scene.layout.*;
-import javafx.scene.text.Font;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
 
-import java.awt.*;
-import java.io.IOException;
-
-public class menuViewController {
+/**
+ * FXML Controller class
+ *
+ * @author Javier
+ */
+public class MenuViewController implements Initializable {
 
     @FXML
     private BorderPane menuBorderPane;
+    
+    private Perfil perfil;
+    GestorBarajas gestorBarajas;
 
-    @FXML
-    private Label tittle_label;
-
-    @FXML
-    private VBox menu_Vbox;
-
-    @FXML
-    private Button partidaEstandar;
-
-
-    //se usaran en futuros modos de juego
-    @FXML
-    private Button partidaEstandar1;
-
-    @FXML
-    private Button partidaEstandar2;
-
-
-
-
-
-    @FXML
-    private void initialize() {
-
+    /**
+     * Initializes the controller class.
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        gestorBarajas = new GestorBarajas();
+        gestorBarajas.cargarBarajas();
+        gestorBarajas.cargarBarajaPorDefecto();
+        perfil = new Perfil();
+        try {
+            perfil.cargarPerfil();
+        } catch (ParserConfigurationException ex) {} catch (SAXException ex) {} catch (IOException ex) {}
+        perfil.setBarajaPorDefecto(gestorBarajas.getBarajaPorDefecto());
         Menu m = new Menu(new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
         menuBorderPane.setPrefSize(1024, 768);
         menuBorderPane.setBackground(new Background(new BackgroundImage(m.getBackground(),
@@ -56,27 +71,69 @@ public class menuViewController {
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.DEFAULT,
                 new BackgroundSize(100, 100, true,true, false, true))));
-        menu_Vbox.setAlignment(Pos.CENTER);
-
-        //se borra cuando sean necesarios
-        partidaEstandar1.setVisible(false);
-        partidaEstandar2.setVisible(false);
-
-        //titulo aesthitics
-        tittle_label.setAlignment(Pos.TOP_CENTER);
-        tittle_label.setFont(Font.font("anton"));
-        tittle_label.setFont(Font.font(150));
-        tittle_label.setStyle("-fx-font-weight: bold");
-
-    }
-
-   @FXML
-    private void clickParidaEsntandar(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("MainView.fxml"));
-        Scene scene = new Scene(root);
+        
+    }    
+    
+    @FXML
+    private void clickPartidaEstandar(MouseEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainView.fxml"));       
+        mainViewController controller = new mainViewController(gestorBarajas.getBarajaPorDefecto(),gestorBarajas,perfil);
+        controller.modoJuego = new ModoJuegoNormal();
+        controller.modoJuego.setPartida(controller.getPartida());
+        controller.gestor = gestorBarajas;       
+        loader.setController(controller);
+        Scene scene = new Scene(loader.load());
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
     }
 
+    @FXML
+    private void clickPerfil(MouseEvent event) throws IOException {         
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("PerfilView.fxml"));       
+        perfilViewController controller = new perfilViewController(perfil, gestorBarajas);
+        loader.setController(controller);
+        Scene scene = new Scene(loader.load());
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Perfil");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner((Stage) ((Node) event.getSource()).getScene().getWindow());
+        stage.getIcons().add(new Image("imagenes/ImagenesCaraPosterior/BacCard.png"));
+        stage.setResizable(false);
+        stage.showAndWait();
+    }
+
+    @FXML
+    private void gestorDeBarajasOnClick(MouseEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("MenuGestorBarajasView.fxml"));       
+        MenuGestorBarajasViewController controller = new MenuGestorBarajasViewController(gestorBarajas,perfil);
+        loader.setController(controller);
+        Scene scene = new Scene(loader.load());
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Gestor de barajas");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner((Stage) ((Node) event.getSource()).getScene().getWindow());
+        stage.getIcons().add(new Image("imagenes/ImagenesCaraPosterior/BacCard.png"));
+        stage.setResizable(false);
+        stage.showAndWait();
+    }
+
+    @FXML
+    private void clickModoTrios(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainView.fxml"));
+        Baraja barajaTrios = gestorBarajas.barajaATrios(gestorBarajas.getBarajaPorDefecto());
+        mainViewController controller = new mainViewController(barajaTrios,gestorBarajas,perfil);
+        Parent root = loader.load();
+        GestorBarajas gestor = new GestorBarajas();
+        controller.modoJuego = new ModoTrios();
+        controller.modoJuego.setPartida(controller.getPartida());
+        controller.gestor = gestor;
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+        
 }

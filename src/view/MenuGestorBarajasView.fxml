@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="641.0" prefWidth="984.0" stylesheets="@../css/perfil.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <Pane prefHeight="71.0" prefWidth="984.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="textoCabecera" alignment="CENTER" contentDisplay="CENTER" layoutX="458.0" layoutY="8.0" text="Barajas">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="añadir" fitHeight="42.0" fitWidth="42.0" layoutX="877.0" layoutY="11.0" onMouseClicked="#añadirOnClick" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../imagenes/ImagenesSistema/iconoAñadir.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="verCartas" fitHeight="42.0" fitWidth="42.0" layoutX="824.0" layoutY="11.0" onMouseClicked="#verCartasOnClick" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@../imagenes/ImagenesSistema/iconoVer.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="eliminarBaraja" fitHeight="42.0" fitWidth="42.0" layoutX="773.0" layoutY="13.0" onMouseClicked="#eliminarBarajaOnClick" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@../imagenes/ImagenesSistema/iconoEliminar.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="atras" fitHeight="42.0" fitWidth="42.0" layoutX="14.0" layoutY="13.0" onMouseClicked="#atrasOnClick" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@../imagenes/ImagenesSistema/iconoAtras.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+   </top>
+   <left>
+      <Pane prefHeight="579.0" prefWidth="44.0" BorderPane.alignment="CENTER" />
+   </left>
+   <center>
+      <Pane prefHeight="576.0" prefWidth="674.0" BorderPane.alignment="CENTER" />
+   </center>
+   <right>
+      <Pane prefHeight="579.0" prefWidth="44.0" BorderPane.alignment="CENTER" />
+   </right>
+</BorderPane>

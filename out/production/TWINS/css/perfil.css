@@ -1,0 +1,22 @@
+.label{
+	-fx-text-fill: white;
+}
+.text-field {
+    -fx-background-color: white , white , white;
+    -fx-background-insets: 0 -1 -1 -1, 0 0 0 0, 0 -1 3 -1;
+	-fx-text-fill: black;
+}
+
+.text-field:focused {
+    -fx-background-color: white , white , white;
+    -fx-background-insets: 0 -1 -1 -1, 0 0 0 0, 0 -1 3 -1;
+	-fx-text-fill: black;
+}
+.choice-box{
+	-fx-background-color: black;
+}
+.text-field {
+    -fx-background-color: transparent , transparent , transparent;
+    -fx-background-insets: 0 -1 -1 -1, 0 0 0 0, 0 -1 3 -1;
+	-fx-text-fill: white;
+}

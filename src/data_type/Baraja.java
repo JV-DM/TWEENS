@@ -5,6 +5,7 @@
  */
 package data_type;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -18,23 +19,36 @@ import java.util.List;
  * Constructor de la baraja
  */
 public class Baraja {
+    GestorArchivos gestorArchivos = new GestorArchivos();
+    
     private List<Carta> cartas;
     private String nombre;
     private CaraPosterior caraPosterior;
     private int tamaño;
+    private String tematica;   
     
     public Baraja(){
         cartas = new ArrayList<>();
     }
     
+    public Baraja(String nombre, String tematica, CaraPosterior caraPosterior){
+        cartas = new ArrayList<>();
+        this.nombre = nombre;
+        this.tematica = tematica;
+        this.caraPosterior = caraPosterior;
+        this.tamaño = 0;
+        
+    }
+    
     public Baraja(List<Carta> cartas, CaraPosterior caraPosterior, String nombre,
-            int tamaño) {
+            int tamaño, String tematica) {
         if(cartas != null) this.cartas = cartas;
         this.nombre = nombre;
         this.caraPosterior = caraPosterior;
         this.tamaño = tamaño;
+        this.tematica = tematica;
     }
-
+    
     /**
      * Devuelve la lista de cartas
      * @return lista de cartas
@@ -60,6 +74,12 @@ public class Baraja {
     public int getTamaño(){return this.tamaño;}
 
     /**
+     * DEvuelve la tematica de la baraja
+     * @return 
+     */
+    public String getTematica() {return this.tematica;}
+    
+    /**
      * Cambia la lista de cartas de la baraja
      * @param nuevaCartas nueva lista de cartas
      */
@@ -80,11 +100,17 @@ public class Baraja {
     }
 
     /**
-     * cambia el tamaño de la baraja
+     * Cambia el tamaño de la baraja
      * @param nuevoTamaño
      */
     public void setTamaño(int nuevoTamaño){this.tamaño = nuevoTamaño;}
 
+    /**
+     * Cambia la tematica de la baraja
+     * @param nuevaTematica 
+     */
+    public void setTematica(String nuevaTematica){this.tematica = nuevaTematica;}
+    
     /**
      * Añade una carta a la baraja
      * @param carta
@@ -107,13 +133,17 @@ public class Baraja {
     /**
      * Elimina una carta de la baraja
      * @param carta carta a eliminar
+     * @return 
      */
     public boolean eliminarCarta(Carta carta){
         if(carta == null) return false;
-        else if(!existeLaCarta(carta)){
-            cartas.remove(carta);
-            cartas.remove(carta);
-            tamaño-= 2;
+        else if(existeLaCarta(carta)){
+            int indice = cartas.indexOf(carta);
+            cartas.remove(indice);
+            cartas.remove(indice);
+            tamaño-= 2;           
+            gestorArchivos.deleteFile(new File(gestorArchivos.getRuta_Barajas() 
+                    + nombre + ";" + tematica + "/"+ carta.getNombre()));
             return true;
         }
         return false;
@@ -145,5 +175,17 @@ public class Baraja {
             carta.resetCarta();
         });
                
+    }
+    
+    /**
+     * Busca la carta a partir de su nombre
+     * @param nombreCarta
+     * @return 
+     */
+    public Carta buscarCarta(String nombreCarta){
+        for(Carta carta : cartas){
+            if(carta.getNombre().equals(nombreCarta)) return carta;
+        }
+        return null;
     }
 }
