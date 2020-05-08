@@ -21,12 +21,13 @@ public class ModoJuegoNormal extends EstrategiaModoJuego {
             partida.increaseErrors();
             partida.clearSelection();
             partida.setPuntuacion( partida.getPuntuacion() - 3);
+            partida.soundManager.playErrorSound();
         }
         if(checkCardsCombination() && partida.getSelectedCards().size() == 2){
             partida.getSelectedCards().stream().forEach(x -> x.foundCard());
             partida.clearSelection();
             partida.setPuntuacion(partida.getPuntuacion() + 10);
-
+            partida.soundManager.playCorrectSound();
             if(partida.isGameCompleted()) {
                 partida.finish();
                 partida.stopTimer();

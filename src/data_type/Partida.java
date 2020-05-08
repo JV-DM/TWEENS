@@ -19,6 +19,7 @@ public class Partida {
     private mainViewController controller;
     private EstrategiaModoJuego modoJuego;
     private boolean victoria = false;
+    public GestorSonido soundManager;
     
 
     public Partida(Baraja b, Image back){
@@ -27,6 +28,7 @@ public class Partida {
         errorCounter = 0;
         running = false;
         timer = new Timer();
+        soundManager = new GestorSonido();
     }
 
     /**
@@ -101,8 +103,12 @@ public class Partida {
    public void stopTimer(){
         timer.cancel();
         if(isGameCompleted()) {
+            soundManager.playVictoriaSound();
             this.victoria = true;
             baraja.resetBaraja();
+        }
+        else{
+            soundManager.playDerrotaSound();
         }
         controller.pantallaFinPartida(victoria);
         controller.actualizarPerfil();
