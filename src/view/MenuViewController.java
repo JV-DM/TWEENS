@@ -120,12 +120,16 @@ public class MenuViewController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(("MainView.fxml")));
         Parent root = loader.load();
         mainViewController controller = loader.getController();
-        GestorBarajas gestor = this.setUp(new ModoTrios(),controller);
+        GestorBarajas gestor = this.setUp(new ModoTrios(), controller);
         controller.iniciarPartida(gestor.barajaATrios(gestor.getBarajaPorDefecto()));
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
+    }
+        @FXML
+        private void clickNiveles(ActionEvent event) throws IOException {
+
     }
     private GestorBarajas setUp(EstrategiaModoJuego estrategia, mainViewController controller){
         GestorBarajas gestor = new GestorBarajas();

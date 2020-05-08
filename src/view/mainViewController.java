@@ -259,7 +259,7 @@ public class mainViewController {
         modoJuego.setPartida(partida);
 
         partida.setController(this);
-        setPuntuacion(0);
+        setPuntuacion(30);
         setTime(TIEMPO_PARTIDA);
         reiniciarTablero();     
         updateTimer();

@@ -17,7 +17,13 @@ public class ModoTrios extends EstrategiaModoJuego {
         if(!checkCardsCombination() && partida.getSelectedCards().size() == 3){
             partida.increaseErrors();
             partida.clearSelection();
-            partida.setPuntuacion( partida.getPuntuacion() - 3);
+            if (partida.getPuntuacion() >= 3) {
+                partida.setPuntuacion(partida.getPuntuacion() - 3);
+            } else {
+                partida.setPuntuacion(0);
+                partida.finish();
+                partida.stopTimer();
+            }
         }
         if(checkCardsCombination() && partida.getSelectedCards().size() == 3){
             partida.getSelectedCards().stream().forEach(x -> x.foundCard());

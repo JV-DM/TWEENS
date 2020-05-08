@@ -14,7 +14,7 @@ public class Partida {
     private boolean isFinished = false;
     private Timer timer;
     private boolean running;
-    private int puntuacion = 0;
+    private int puntuacion = 30;
     private long startTime = 0L, endTime = 0L;
     private mainViewController controller;
     private EstrategiaModoJuego modoJuego;
