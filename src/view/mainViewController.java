@@ -257,20 +257,20 @@ public class mainViewController {
         partidaAcabada = false;
         partida = Partida.getInstance(baraja,new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
         partida.setBaraja(baraja);
-        partida.setBackground(new Image(perfil.getRutaTableroPorDefecto()));
+        partida.setBackground(new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
        // gridCreation(partida.getBaraja().getCartas(), mainBorderPane.heightProperty(), mainBorderPane.widthProperty());
         if(this.modoJuego == null) modoJuego = new ModoTrios();
         modoJuego.setPartida(partida);
         playGridPane = new GridPane();
         partida.setController(this);
-        setPuntuacion(0);
+        setPuntuacion(30);
         setTime(TIEMPO_PARTIDA);
         reiniciarTablero();     
         updateTimer();
         gridCreation(partida.getBaraja().getCartas(), mainBorderPane.heightProperty(), mainBorderPane.widthProperty());
         partida.startGame();
     }
-    
+
     EventHandler<MouseEvent> reinicarPartida = (MouseEvent event) -> {
         if(partidaAcabada) {            
             iniciarPartida(partida.getBaraja());
