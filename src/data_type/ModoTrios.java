@@ -18,12 +18,13 @@ public class ModoTrios extends EstrategiaModoJuego {
             partida.increaseErrors();
             partida.clearSelection();
             partida.setPuntuacion( partida.getPuntuacion() - 3);
+            partida.soundManager.playErrorSound();
         }
         if(checkCardsCombination() && partida.getSelectedCards().size() == 3){
             partida.getSelectedCards().stream().forEach(x -> x.foundCard());
             partida.clearSelection();
             partida.setPuntuacion(partida.getPuntuacion() + 10);
-
+            partida.soundManager.playCorrectSound();
             if(partida.isGameCompleted()) {
                 partida.finish();
                 partida.stopTimer();
@@ -31,14 +32,5 @@ public class ModoTrios extends EstrategiaModoJuego {
         }
         if (partida.getController() != null)
             partida.getController().setPuntuacion(partida.getPuntuacion());
-    }
-
-    public boolean checkCardsCombination() {
-        if(partida.getSelectedCards().isEmpty())
-            return false;
-
-        int firstId = partida.getSelectedCards().get(0).getId();
-
-        return partida.getSelectedCards().stream().allMatch(x -> x.getId() == firstId);
     }
 }
