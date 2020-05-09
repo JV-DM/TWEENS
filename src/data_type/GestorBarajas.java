@@ -130,7 +130,7 @@ public class GestorBarajas {
     private List<Carta> multiplicarCarta(int i, Carta carta){
         List<Carta> cartaMultiplicada = new ArrayList();
         for(int j = 0; j < i; j++) {
-            cartaMultiplicada.add(carta);
+            cartaMultiplicada.add(new Carta(carta.getImagen(),carta.getNombre(),carta.getId()));
         }
         return cartaMultiplicada;
     }

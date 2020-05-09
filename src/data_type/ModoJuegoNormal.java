@@ -7,6 +7,7 @@ public class ModoJuegoNormal extends EstrategiaModoJuego {
     }
     @Override
     public void pickCard(Carta card){
+
         if(!partida.getBaraja().getCartas().contains(card) || card.isFound())
             return;
 
@@ -30,7 +31,7 @@ public class ModoJuegoNormal extends EstrategiaModoJuego {
             partida.soundManager.playCorrectSound();
             if(partida.isGameCompleted()) {
                 partida.finish();
-                partida.stopTimer();
+                //partida.stopTimer();
             }
         }
         if (partida.getController() != null)

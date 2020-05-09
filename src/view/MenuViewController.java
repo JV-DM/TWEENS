@@ -76,6 +76,7 @@ public class MenuViewController implements Initializable {
         Parent root = loader.load();
         mainViewController controller = loader.getController();
         GestorBarajas gestor = this.setUp(new ModoJuegoNormal(),controller);
+
         controller.iniciarPartida(gestor.getBarajaPorDefecto());
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -121,6 +122,7 @@ public class MenuViewController implements Initializable {
         Parent root = loader.load();
         mainViewController controller = loader.getController();
         GestorBarajas gestor = this.setUp(new ModoTrios(),controller);
+        controller.setTiempoPartida(90000);
         controller.iniciarPartida(gestor.barajaATrios(gestor.getBarajaPorDefecto()));
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
