@@ -9,6 +9,7 @@ public abstract class EstrategiaModoJuego {
     public void pickCard(Carta card){}
 
     protected boolean checkCardsCombination() {
+        partida.soundManager.playCartaSound();
         if(partida.getSelectedCards().isEmpty())
             return false;
 

@@ -19,14 +19,23 @@ public class Partida {
     private mainViewController controller;
     private EstrategiaModoJuego modoJuego;
     private boolean victoria = false;
-    
+    public GestorSonido soundManager;
+    private static Partida instancia;
 
-    public Partida(Baraja b, Image back){
+    private Partida(Baraja b, Image back){
         this.baraja = b;
         this.background = back;
         errorCounter = 0;
         running = false;
         timer = new Timer();
+        soundManager = new GestorSonido();
+    }
+
+    public static Partida getInstance(Baraja baraja, Image back){
+        if(instancia == null){
+            instancia = new Partida(baraja,back);
+        }
+        return instancia;
     }
 
     /**
@@ -99,10 +108,15 @@ public class Partida {
      * Para el tiempo de la partida
      */
    public void stopTimer(){
+       if(timer == null) return;
         timer.cancel();
         if(isGameCompleted()) {
+            soundManager.playVictoriaSound();
             this.victoria = true;
             baraja.resetBaraja();
+        }
+        else{
+            soundManager.playDerrotaSound();
         }
         controller.pantallaFinPartida(victoria);
         controller.actualizarPerfil();
@@ -140,6 +154,7 @@ public class Partida {
         if (isRunning())
             return;
         running = true;
+        timer = new Timer();
         startTime = System.currentTimeMillis();
     }
 
@@ -150,5 +165,19 @@ public class Partida {
     }
     public void setModoJuego(EstrategiaModoJuego modoJuego){
         this.modoJuego = modoJuego;
+    }
+    public void setBaraja(Baraja baraja){
+        this.baraja = baraja;
+    }
+    public void setBackground(Image image){
+        this.background = image;
+    }
+
+    public void restartTimer(){
+        this.timer = new Timer();
+    }
+
+    public void setTime(long tiempo){
+        controller.setTime(tiempo);
     }
 }

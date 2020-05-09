@@ -17,6 +17,7 @@ public class ModoTrios extends EstrategiaModoJuego {
         if(!checkCardsCombination() && partida.getSelectedCards().size() == 3){
             partida.increaseErrors();
             partida.clearSelection();
+            partida.soundManager.playErrorSound();
             if (partida.getPuntuacion() >= 3) {
                 partida.setPuntuacion(partida.getPuntuacion() - 3);
             } else {
@@ -29,7 +30,7 @@ public class ModoTrios extends EstrategiaModoJuego {
             partida.getSelectedCards().stream().forEach(x -> x.foundCard());
             partida.clearSelection();
             partida.setPuntuacion(partida.getPuntuacion() + 10);
-
+            partida.soundManager.playCorrectSound();
             if(partida.isGameCompleted()) {
                 partida.finish();
                 partida.stopTimer();

@@ -44,7 +44,7 @@ public class mainViewController {
 
     private final static long ONE_DAY = ONE_HOUR * 24;
 
-    private final static long TIEMPO_PARTIDA = ONE_MINUTE;
+    private long TIEMPO_PARTIDA = ONE_MINUTE;
 
     @FXML
     private BorderPane mainBorderPane;
@@ -172,6 +172,7 @@ public class mainViewController {
      * Método que actualiza el contador de tiempo a cada segundo
      */
     private void updateTimer(){
+        partida.restartTimer();
         partida.getTimer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -183,7 +184,7 @@ public class mainViewController {
                         if(time <= 0){
                             partida.stopTimer();                           
                         }
-                    }                   
+                    }
                 });
             }
         },0,1000);
@@ -204,9 +205,9 @@ public class mainViewController {
         int hours = (int) (duration % HOURS);
         int days = (int) (duration / HOURS);
         if (days == 0) {
-            res = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+            res = String.format("%02d:%02d", minutes, seconds);
         } else {
-            res = String.format("%dd%02d:%02d:%02d", days, hours, minutes, seconds);
+            res = String.format("%02d:%02d", minutes, seconds);
         }
         return res;
     }
@@ -254,10 +255,13 @@ public class mainViewController {
 
     public void iniciarPartida(Baraja baraja){
         partidaAcabada = false;
-        partida = new Partida(baraja,new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
+        partida = Partida.getInstance(baraja,new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
+        partida.setBaraja(baraja);
+        partida.setBackground(new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
+       // gridCreation(partida.getBaraja().getCartas(), mainBorderPane.heightProperty(), mainBorderPane.widthProperty());
         if(this.modoJuego == null) modoJuego = new ModoTrios();
         modoJuego.setPartida(partida);
-
+        playGridPane = new GridPane();
         partida.setController(this);
         setPuntuacion(30);
         setTime(TIEMPO_PARTIDA);
@@ -285,7 +289,7 @@ public class mainViewController {
     
     EventHandler<MouseEvent> reinicarPartida = (MouseEvent event) -> {
         if(partidaAcabada) {            
-            iniciarPartida(gestor.getBarajaPorDefecto());
+            iniciarPartida(partida.getBaraja());
         }
     };
     
@@ -326,7 +330,7 @@ public class mainViewController {
         timeLabel.setTextFill(Color.web("#FFFFFF"));
         timeLabel.setStyle("-fx-font-weight: bold");
     }
-
+    public void setTiempoPartida(long time){ TIEMPO_PARTIDA = time;}
     public void setPerfil(Perfil perfil){
         this.perfil = perfil;
     }
