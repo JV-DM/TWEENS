@@ -27,7 +27,7 @@
             <Pane prefHeight="10.0" prefWidth="1024.0" />
             <Button mnemonicParsing="false" onMouseClicked="#gestorDeBarajasOnClick" prefHeight="43.0" prefWidth="127.0" text="Gestor de Barajas" />
             <Pane prefHeight="10.0" prefWidth="1024.0" />
-            <Button fx:id="bt_niveles" mnemonicParsing="false" onMouseClicked="#clickNiveles" prefHeight="43.0" prefWidth="127.0" text="Niveles" />
+            <Button mnemonicParsing="false" onAction="#clickNiveles" onMouseClicked="#clickNiveles" prefHeight="43.0" prefWidth="127.0" text="Niveles" />
          </children>
       </VBox>
    </center>
