@@ -27,7 +27,7 @@ public class ModoTrios extends EstrategiaModoJuego {
             partida.soundManager.playCorrectSound();
             if(partida.isGameCompleted()) {
                 partida.finish();
-                //partida.stopTimer();
+                partida.stopTimer();
             }
         }
         if (partida.getController() != null)
