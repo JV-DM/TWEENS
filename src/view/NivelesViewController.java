@@ -83,8 +83,9 @@ public class NivelesViewController implements Initializable {
         Parent root = loader.load();
         mainViewController controller = loader.getController();
         controller.setPerfil(this.perfil);
+        controller.setTime(40000);
         GestorBarajas gestor = this.setUp(new ModoJuegoNormal(),controller);
-        controller.iniciarPartidaNiveles(gestor.getBarajaPorDefecto(), 40);
+        controller.iniciarPartida(gestor.getBarajaPorDefecto());
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);

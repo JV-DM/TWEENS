@@ -135,11 +135,16 @@ public class MenuViewController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(("NivelesView.fxml")));
         Parent root = loader.load();
         NivelesViewController controller = new NivelesViewController();
+        controller.setPerfil(this.perfil);
         loader.setController(controller);
         Scene scene = new Scene(root);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Stage stage = new Stage();
         stage.setScene(scene);
-        stage.show();
+        stage.setTitle("Elegir Nivel");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner((Stage) ((Node) event.getSource()).getScene().getWindow());
+        stage.setResizable(false);
+        stage.showAndWait();
     }
 
     private GestorBarajas setUp(EstrategiaModoJuego estrategia, mainViewController controller){

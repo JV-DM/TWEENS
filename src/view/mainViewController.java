@@ -271,22 +271,6 @@ public class mainViewController {
         partida.startGame();
     }
 
-
-    public void iniciarPartidaNiveles(Baraja baraja, long t){
-        partidaAcabada = false;
-        partida = new Partida(baraja,new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
-        modoJuego.setPartida(partida);
-
-        partida.setController(this);
-        setPuntuacion(30);
-        setTime(t);
-        reiniciarTablero();
-        updateTimer();
-        gridCreation(partida.getBaraja().getCartas(), mainBorderPane.heightProperty(), mainBorderPane.widthProperty());
-        partida.startGame();
-
-    }
-    
     EventHandler<MouseEvent> reinicarPartida = (MouseEvent event) -> {
         if(partidaAcabada) {            
             iniciarPartida(partida.getBaraja());
