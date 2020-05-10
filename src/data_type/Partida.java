@@ -14,13 +14,14 @@ public class Partida {
     private boolean isFinished = false;
     private Timer timer;
     private boolean running;
-    private int puntuacion = 30;
+    private int puntuacion = 0;
     private long startTime = 0L, endTime = 0L;
     private mainViewController controller;
     private EstrategiaModoJuego modoJuego;
     private boolean victoria = false;
     public GestorSonido soundManager;
     private static Partida instancia;
+    private int intentos = 10;
 
     private Partida(Baraja b, Image back){
         this.baraja = b;
@@ -68,10 +69,6 @@ public class Partida {
         selectedCards.clear();
     }
 
-    public int getPuntuacion(){
-        return puntuacion;
-    }
-
 
     /**
      * Sets the controller of the game
@@ -89,6 +86,10 @@ public class Partida {
 
     public void setPuntuacion(int n){ puntuacion = n;}
 
+    public void setErrorCounter( int n) { errorCounter = n; }
+
+    public void setIntentos(int i) { intentos = i; }
+
     /**
      * @return Devuelve la baraja de la partida
      */
@@ -103,6 +104,14 @@ public class Partida {
      * @return devuelve el timer de la partida
      */
     public Timer getTimer(){ return timer;}
+
+    public int getPuntuacion(){
+        return puntuacion;
+    }
+
+    public int getErrorCounter() { return errorCounter; }
+
+    public int getIntentos() { return intentos; }
 
     /**
      * Para el tiempo de la partida

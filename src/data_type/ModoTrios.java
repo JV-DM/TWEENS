@@ -20,7 +20,7 @@ public class ModoTrios extends EstrategiaModoJuego {
             partida.soundManager.playErrorSound();
             if (partida.getPuntuacion() >= 3) {
                 partida.setPuntuacion(partida.getPuntuacion() - 3);
-            } else {
+            } else if (partida.getErrorCounter() > partida.getIntentos()){
                 partida.setPuntuacion(0);
                 partida.finish();
                 partida.stopTimer();
@@ -36,7 +36,10 @@ public class ModoTrios extends EstrategiaModoJuego {
                 partida.stopTimer();
             }
         }
-        if (partida.getController() != null)
+        if (partida.getController() != null){
             partida.getController().setPuntuacion(partida.getPuntuacion());
+            if(partida.getErrorCounter() <= partida.getIntentos())
+                partida.getController().setIntentos(partida.getIntentos() - partida.getErrorCounter());
+        }
     }
 }

@@ -144,7 +144,7 @@ public class MenuViewController implements Initializable {
         stage.initModality(Modality.WINDOW_MODAL);
         stage.initOwner((Stage) ((Node) event.getSource()).getScene().getWindow());
         stage.setResizable(false);
-        stage.showAndWait();
+        stage.show();
     }
 
     private GestorBarajas setUp(EstrategiaModoJuego estrategia, mainViewController controller){

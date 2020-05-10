@@ -55,6 +55,9 @@ public class mainViewController {
     @FXML
     private Label puntuationLabel;
 
+    @FXML
+    private Label  intentosLabel;
+
     GridPane playGridPane;
 
     private Partida partida;
@@ -66,7 +69,9 @@ public class mainViewController {
     private Map<Carta, ImageView> cardImageViewMap; 
 
     private long time;
-    EstrategiaModoJuego modoJuego;   
+    EstrategiaModoJuego modoJuego;
+
+    private int intentos = 10;
     
     private Perfil perfil;   
     private Baraja baraja;
@@ -149,6 +154,12 @@ public class mainViewController {
     public void setPuntuacion(int puntuacion) {
         puntuationLabel.setText("PUNTUACIÓN " + puntuacion);
     }
+
+    /**
+     * Cambia el valor de la puntuación
+     * @param intentos
+     */
+    public void setIntentos(int intentos) { intentosLabel.setText("INTENTOS RESTANTES " +  intentos ); }
    
     /**
      * Cambia el valor del tiempo
@@ -263,7 +274,10 @@ public class mainViewController {
         modoJuego.setPartida(partida);
         playGridPane = new GridPane();
         partida.setController(this);
-        setPuntuacion(30);
+        partida.setErrorCounter(0);
+        partida.setIntentos(intentos);
+        setPuntuacion(0);
+        setIntentos(intentos);
         setTime(TIEMPO_PARTIDA);
         reiniciarTablero();     
         updateTimer();
@@ -306,8 +320,13 @@ public class mainViewController {
         puntuationLabel.setFont(Font.font("anton"));
         puntuationLabel.setFont(Font.font(30));
         puntuationLabel.setTextFill(Color.web("#FFFFFF"));
-        puntuationLabel.setStyle("-fx-font-weight: bold");   
-        
+        puntuationLabel.setStyle("-fx-font-weight: bold");
+
+        intentosLabel.setFont(Font.font("anton"));
+        intentosLabel.setFont(Font.font(30));
+        intentosLabel.setTextFill(Color.web("#FFFFFF"));
+        intentosLabel.setStyle("-fx-font-weight: bold");
+
         //aesthetic tiempo
         timeLabel.setFont(Font.font("anton"));
         timeLabel.setFont(Font.font(30));
@@ -318,4 +337,5 @@ public class mainViewController {
     public void setPerfil(Perfil perfil){
         this.perfil = perfil;
     }
+    public void setIntentosPartida(int i) { intentos = i; }
 }
