@@ -122,16 +122,31 @@ public class Partida {
      * Para el tiempo de la partida
      */
    public void stopTimer(){
-       if(timer == null) return;
-        timer.cancel();
-        if(isGameCompleted()) {
-            soundManager.playVictoriaSound();
-            this.victoria = true;
-            baraja.resetBaraja();
-        }
-        else{
+       if (isNivel == false){
+            if(timer == null) return;
+                 timer.cancel();
+             if(isGameCompleted()) {
+                  soundManager.playVictoriaSound();
+                  this.victoria = true;
+                  baraja.resetBaraja();
+              }
+            else{
             soundManager.playDerrotaSound();
-        }
+             }
+       }else if(isNivel && level == 2){
+           if (timer == null) return;
+           timer.cancel();
+           if(isGameCompleted() && puntuacion >= 60) {
+               soundManager.playVictoriaSound();
+               this.victoria = true;
+               baraja.resetBaraja();
+           }
+           else{
+               soundManager.playDerrotaSound();
+           }
+       }
+
+
         controller.pantallaFinPartida(victoria);
         controller.actualizarPerfil();
     }

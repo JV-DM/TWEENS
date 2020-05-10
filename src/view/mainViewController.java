@@ -309,7 +309,7 @@ public class mainViewController {
                 perfil.setDerrotas(perfil.getDerrotas() + 1);
 
         } else if (partida.isNivel() &&  partida.isVictoria()){
-            perfil.setNivelActual(partida.getLevel());
+            perfil.setNivelActual(partida.getLevel()+ 1);
         }
                     
         try {
