@@ -57,25 +57,15 @@ public class NivelesViewController implements Initializable {
     /**
      * Initializes the controller class.
      */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        borderPane.setPrefSize(829, 543);
-        borderPane.setBackground(new Background(new BackgroundImage(new Image("imagenes/ImagenesBackground/fondo-verde.jpg"),
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.DEFAULT,
-                new BackgroundSize(100, 100, true, true, false, true))));
-
-
-    }
 
     /*NivelesViewController(Perfil perfil, GestorBarajas gestorBarajas) {
         this.perfil = perfil;
         this.gestorBarajas = gestorBarajas;
     }*/
 
-
     public void setPerfil(Perfil p) {this.perfil = p; }
+
+
 
     @FXML
     private void clickNivele1(ActionEvent event) throws IOException {
@@ -84,6 +74,8 @@ public class NivelesViewController implements Initializable {
         mainViewController controller = loader.getController();
         controller.setPerfil(this.perfil);
         controller.setTiempoPartida(40000);
+        controller.setNivelPartida(true);
+        controller.setLevelPartida(1);
         GestorBarajas gestor = this.setUp(new ModoJuegoNormal(),controller);
         controller.iniciarPartida(gestor.getBarajaPorDefecto());
         Scene scene = new Scene(root);
@@ -99,6 +91,8 @@ public class NivelesViewController implements Initializable {
         Parent root = loader.load();
         mainViewController controller = loader.getController();
         controller.setPerfil(this.perfil);
+        controller.setNivelPartida(true);
+        controller.setLevelPartida(2);
         GestorBarajas gestor = this.setUp(new ModoJuegoNormal(),controller);
         controller.iniciarPartida(gestor.getBarajaPorDefecto());
         Scene scene = new Scene(root);
@@ -114,6 +108,8 @@ public class NivelesViewController implements Initializable {
         mainViewController controller = loader.getController();
         controller.setPerfil(this.perfil);
         controller.setIntentosPartida(5);
+        controller.setNivelPartida(true);
+        controller.setLevelPartida(3);
         GestorBarajas gestor = this.setUp(new ModoJuegoNormal(),controller);
         controller.iniciarPartida(gestor.getBarajaPorDefecto());
         Scene scene = new Scene(root);
@@ -121,6 +117,8 @@ public class NivelesViewController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
+
 
     private GestorBarajas setUp(EstrategiaModoJuego estrategia, mainViewController controller){
         GestorBarajas gestor = new GestorBarajas();
@@ -133,5 +131,16 @@ public class NivelesViewController implements Initializable {
         return gestor;
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        borderPane.setPrefSize(829, 543);
+        borderPane.setBackground(new Background(new BackgroundImage(new Image("imagenes/ImagenesBackground/fondo-verde.jpg"),
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT,
+                new BackgroundSize(100, 100, true, true, false, true))));
+
+
+    }
 
 }

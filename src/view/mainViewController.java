@@ -72,6 +72,8 @@ public class mainViewController {
     EstrategiaModoJuego modoJuego;
 
     private int intentos = 10;
+    private boolean isLevel = false;
+    private int lvl = 1;
     
     private Perfil perfil;   
     private Baraja baraja;
@@ -276,6 +278,8 @@ public class mainViewController {
         partida.setController(this);
         partida.setErrorCounter(0);
         partida.setIntentos(intentos);
+        partida.setNivel(isLevel);
+        partida.setLevel(lvl);
         setPuntuacion(0);
         setIntentos(intentos);
         setTime(TIEMPO_PARTIDA);
@@ -295,14 +299,18 @@ public class mainViewController {
      * Método que actualiza las estadisticas del perfil del jugador
      */
     public void actualizarPerfil(){
-        if(partida.isVictoria()) {
-            perfil.setVictorias(perfil.getVictorias() + 1);
-            perfil.setPuntuacionTotal(perfil.getPuntuacionTotal() + partida.getPuntuacion());
-            if(perfil.esPuntuacionMaxima(partida.getPuntuacion())) 
-                perfil.setPuntuacionMaxima(partida.getPuntuacion());
+        if(partida.isNivel() == false) {
+            if (partida.isVictoria()) {
+                perfil.setVictorias(perfil.getVictorias() + 1);
+                perfil.setPuntuacionTotal(perfil.getPuntuacionTotal() + partida.getPuntuacion());
+                if (perfil.esPuntuacionMaxima(partida.getPuntuacion()))
+                    perfil.setPuntuacionMaxima(partida.getPuntuacion());
+            } else
+                perfil.setDerrotas(perfil.getDerrotas() + 1);
+
+        } else if (partida.isNivel() &&  partida.isVictoria()){
+            perfil.setNivelActual(partida.getLevel());
         }
-        else 
-            perfil.setDerrotas(perfil.getDerrotas() + 1);
                     
         try {
             perfil.guardarPerfil();
@@ -334,8 +342,8 @@ public class mainViewController {
         timeLabel.setStyle("-fx-font-weight: bold");
     }
     public void setTiempoPartida(long time){ TIEMPO_PARTIDA = time;}
-    public void setPerfil(Perfil perfil){
-        this.perfil = perfil;
-    }
-    public void setIntentosPartida(int i) { intentos = i; }
+    public void setPerfil(Perfil perfil){ this.perfil = perfil; }
+    public void setIntentosPartida(int i){ intentos = i; }
+    public void setNivelPartida (boolean b){ isLevel = b; }
+    public void setLevelPartida (int n){ lvl = n; }
 }

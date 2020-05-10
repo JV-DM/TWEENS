@@ -39,6 +39,7 @@ public class Perfil {
     private int puntuacionMaxima;
     private int victorias;
     private int derrotas;
+    private int nivelActual;
     
     private final String RUTA_XML = "src\\xml\\";
     private final String NOMBRE_XML = "perfil.xml";
@@ -54,12 +55,13 @@ public class Perfil {
         puntuacionMaxima = 0;
         victorias = 0;
         derrotas = 0;
+        nivelActual = 1;
     }
     
     public Perfil(String rutaImage, Idioma language, String name, 
             Baraja barajaPorDefecto, String tableroPorDefecto,
             int puntuacionTotal, int puntuacionMaxima,
-            int victorias, int derrotas){
+            int victorias, int derrotas, int nivelActual){
         this.rutaImagen = rutaImagen;
         this.idioma = language;        
         this.nombre = name;
@@ -69,6 +71,7 @@ public class Perfil {
         this.puntuacionMaxima = puntuacionMaxima;
         this.victorias = victorias;
         this.derrotas = derrotas;
+        this.nivelActual = nivelActual;
     }
     
     /**
@@ -124,6 +127,12 @@ public class Perfil {
      * @return 
      */
     public int getDerrotas(){ return derrotas; }
+
+    /**
+     * Devuelve el nivel actual del perfil
+     * @return
+     */
+    public int getNivelActual(){ return nivelActual; }
     
     /**
      * Cambia el nombre del perfil
@@ -178,6 +187,12 @@ public class Perfil {
      * @param nuevaDerrotas 
      */
     public void setDerrotas(int nuevaDerrotas){ this.derrotas = nuevaDerrotas; }
+
+    /**
+     * Cambia el nivel actual
+     * @param nuevoNivel
+     */
+    public void setNivelActual(int nuevoNivel){ this.nivelActual = nuevoNivel; }
     
     /**
      * Comprueba si un entero es mayor que la puntuaciónMaxima
@@ -242,6 +257,7 @@ public class Perfil {
         this.puntuacionMaxima = Integer.valueOf(datos.get(5));
         this.victorias = Integer.valueOf(datos.get(6));
         this.derrotas = Integer.valueOf(datos.get(7));
+        this.nivelActual = Integer.valueOf(datos.get(8));
     }
     
     /**
@@ -302,6 +318,10 @@ public class Perfil {
         Element elementoDerrotas = documentoXML.createElement("derrotas");
         elementoDerrotas.appendChild(documentoXML.createTextNode(String.valueOf(this.derrotas)));
         perfil.appendChild(elementoDerrotas);
+
+        Element elementoNivel = documentoXML.createElement("nivelActual");
+        elementoNivel.appendChild(documentoXML.createTextNode(String.valueOf(this.nivelActual)));
+        perfil.appendChild(elementoNivel);
         
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();

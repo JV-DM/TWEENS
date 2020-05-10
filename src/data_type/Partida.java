@@ -22,6 +22,8 @@ public class Partida {
     public GestorSonido soundManager;
     private static Partida instancia;
     private int intentos = 10;
+    private boolean isNivel = false;
+    private int level;
 
     private Partida(Baraja b, Image back){
         this.baraja = b;
@@ -65,10 +67,7 @@ public class Partida {
     /**
      * limpia la lista de cartas seleccionadas
      */
-    public void clearSelection(){
-        selectedCards.clear();
-    }
-
+    public void clearSelection(){ selectedCards.clear(); }
 
     /**
      * Sets the controller of the game
@@ -89,6 +88,10 @@ public class Partida {
     public void setErrorCounter( int n) { errorCounter = n; }
 
     public void setIntentos(int i) { intentos = i; }
+
+    public void setNivel (boolean b) { isNivel = b; }
+
+    public void setLevel (int n) { level = n; }
 
     /**
      * @return Devuelve la baraja de la partida
@@ -112,6 +115,8 @@ public class Partida {
     public int getErrorCounter() { return errorCounter; }
 
     public int getIntentos() { return intentos; }
+
+    public int getLevel() { return level; }
 
     /**
      * Para el tiempo de la partida
@@ -148,6 +153,8 @@ public class Partida {
     public boolean isFinished(){
         return isFinished;
     }
+
+    public boolean isNivel(){ return isNivel; }
     
     /**
      * Devuelve si la partida está ganada
