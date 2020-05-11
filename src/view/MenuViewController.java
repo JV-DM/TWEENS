@@ -10,8 +10,7 @@ import data_type.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +18,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
@@ -30,7 +28,7 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.Window;
+
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
@@ -75,7 +73,7 @@ public class MenuViewController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(("MainView.fxml")));
         Parent root = loader.load();
         mainViewController controller = loader.getController();
-        GestorBarajas gestor = this.setUp(new ModoJuegoNormal(),controller);
+        GestorBarajas gestor = this.setUp(new SeleccionNormal(),controller);
 
         controller.iniciarPartida(gestor.getBarajaPorDefecto());
         Scene scene = new Scene(root);
@@ -121,7 +119,7 @@ public class MenuViewController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(("MainView.fxml")));
         Parent root = loader.load();
         mainViewController controller = loader.getController();
-        GestorBarajas gestor = this.setUp(new ModoTrios(),controller);
+        GestorBarajas gestor = this.setUp(new SeleccionTrios(),controller);
         controller.setTiempoPartida(90000);
         controller.iniciarPartida(gestor.barajaATrios(gestor.getBarajaPorDefecto()));
         Scene scene = new Scene(root);
@@ -129,7 +127,7 @@ public class MenuViewController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-    private GestorBarajas setUp(EstrategiaModoJuego estrategia, mainViewController controller){
+    private GestorBarajas setUp(EstrategiaSeleccion estrategia, mainViewController controller){
         GestorBarajas gestor = new GestorBarajas();
         controller.modoJuego = estrategia;
         controller.modoJuego.setPartida(controller.getPartida());

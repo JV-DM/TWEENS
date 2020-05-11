@@ -2,9 +2,10 @@ package view;
 
 import data_type.Baraja;
 import data_type.Carta;
-import data_type.EstrategiaModoJuego;
+import data_type.EstrategiaSeleccion;
 import data_type.GestorBarajas;
-import data_type.ModoTrios;
+import data_type.Puntuacion.Decorador;
+import data_type.SeleccionTrios;
 import data_type.Partida;
 import data_type.Perfil;
 import javafx.application.Platform;
@@ -20,8 +21,6 @@ import javafx.scene.layout.*;
 import javafx.scene.input.MouseEvent;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -66,7 +65,7 @@ public class mainViewController {
     private Map<Carta, ImageView> cardImageViewMap; 
 
     private long time;
-    EstrategiaModoJuego modoJuego;   
+    EstrategiaSeleccion modoJuego;
     
     private Perfil perfil;   
     private Baraja baraja;
@@ -229,7 +228,7 @@ public class mainViewController {
                 + textoFinPartida);
         estadisticasPartida.setText(""
                 + "     PUNTUACIÓN \n               "
-                + partida.getPuntuacion()+ " \n"
+                + partida.getPuntuacion().getPuntos()+ " \n"
                 + "TIEMPO DE PARTIDA \n          "
                 + formatTime(TIEMPO_PARTIDA - time));
         
@@ -259,7 +258,7 @@ public class mainViewController {
         partida.setBaraja(baraja);
         partida.setBackground(new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
        // gridCreation(partida.getBaraja().getCartas(), mainBorderPane.heightProperty(), mainBorderPane.widthProperty());
-        if(this.modoJuego == null) modoJuego = new ModoTrios();
+        if(this.modoJuego == null) modoJuego = new SeleccionTrios();
         modoJuego.setPartida(partida);
         playGridPane = new GridPane();
         partida.setController(this);
@@ -283,9 +282,9 @@ public class mainViewController {
     public void actualizarPerfil(){
         if(partida.isVictoria()) {
             perfil.setVictorias(perfil.getVictorias() + 1);
-            perfil.setPuntuacionTotal(perfil.getPuntuacionTotal() + partida.getPuntuacion());
-            if(perfil.esPuntuacionMaxima(partida.getPuntuacion())) 
-                perfil.setPuntuacionMaxima(partida.getPuntuacion());
+            perfil.setPuntuacionTotal(perfil.getPuntuacionTotal() + partida.getPuntuacion().getPuntos());
+            if(perfil.esPuntuacionMaxima(partida.getPuntuacion().getPuntos()))
+                perfil.setPuntuacionMaxima(partida.getPuntuacion().getPuntos());
         }
         else 
             perfil.setDerrotas(perfil.getDerrotas() + 1);

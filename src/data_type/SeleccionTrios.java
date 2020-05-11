@@ -1,13 +1,12 @@
 package data_type;
 
-public class ModoJuegoNormal extends EstrategiaModoJuego {
-    public ModoJuegoNormal(){};
-    public ModoJuegoNormal(Partida partida){
-        this.partida = partida;
-    }
+import data_type.Puntuacion.DecoradorParejaCorrecta;
+import data_type.Puntuacion.DecoradorParejaIncorrecta;
+
+public class SeleccionTrios extends EstrategiaSeleccion {
+
     @Override
     public void pickCard(Carta card){
-
         if(!partida.getBaraja().getCartas().contains(card) || card.isFound())
             return;
 
@@ -18,16 +17,16 @@ public class ModoJuegoNormal extends EstrategiaModoJuego {
 
         partida.getSelectedCards().add(card);
 
-        if(!checkCardsCombination() && partida.getSelectedCards().size() == 2){
+        if(!checkCardsCombination() && partida.getSelectedCards().size() == 3){
             partida.increaseErrors();
             partida.clearSelection();
-            partida.setPuntuacion( partida.getPuntuacion() - 3);
+            partida.setPuntuacion(new DecoradorParejaIncorrecta(partida.getPuntuacion()));
             partida.soundManager.playErrorSound();
         }
-        if(checkCardsCombination() && partida.getSelectedCards().size() == 2){
+        if(checkCardsCombination() && partida.getSelectedCards().size() == 3){
             partida.getSelectedCards().stream().forEach(x -> x.foundCard());
             partida.clearSelection();
-            partida.setPuntuacion(partida.getPuntuacion() + 10);
+            partida.setPuntuacion(new DecoradorParejaCorrecta(partida.getPuntuacion()));
             partida.soundManager.playCorrectSound();
             if(partida.isGameCompleted()) {
                 partida.finish();
@@ -35,8 +34,6 @@ public class ModoJuegoNormal extends EstrategiaModoJuego {
             }
         }
         if (partida.getController() != null)
-           partida.getController().setPuntuacion(partida.getPuntuacion());
+            partida.getController().setPuntuacion(partida.getPuntuacion().getPuntos());
     }
-
-
 }

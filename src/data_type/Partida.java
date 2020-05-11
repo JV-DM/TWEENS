@@ -1,5 +1,7 @@
 package data_type;
 
+import data_type.Puntuacion.Decorador;
+import data_type.Puntuacion.Puntuacion;
 import javafx.scene.image.Image;
 import view.mainViewController;
 import java.time.Duration;
@@ -14,10 +16,10 @@ public class Partida {
     private boolean isFinished = false;
     private Timer timer;
     private boolean running;
-    private int puntuacion = 0;
+    private Decorador decorador = new Puntuacion();
     private long startTime = 0L, endTime = 0L;
     private mainViewController controller;
-    private EstrategiaModoJuego modoJuego;
+    private EstrategiaSeleccion modoJuego;
     private boolean victoria = false;
     public GestorSonido soundManager;
     private static Partida instancia;
@@ -68,8 +70,8 @@ public class Partida {
         selectedCards.clear();
     }
 
-    public int getPuntuacion(){
-        return puntuacion;
+    public Decorador getPuntuacion(){
+        return decorador;
     }
 
 
@@ -87,7 +89,6 @@ public class Partida {
         errorCounter += 1;
     }
 
-    public void setPuntuacion(int n){ puntuacion = n;}
 
     /**
      * @return Devuelve la baraja de la partida
@@ -163,7 +164,7 @@ public class Partida {
     public mainViewController getController(){
         return controller;
     }
-    public void setModoJuego(EstrategiaModoJuego modoJuego){
+    public void setModoJuego(EstrategiaSeleccion modoJuego){
         this.modoJuego = modoJuego;
     }
     public void setBaraja(Baraja baraja){
@@ -179,5 +180,8 @@ public class Partida {
 
     public void setTime(long tiempo){
         controller.setTime(tiempo);
+    }
+    public void setPuntuacion(Decorador decorador){
+        this.decorador = decorador;
     }
 }
