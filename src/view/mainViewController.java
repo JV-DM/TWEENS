@@ -55,6 +55,9 @@ public class mainViewController {
     @FXML
     private Label puntuationLabel;
 
+    @FXML
+    private Label  intentosLabel;
+
     GridPane playGridPane;
 
     private Partida partida;
@@ -68,9 +71,13 @@ public class mainViewController {
     private long time;
     EstrategiaSeleccion modoJuego;
     
-    private Perfil perfil;   
+    private Perfil perfil;
+
     private Baraja baraja;
 
+    private int intentos = 10;
+    private boolean isLevel = false;
+    private int lvl = 1;
      /**
      * Crea un gridPane con las cartas (mostrando la parte de atrás de la carta) con su posición random
      * (los parametros height y width en principio se usarán en los próximos sprints, creo)
@@ -265,6 +272,11 @@ public class mainViewController {
         partida.setController(this);
         partida.setPuntuacion(new Puntuacion());
         setPuntuacion(0);
+        partida.setErrorCounter(0);
+        partida.setIntentos(intentos);
+        partida.setNivel(isLevel);
+        partida.setLevel(lvl);
+        setIntentos(intentos);
         setTime(TIEMPO_PARTIDA);
         reiniciarTablero();     
         updateTimer();
@@ -281,22 +293,25 @@ public class mainViewController {
     /**
      * Método que actualiza las estadisticas del perfil del jugador
      */
-    public void actualizarPerfil(){
-        if(partida.isVictoria()) {
-            perfil.setVictorias(perfil.getVictorias() + 1);
-            perfil.setPuntuacionTotal(perfil.getPuntuacionTotal() + partida.getPuntuacion().getPuntos());
-            if(perfil.esPuntuacionMaxima(partida.getPuntuacion().getPuntos()))
-                perfil.setPuntuacionMaxima(partida.getPuntuacion().getPuntos());
-        }
-        else 
-            perfil.setDerrotas(perfil.getDerrotas() + 1);
-                    
-        try {
-            perfil.guardarPerfil();
-        } catch (ParserConfigurationException ex) {
-        } catch (TransformerException ex) {}
-    }
+    public void actualizarPerfil() {
+        if (partida.isNivel() == false) {
+            if (partida.isVictoria()) {
+                perfil.setVictorias(perfil.getVictorias() + 1);
+                perfil.setPuntuacionTotal(perfil.getPuntuacionTotal() + partida.getPuntuacion().getPuntos());
+                if (perfil.esPuntuacionMaxima(partida.getPuntuacion().getPuntos()))
+                    perfil.setPuntuacionMaxima(partida.getPuntuacion().getPuntos());
+            } else
+                perfil.setDerrotas(perfil.getDerrotas() + 1);
 
+        } else if (partida.isNivel() && partida.isVictoria()) {
+            perfil.setNivelActual(partida.getLevel());
+            try {
+                perfil.guardarPerfil();
+            } catch (ParserConfigurationException ex) {
+            } catch (TransformerException ex) {
+            }
+        }
+    }
     @FXML
     private void initialize(){
         //iniciarPartida(baraja);
@@ -307,8 +322,13 @@ public class mainViewController {
         puntuationLabel.setFont(Font.font("anton"));
         puntuationLabel.setFont(Font.font(30));
         puntuationLabel.setTextFill(Color.web("#FFFFFF"));
-        puntuationLabel.setStyle("-fx-font-weight: bold");   
-        
+        puntuationLabel.setStyle("-fx-font-weight: bold");
+
+        intentosLabel.setFont(Font.font("anton"));
+        intentosLabel.setFont(Font.font(30));
+        intentosLabel.setTextFill(Color.web("#FFFFFF"));
+        intentosLabel.setStyle("-fx-font-weight: bold");
+
         //aesthetic tiempo
         timeLabel.setFont(Font.font("anton"));
         timeLabel.setFont(Font.font(30));
@@ -316,7 +336,14 @@ public class mainViewController {
         timeLabel.setStyle("-fx-font-weight: bold");
     }
     public void setTiempoPartida(long time){ TIEMPO_PARTIDA = time;}
-    public void setPerfil(Perfil perfil){
-        this.perfil = perfil;
-    }
+    public void setPerfil(Perfil perfil){ this.perfil = perfil; }
+    public void setIntentosPartida(int i){ intentos = i; }
+    public void setNivelPartida (boolean isLevel){ this.isLevel = isLevel; }
+    public void setLevelPartida (int n){ lvl = n; }
+
+    /**
+     * Cambia el valor de la puntuación
+     * @param intentos
+     */
+    public void setIntentos(int intentos) { this.intentos = intentos; }
 }

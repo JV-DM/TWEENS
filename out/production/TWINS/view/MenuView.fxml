@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="menuBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MenuViewController">
+<BorderPane fx:id="menuBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MenuViewController">
    <top>
       <Label text="TWINS" textFill="WHITE" BorderPane.alignment="CENTER">
          <font>
@@ -26,6 +26,8 @@
             <Button mnemonicParsing="false" onMouseClicked="#clickPerfil" prefHeight="41.0" prefWidth="129.0" text="Perfil" />
             <Pane prefHeight="10.0" prefWidth="1024.0" />
             <Button mnemonicParsing="false" onMouseClicked="#gestorDeBarajasOnClick" prefHeight="43.0" prefWidth="127.0" text="Gestor de Barajas" />
+            <Pane prefHeight="10.0" prefWidth="1024.0" />
+            <Button mnemonicParsing="false" onAction="#clickNiveles" onMouseClicked="#clickNiveles" prefHeight="43.0" prefWidth="127.0" text="Niveles" />
          </children>
       </VBox>
    </center>

@@ -23,6 +23,9 @@ public class Partida {
     private boolean victoria = false;
     public GestorSonido soundManager;
     private static Partida instancia;
+    private int intentos;
+    private boolean isNivel = false;
+    private int level;
 
     private Partida(Baraja b, Image back){
         this.baraja = b;
@@ -109,18 +112,33 @@ public class Partida {
      * Para el tiempo de la partida
      */
    public void stopTimer(){
-       if(timer == null) return;
-        timer.cancel();
-        if(isGameCompleted()) {
-            soundManager.playVictoriaSound();
-            this.victoria = true;
-            baraja.resetBaraja();
-        }
-        else{
-            soundManager.playDerrotaSound();
-        }
-        controller.pantallaFinPartida(victoria);
-        controller.actualizarPerfil();
+       if (isNivel == false){
+           if(timer == null) return;
+           timer.cancel();
+           if(isGameCompleted()) {
+               soundManager.playVictoriaSound();
+               this.victoria = true;
+               baraja.resetBaraja();
+           }
+           else{
+               soundManager.playDerrotaSound();
+           }
+       }else if(isNivel && level == 2){
+           if (timer == null) return;
+           timer.cancel();
+           if(isGameCompleted() && getPuntuacion().getPuntos() >= 60) {
+               soundManager.playVictoriaSound();
+               this.victoria = true;
+               baraja.resetBaraja();
+           }
+           else{
+               soundManager.playDerrotaSound();
+           }
+       }
+
+
+       controller.pantallaFinPartida(victoria);
+       controller.actualizarPerfil();
     }
 
     /**
@@ -184,4 +202,25 @@ public class Partida {
     public void setPuntuacion(Decorador decorador){
         this.decorador = decorador;
     }
+
+    public void setErrorCounter(int errors){
+        errorCounter = errors;
+    }
+    public int getErrorCounter(){
+        return errorCounter;
+    }
+    public void setIntentos(int intentos){
+        this.intentos = intentos;
+    }
+    public int getIntentos(){
+        return intentos;
+    }
+
+    public void setNivel (boolean b) { isNivel = b; }
+
+    public void setLevel (int n) { level = n; }
+
+    public int getLevel() { return level; }
+
+    public boolean isNivel(){ return isNivel; }
 }

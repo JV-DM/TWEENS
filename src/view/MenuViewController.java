@@ -10,7 +10,6 @@ import data_type.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -73,9 +72,9 @@ public class MenuViewController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(("MainView.fxml")));
         Parent root = loader.load();
         mainViewController controller = loader.getController();
-        GestorBarajas gestor = this.setUp(new SeleccionNormal(),controller);
+        this.setUp(new SeleccionNormal(),controller);
 
-        controller.iniciarPartida(gestor.getBarajaPorDefecto());
+        controller.iniciarPartida(gestorBarajas.getBarajaPorDefecto());
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
@@ -111,7 +110,7 @@ public class MenuViewController implements Initializable {
         stage.initOwner((Stage) ((Node) event.getSource()).getScene().getWindow());
         stage.getIcons().add(new Image("imagenes/ImagenesCaraPosterior/BacCard.png"));
         stage.setResizable(false);
-        stage.showAndWait();
+        stage.show();
     }
 
     @FXML
@@ -119,15 +118,30 @@ public class MenuViewController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(("MainView.fxml")));
         Parent root = loader.load();
         mainViewController controller = loader.getController();
-        GestorBarajas gestor = this.setUp(new SeleccionTrios(),controller);
+        this.setUp(new SeleccionTrios(),controller);
         controller.setTiempoPartida(90000);
-        controller.iniciarPartida(gestor.barajaATrios(gestor.getBarajaPorDefecto()));
+        controller.iniciarPartida(gestorBarajas.barajaATrios(gestorBarajas.getBarajaPorDefecto()));
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
     }
-    private GestorBarajas setUp(EstrategiaSeleccion estrategia, mainViewController controller){
+    @FXML
+    public void clickNiveles(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(("NivelesView.fxml")));
+        NivelesViewController controller = new NivelesViewController(perfil,gestorBarajas);
+        controller.setPerfil(this.perfil);
+        loader.setController(controller);
+        Scene scene = new Scene(loader.load());
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Elegir Nivel");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner((Stage) ((Node) actionEvent.getSource()).getScene().getWindow());
+        stage.setResizable(false);
+        stage.show();
+    }
+    private void setUp(EstrategiaSeleccion estrategia, mainViewController controller){
         GestorBarajas gestor = new GestorBarajas();
         controller.modoJuego = estrategia;
         controller.modoJuego.setPartida(controller.getPartida());
@@ -135,6 +149,6 @@ public class MenuViewController implements Initializable {
         controller.gestor.cargarBarajas();
         controller.gestor.cargarBarajaPorDefecto();
         controller.setPerfil(this.perfil);
-        return gestor;
     }
+
 }

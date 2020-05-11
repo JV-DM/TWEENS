@@ -2,6 +2,7 @@ package data_type;
 
 import data_type.Puntuacion.DecoradorParejaCorrecta;
 import data_type.Puntuacion.DecoradorParejaIncorrecta;
+import data_type.Puntuacion.Puntuacion;
 
 public class SeleccionTrios extends EstrategiaSeleccion {
 
@@ -20,8 +21,14 @@ public class SeleccionTrios extends EstrategiaSeleccion {
         if(!checkCardsCombination() && partida.getSelectedCards().size() == 3){
             partida.increaseErrors();
             partida.clearSelection();
-            partida.setPuntuacion(new DecoradorParejaIncorrecta(partida.getPuntuacion()));
             partida.soundManager.playErrorSound();
+            if(partida.getPuntuacion().getPuntos() >= 3)
+                partida.setPuntuacion(new DecoradorParejaIncorrecta(partida.getPuntuacion()));
+            else if( partida.getErrorCounter() > partida.getIntentos()) {
+                partida.setPuntuacion(new Puntuacion());
+                partida.finish();
+                partida.stopTimer();
+            }
         }
         if(checkCardsCombination() && partida.getSelectedCards().size() == 3){
             partida.getSelectedCards().stream().forEach(x -> x.foundCard());
