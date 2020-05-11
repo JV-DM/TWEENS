@@ -193,6 +193,7 @@ public class Partida {
     }
 
     public void restartTimer(){
+        timer.cancel();
         this.timer = new Timer();
     }
 

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="550.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <Pane prefHeight="80.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="182.0" layoutY="14.0" text="HISTORIAL" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font></Label>
+         </children>
+      </Pane>
+   </top>
+   <left>
+      <Pane prefHeight="235.0" prefWidth="77.0" BorderPane.alignment="CENTER" />
+   </left>
+   <center>
+      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="38.0" layoutY="8.0" text="PARTIDA" textFill="#f5f5f5">
+               <font>
+                  <Font name="System Bold Italic" size="18.0" />
+               </font></Label>
+            <Label layoutX="322.0" layoutY="8.0" text="FECHA" textFill="#f5f5f5">
+               <font>
+                  <Font name="System Bold Italic" size="18.0" />
+               </font></Label>
+            <Label fx:id="perfil1" layoutX="53.0" layoutY="42.0" text="Partida 1" textFill="WHITE" />
+            <Label fx:id="perfil2" layoutX="53.0" layoutY="79.0" text="Partida 2" textFill="WHITE" />
+            <Label fx:id="perfil3" layoutX="53.0" layoutY="118.0" text="Partida 3" textFill="WHITE" />
+            <Label fx:id="perfil4" layoutX="53.0" layoutY="157.0" text="Partida 4" textFill="WHITE" />
+            <Label fx:id="perfil5" layoutX="53.0" layoutY="194.0" text="Partida 5" textFill="WHITE" />
+            <Label fx:id="fecha1" layoutX="326.0" layoutY="42.0" textFill="WHITE" />
+            <Label fx:id="fecha2" layoutX="326.0" layoutY="79.0" textFill="WHITE" />
+            <Label fx:id="fecha3" layoutX="326.0" layoutY="118.0" textFill="WHITE" />
+            <Label fx:id="fecha4" layoutX="326.0" layoutY="157.0" textFill="WHITE" />
+            <Label fx:id="fecha5" layoutX="326.0" layoutY="194.0" textFill="WHITE" />
+         </children>
+      </Pane>
+   </center>
+   <right>
+      <Pane prefHeight="235.0" prefWidth="77.0" BorderPane.alignment="CENTER" />
+   </right>
+   <bottom>
+      <Pane prefHeight="49.0" prefWidth="550.0" BorderPane.alignment="CENTER" />
+   </bottom>
+</BorderPane>
