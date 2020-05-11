@@ -32,11 +32,11 @@ import org.xml.sax.SAXException;
  */
 public class Historial {
     SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-    private Date fecha1;
-    private Date fecha2;
-    private Date fecha3;
-    private Date fecha4;
-    private Date fecha5;
+    private String fecha1;
+    private String fecha2;
+    private String fecha3;
+    private String fecha4;
+    private String fecha5;
     
     private final String RUTA_XML = "src\\xml\\";
     private final String NOMBRE_XML = "historial.xml";
@@ -45,17 +45,17 @@ public class Historial {
         
     }
     
-    public Date getFecha1(){ return fecha1; }
-    public Date getFecha2(){ return fecha2; }
-    public Date getFecha3(){ return fecha3; }
-    public Date getFecha4(){ return fecha4; }
-    public Date getFecha5(){ return fecha5; }
+    public String getFecha1(){ return fecha1; }
+    public String getFecha2(){ return fecha2; }
+    public String getFecha3(){ return fecha3; }
+    public String getFecha4(){ return fecha4; }
+    public String getFecha5(){ return fecha5; }
     
-    public void setFecha1(Date nuevaFecha1){ fecha1 = nuevaFecha1; }
-    public void setFecha2(Date nuevaFecha2){ fecha2 = nuevaFecha2; }
-    public void setFecha3(Date nuevaFecha3){ fecha3 = nuevaFecha3; }
-    public void setFecha4(Date nuevaFecha4){ fecha4 = nuevaFecha4; }
-    public void setFecha5(Date nuevaFecha5){ fecha5 = nuevaFecha5; }
+    public void setFecha1(String nuevaFecha1){ fecha1 = nuevaFecha1; }
+    public void setFecha2(String nuevaFecha2){ fecha2 = nuevaFecha2; }
+    public void setFecha3(String nuevaFecha3){ fecha3 = nuevaFecha3; }
+    public void setFecha4(String nuevaFecha4){ fecha4 = nuevaFecha4; }
+    public void setFecha5(String nuevaFecha5){ fecha5 = nuevaFecha5; }
     
     public void cargarHistorial() throws ParserConfigurationException, SAXException, IOException, ParseException{       
         File ficheroXML = new File(this.RUTA_XML + this.NOMBRE_XML);       
@@ -88,26 +88,13 @@ public class Historial {
         }
 
     private void extraerDatos(List<String> listaDeElementos) throws ParseException {
+
+            this.fecha1 =listaDeElementos.get(0);       
+            this.fecha2 = listaDeElementos.get(1);      
+            this.fecha3 = listaDeElementos.get(2);
+            this.fecha4 = listaDeElementos.get(3);
+            this.fecha5 = listaDeElementos.get(4);
         
-        if(!listaDeElementos.get(0).equals("null")){
-            this.fecha1 = formato.parse(listaDeElementos.get(0));
-        }
-        
-        if(!listaDeElementos.get(1).equals("null")){        
-            this.fecha2 = formato.parse(listaDeElementos.get(1));
-        }
-        
-        if(!listaDeElementos.get(2).equals("null")){
-            this.fecha3 = formato.parse(listaDeElementos.get(2));
-        }
-        
-        if(!listaDeElementos.get(3).equals("null")){
-            this.fecha4 = formato.parse(listaDeElementos.get(3));
-        }
-        
-        if(!listaDeElementos.get(4).equals("null")){
-            this.fecha5 = formato.parse(listaDeElementos.get(4));
-        }
 
 
     }
@@ -153,7 +140,7 @@ public class Historial {
         
     }
     
-    public void actualizarFecha(Date fecha){
+    public void actualizarFecha(String fecha){
         fecha5 = fecha4;
         fecha4 = fecha3;
         fecha3 = fecha2;

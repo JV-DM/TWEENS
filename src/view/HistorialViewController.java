@@ -57,23 +57,23 @@ public class HistorialViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        if(historial.getFecha1() != null){
+        if(!historial.getFecha1().equals("null")){
             fecha1.setText(String.valueOf(historial.getFecha1()));
         }
         
-        if(historial.getFecha2() != null){
+        if(!historial.getFecha2().equals("null")){
             fecha2.setText(String.valueOf(historial.getFecha2()));
         }
         
-        if(historial.getFecha3() != null){
+        if(!historial.getFecha3().equals("null")){
             fecha3.setText(String.valueOf(historial.getFecha3()));
         }
         
-        if(historial.getFecha4() != null){
+        if(!historial.getFecha4().equals("null")){
             fecha4.setText(String.valueOf(historial.getFecha4()));
         }
         
-        if(historial.getFecha5() != null){
+        if(!historial.getFecha5().equals("null")){
             fecha5.setText(String.valueOf(historial.getFecha5()));
         }
 

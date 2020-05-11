@@ -11,6 +11,7 @@ import data_type.SeleccionTrios;
 import data_type.Partida;
 import data_type.Perfil;
 import data_type.Ranking;
+import java.text.SimpleDateFormat;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.event.EventHandler;
@@ -315,7 +316,7 @@ public class mainViewController {
         
         ranking.actualizarRanking(partida.getPuntuacion().getPuntos());       
         Date fechaActual = new Date();
-        historial.actualizarFecha(fechaActual);
+        historial.actualizarFecha(new SimpleDateFormat("dd-MM-yyyy").format(fechaActual));
         try {
                 perfil.guardarPerfil();
                 ranking.guardarRanking();
