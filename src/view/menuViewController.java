@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -48,6 +49,7 @@ public class MenuViewController implements Initializable {
     GestorBarajas gestorBarajas;
     private Ranking ranking;
     private Historial historial;
+    private Baraja baraja;
 
     /**
      * Initializes the controller class.
@@ -56,7 +58,7 @@ public class MenuViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         gestorBarajas = new GestorBarajas();
         gestorBarajas.cargarBarajas();
-        gestorBarajas.cargarBarajaPorDefecto();
+        baraja = gestorBarajas.buscarBaraja("Baraja de animales");
         perfil = new Perfil();
         ranking = new Ranking();
         historial = new Historial();
@@ -82,8 +84,9 @@ public class MenuViewController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(("MainView.fxml")));
         Parent root = loader.load();
         mainViewController controller = loader.getController();
+        elegirBaraja(event);
         this.setUp(new SeleccionNormal(),controller);
-        controller.iniciarPartida(gestorBarajas.getBarajaPorDefecto());
+        controller.iniciarPartida(baraja);
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
@@ -127,9 +130,10 @@ public class MenuViewController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(("MainView.fxml")));
         Parent root = loader.load();
         mainViewController controller = loader.getController();
+        elegirBaraja(event);
         this.setUp(new SeleccionTrios(),controller);
         controller.setTiempoPartida(90000);
-        controller.iniciarPartida(gestorBarajas.barajaATrios(gestorBarajas.getBarajaPorDefecto()));
+        controller.iniciarPartida(gestorBarajas.barajaATrios(baraja));
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
@@ -182,6 +186,25 @@ public class MenuViewController implements Initializable {
     private void clickHistorial(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("historialView.fxml"));
         HistorialViewController controller = new HistorialViewController(historial);
+        loader.setController(controller);
+        Scene scene = new Scene(loader.load());
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Historial");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner((Stage) ((Node) event.getSource()).getScene().getWindow());
+        stage.getIcons().add(new Image("imagenes/ImagenesCaraPosterior/BacCard.png"));
+        stage.setResizable(false);
+        stage.showAndWait();
+    }
+    
+    public void barajaSeleccionada(Baraja baraja){
+        this.baraja = baraja;
+    }
+    
+    public void elegirBaraja(Event event) throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("SeleccionarBarajaView.fxml"));
+        SeleccionarBarajaViewController controller = new SeleccionarBarajaViewController(gestorBarajas,this);
         loader.setController(controller);
         Scene scene = new Scene(loader.load());
         Stage stage = new Stage();
