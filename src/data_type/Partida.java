@@ -1,5 +1,7 @@
 package data_type;
 
+import data_type.Puntuacion.Decorador;
+import data_type.Puntuacion.Puntuacion;
 import javafx.scene.image.Image;
 import view.mainViewController;
 import java.time.Duration;
@@ -14,13 +16,16 @@ public class Partida {
     private boolean isFinished = false;
     private Timer timer;
     private boolean running;
-    private int puntuacion = 30;
+    private Decorador decorador = new Puntuacion();
     private long startTime = 0L, endTime = 0L;
     private mainViewController controller;
-    private EstrategiaModoJuego modoJuego;
+    private EstrategiaSeleccion modoJuego;
     private boolean victoria = false;
     public GestorSonido soundManager;
     private static Partida instancia;
+    private int intentos;
+    private boolean isNivel = false;
+    private int level;
 
     private Partida(Baraja b, Image back){
         this.baraja = b;
@@ -68,8 +73,8 @@ public class Partida {
         selectedCards.clear();
     }
 
-    public int getPuntuacion(){
-        return puntuacion;
+    public Decorador getPuntuacion(){
+        return decorador;
     }
 
 
@@ -87,7 +92,6 @@ public class Partida {
         errorCounter += 1;
     }
 
-    public void setPuntuacion(int n){ puntuacion = n;}
 
     /**
      * @return Devuelve la baraja de la partida
@@ -108,18 +112,33 @@ public class Partida {
      * Para el tiempo de la partida
      */
    public void stopTimer(){
-       if(timer == null) return;
-        timer.cancel();
-        if(isGameCompleted()) {
-            soundManager.playVictoriaSound();
-            this.victoria = true;
-            baraja.resetBaraja();
-        }
-        else{
-            soundManager.playDerrotaSound();
-        }
-        controller.pantallaFinPartida(victoria);
-        controller.actualizarPerfil();
+       if (isNivel == false){
+           if(timer == null) return;
+           timer.cancel();
+           if(isGameCompleted()) {
+               soundManager.playVictoriaSound();
+               this.victoria = true;
+               baraja.resetBaraja();
+           }
+           else{
+               soundManager.playDerrotaSound();
+           }
+       }else if(isNivel && level == 2){
+           if (timer == null) return;
+           timer.cancel();
+           if(isGameCompleted() && getPuntuacion().getPuntos() >= 60) {
+               soundManager.playVictoriaSound();
+               this.victoria = true;
+               baraja.resetBaraja();
+           }
+           else{
+               soundManager.playDerrotaSound();
+           }
+       }
+
+
+       controller.pantallaFinPartida(victoria);
+       controller.actualizarPerfil();
     }
 
     /**
@@ -163,7 +182,7 @@ public class Partida {
     public mainViewController getController(){
         return controller;
     }
-    public void setModoJuego(EstrategiaModoJuego modoJuego){
+    public void setModoJuego(EstrategiaSeleccion modoJuego){
         this.modoJuego = modoJuego;
     }
     public void setBaraja(Baraja baraja){
@@ -180,4 +199,28 @@ public class Partida {
     public void setTime(long tiempo){
         controller.setTime(tiempo);
     }
+    public void setPuntuacion(Decorador decorador){
+        this.decorador = decorador;
+    }
+
+    public void setErrorCounter(int errors){
+        errorCounter = errors;
+    }
+    public int getErrorCounter(){
+        return errorCounter;
+    }
+    public void setIntentos(int intentos){
+        this.intentos = intentos;
+    }
+    public int getIntentos(){
+        return intentos;
+    }
+
+    public void setNivel (boolean b) { isNivel = b; }
+
+    public void setLevel (int n) { level = n; }
+
+    public int getLevel() { return level; }
+
+    public boolean isNivel(){ return isNivel; }
 }

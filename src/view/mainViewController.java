@@ -2,9 +2,11 @@ package view;
 
 import data_type.Baraja;
 import data_type.Carta;
-import data_type.EstrategiaModoJuego;
+import data_type.EstrategiaSeleccion;
 import data_type.GestorBarajas;
-import data_type.ModoTrios;
+import data_type.Puntuacion.Decorador;
+import data_type.Puntuacion.Puntuacion;
+import data_type.SeleccionTrios;
 import data_type.Partida;
 import data_type.Perfil;
 import javafx.application.Platform;
@@ -20,8 +22,6 @@ import javafx.scene.layout.*;
 import javafx.scene.input.MouseEvent;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -55,6 +55,9 @@ public class mainViewController {
     @FXML
     private Label puntuationLabel;
 
+    @FXML
+    private Label  intentosLabel;
+
     GridPane playGridPane;
 
     private Partida partida;
@@ -66,11 +69,15 @@ public class mainViewController {
     private Map<Carta, ImageView> cardImageViewMap; 
 
     private long time;
-    EstrategiaModoJuego modoJuego;   
+    EstrategiaSeleccion modoJuego;
     
-    private Perfil perfil;   
+    private Perfil perfil;
+
     private Baraja baraja;
 
+    private int intentos = 10;
+    private boolean isLevel = false;
+    private int lvl = 1;
      /**
      * Crea un gridPane con las cartas (mostrando la parte de atrás de la carta) con su posición random
      * (los parametros height y width en principio se usarán en los próximos sprints, creo)
@@ -229,7 +236,7 @@ public class mainViewController {
                 + textoFinPartida);
         estadisticasPartida.setText(""
                 + "     PUNTUACIÓN \n               "
-                + partida.getPuntuacion()+ " \n"
+                + partida.getPuntuacion().getPuntos()+ " \n"
                 + "TIEMPO DE PARTIDA \n          "
                 + formatTime(TIEMPO_PARTIDA - time));
         
@@ -255,22 +262,28 @@ public class mainViewController {
 
     public void iniciarPartida(Baraja baraja){
         partidaAcabada = false;
-        partida = Partida.getInstance(baraja,new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
+        partida = Partida.getInstance(baraja,new Image(perfil.getRutaTableroPorDefecto()));
         partida.setBaraja(baraja);
-        partida.setBackground(new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
+        partida.setBackground(new Image(perfil.getRutaTableroPorDefecto()));
        // gridCreation(partida.getBaraja().getCartas(), mainBorderPane.heightProperty(), mainBorderPane.widthProperty());
-        if(this.modoJuego == null) modoJuego = new ModoTrios();
+        if(this.modoJuego == null) modoJuego = new SeleccionTrios();
         modoJuego.setPartida(partida);
         playGridPane = new GridPane();
         partida.setController(this);
-        setPuntuacion(30);
+        partida.setPuntuacion(new Puntuacion());
+        setPuntuacion(0);
+        partida.setErrorCounter(0);
+        partida.setIntentos(intentos);
+        partida.setNivel(isLevel);
+        partida.setLevel(lvl);
+        setIntentos(intentos);
         setTime(TIEMPO_PARTIDA);
         reiniciarTablero();     
         updateTimer();
         gridCreation(partida.getBaraja().getCartas(), mainBorderPane.heightProperty(), mainBorderPane.widthProperty());
         partida.startGame();
     }
-
+    
     EventHandler<MouseEvent> reinicarPartida = (MouseEvent event) -> {
         if(partidaAcabada) {            
             iniciarPartida(partida.getBaraja());
@@ -280,22 +293,25 @@ public class mainViewController {
     /**
      * Método que actualiza las estadisticas del perfil del jugador
      */
-    public void actualizarPerfil(){
-        if(partida.isVictoria()) {
-            perfil.setVictorias(perfil.getVictorias() + 1);
-            perfil.setPuntuacionTotal(perfil.getPuntuacionTotal() + partida.getPuntuacion());
-            if(perfil.esPuntuacionMaxima(partida.getPuntuacion())) 
-                perfil.setPuntuacionMaxima(partida.getPuntuacion());
-        }
-        else 
-            perfil.setDerrotas(perfil.getDerrotas() + 1);
-                    
-        try {
-            perfil.guardarPerfil();
-        } catch (ParserConfigurationException ex) {
-        } catch (TransformerException ex) {}
-    }
+    public void actualizarPerfil() {
+        if (partida.isNivel() == false) {
+            if (partida.isVictoria()) {
+                perfil.setVictorias(perfil.getVictorias() + 1);
+                perfil.setPuntuacionTotal(perfil.getPuntuacionTotal() + partida.getPuntuacion().getPuntos());
+                if (perfil.esPuntuacionMaxima(partida.getPuntuacion().getPuntos()))
+                    perfil.setPuntuacionMaxima(partida.getPuntuacion().getPuntos());
+            } else
+                perfil.setDerrotas(perfil.getDerrotas() + 1);
 
+        } else if (partida.isNivel() && partida.isVictoria()) {
+            perfil.setNivelActual(partida.getLevel());
+            try {
+                perfil.guardarPerfil();
+            } catch (ParserConfigurationException ex) {
+            } catch (TransformerException ex) {
+            }
+        }
+    }
     @FXML
     private void initialize(){
         //iniciarPartida(baraja);
@@ -306,8 +322,13 @@ public class mainViewController {
         puntuationLabel.setFont(Font.font("anton"));
         puntuationLabel.setFont(Font.font(30));
         puntuationLabel.setTextFill(Color.web("#FFFFFF"));
-        puntuationLabel.setStyle("-fx-font-weight: bold");   
-        
+        puntuationLabel.setStyle("-fx-font-weight: bold");
+
+        intentosLabel.setFont(Font.font("anton"));
+        intentosLabel.setFont(Font.font(30));
+        intentosLabel.setTextFill(Color.web("#FFFFFF"));
+        intentosLabel.setStyle("-fx-font-weight: bold");
+
         //aesthetic tiempo
         timeLabel.setFont(Font.font("anton"));
         timeLabel.setFont(Font.font(30));
@@ -315,7 +336,14 @@ public class mainViewController {
         timeLabel.setStyle("-fx-font-weight: bold");
     }
     public void setTiempoPartida(long time){ TIEMPO_PARTIDA = time;}
-    public void setPerfil(Perfil perfil){
-        this.perfil = perfil;
-    }
+    public void setPerfil(Perfil perfil){ this.perfil = perfil; }
+    public void setIntentosPartida(int i){ intentos = i; }
+    public void setNivelPartida (boolean isLevel){ this.isLevel = isLevel; }
+    public void setLevelPartida (int n){ lvl = n; }
+
+    /**
+     * Cambia el valor de la puntuación
+     * @param intentos
+     */
+    public void setIntentos(int intentos) { this.intentos = intentos; }
 }

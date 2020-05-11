@@ -1,10 +1,10 @@
 package data_type;
 
-public abstract class EstrategiaModoJuego {
+public abstract class EstrategiaSeleccion {
     Partida partida;
-    public EstrategiaModoJuego(Partida partida){}
+    public EstrategiaSeleccion(Partida partida){}
 
-    public EstrategiaModoJuego() {}
+    public EstrategiaSeleccion() {}
 
     public void pickCard(Carta card){}
 

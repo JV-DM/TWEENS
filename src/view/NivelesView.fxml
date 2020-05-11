@@ -1,17 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
 <BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
-   <center>
-      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="bt_nivel1" mnemonicParsing="false" onAction="#clickNivele1" text="nivel1" />
-            <Button fx:id="bt_nivel2" mnemonicParsing="false" onAction="#clickNivele2" text="nivel2" />
-            <Button fx:id="bt_nivel3" mnemonicParsing="false" onAction="#clickNivele3" text="nivel3" />
-         </children>
-      </HBox>
-   </center>
+    <center>
+        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                    <children>
+                        <ImageView fx:id="imageNivel1" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                            <VBox.margin>
+                                <Insets bottom="15.0" />
+                            </VBox.margin></ImageView>
+                        <Button fx:id="bt_nivel1" mnemonicParsing="false" onAction="#clickNivele1" prefWidth="200.0" text="nivel 1">
+                            <VBox.margin>
+                                <Insets bottom="20.0" left="25.0" right="25.0" />
+                            </VBox.margin>
+                        </Button>
+                        <Label fx:id="labelNivel1" alignment="CENTER" prefWidth="200.0" text="Label">
+                            <VBox.margin>
+                                <Insets />
+                            </VBox.margin>
+                        </Label>
+                    </children>
+                    <HBox.margin>
+                        <Insets left="50.0" right="100.0" />
+                    </HBox.margin>
+                </VBox>
+                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                    <children>
+                        <ImageView fx:id="imageNivel2" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                            <VBox.margin>
+                                <Insets bottom="15.0" />
+                            </VBox.margin></ImageView>
+                        <Button fx:id="bt_nivel2" mnemonicParsing="false" onAction="#clickNivele2" prefWidth="200.0" text="nivel 2">
+                            <VBox.margin>
+                                <Insets bottom="20.0" left="25.0" right="25.0" />
+                            </VBox.margin>
+                        </Button>
+                        <Label fx:id="labelNivel2" alignment="CENTER" prefWidth="200.0" text="Label" />
+                    </children>
+                    <HBox.margin>
+                        <Insets />
+                    </HBox.margin>
+                </VBox>
+                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                    <children>
+                        <ImageView fx:id="imageNivel3" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                            <VBox.margin>
+                                <Insets bottom="15.0" />
+                            </VBox.margin></ImageView>
+                        <Button fx:id="bt_nivel3" mnemonicParsing="false" onAction="#clickNivele3" prefWidth="200.0" text="nivel 3">
+                            <VBox.margin>
+                                <Insets bottom="20.0" left="25.0" right="25.0" />
+                            </VBox.margin>
+                        </Button>
+                        <Label fx:id="labelNivel3" alignment="CENTER" prefWidth="200.0" text="Label" />
+                    </children>
+                    <HBox.margin>
+                        <Insets left="100.0" right="50.0" />
+                    </HBox.margin>
+                </VBox>
+            </children>
+            <BorderPane.margin>
+                <Insets left="50.0" right="50.0" />
+            </BorderPane.margin>
+        </HBox>
+    </center>
 </BorderPane>
