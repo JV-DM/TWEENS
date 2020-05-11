@@ -4,6 +4,6 @@ public class Puntuacion implements Decorador {
 
     @Override
     public int getPuntos() {
-        return 0;
+        return decorador.getPuntos();
     }
 }

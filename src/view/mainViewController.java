@@ -5,6 +5,7 @@ import data_type.Carta;
 import data_type.EstrategiaSeleccion;
 import data_type.GestorBarajas;
 import data_type.Puntuacion.Decorador;
+import data_type.Puntuacion.Puntuacion;
 import data_type.SeleccionTrios;
 import data_type.Partida;
 import data_type.Perfil;
@@ -262,6 +263,7 @@ public class mainViewController {
         modoJuego.setPartida(partida);
         playGridPane = new GridPane();
         partida.setController(this);
+        partida.setPuntuacion(new Puntuacion());
         setPuntuacion(0);
         setTime(TIEMPO_PARTIDA);
         reiniciarTablero();     

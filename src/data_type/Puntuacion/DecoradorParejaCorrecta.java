@@ -1,6 +1,6 @@
 package data_type.Puntuacion;
 
-public class DecoradorParejaCorrecta implements Decorador{
+public class DecoradorParejaCorrecta extends DecoradorConcreto{
     Decorador decorador;
     public DecoradorParejaCorrecta(Decorador decorador){
         this.decorador = decorador;
