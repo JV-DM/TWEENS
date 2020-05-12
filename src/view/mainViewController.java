@@ -1,14 +1,8 @@
 package view;
 
-import data_type.Baraja;
-import data_type.Carta;
-import data_type.EstrategiaSeleccion;
-import data_type.GestorBarajas;
+import data_type.*;
 import data_type.Puntuacion.Decorador;
 import data_type.Puntuacion.Puntuacion;
-import data_type.SeleccionTrios;
-import data_type.Partida;
-import data_type.Perfil;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.event.EventHandler;
@@ -21,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.input.MouseEvent;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javafx.scene.paint.Color;
@@ -45,6 +40,8 @@ public class mainViewController {
     private final static long ONE_DAY = ONE_HOUR * 24;
 
     private long TIEMPO_PARTIDA = ONE_MINUTE;
+
+    private final static int INTENTOS = 10;
 
     @FXML
     private BorderPane mainBorderPane;
@@ -74,6 +71,8 @@ public class mainViewController {
     private Perfil perfil;
 
     private Baraja baraja;
+    private Ranking ranking;
+    private Historial historial;
 
     private int intentos = 10;
     private boolean isLevel = false;
@@ -179,7 +178,7 @@ public class mainViewController {
      * Método que actualiza el contador de tiempo a cada segundo
      */
     private void updateTimer(){
-        partida.restartTimer();
+        //partida.restartTimer();
         partida.getTimer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -250,7 +249,9 @@ public class mainViewController {
         
         finPartida.setTextFill(Paint.valueOf("white"));
         finPartida.setFont(Font.font(70));
-        
+
+        partida.restartTimer();
+
         mainBorderPane.setTop(finPartida);
         mainBorderPane.setCenter(estadisticasPartida);       
         mainBorderPane.setBottom(repetirPartida);
@@ -273,6 +274,7 @@ public class mainViewController {
         partida.setPuntuacion(new Puntuacion());
         setPuntuacion(0);
         partida.setErrorCounter(0);
+        intentos = INTENTOS;
         partida.setIntentos(intentos);
         partida.setNivel(isLevel);
         partida.setLevel(lvl);
@@ -305,12 +307,20 @@ public class mainViewController {
 
         } else if (partida.isNivel() && partida.isVictoria()) {
             perfil.setNivelActual(partida.getLevel());
-            try {
-                perfil.guardarPerfil();
-            } catch (ParserConfigurationException ex) {
-            } catch (TransformerException ex) {
-            }
         }
+
+        ranking.actualizarRanking(partida.getPuntuacion().getPuntos());
+        Date fechaActual = new Date();
+        historial.actualizarFecha(new SimpleDateFormat("dd-MM-yyyy").format(fechaActual));
+
+        try {
+            perfil.guardarPerfil();
+            ranking.guardarRanking();
+            historial.guardarHistorial();
+        } catch (ParserConfigurationException ex) {
+        } catch (TransformerException ex) {
+        }
+
     }
     @FXML
     private void initialize(){
@@ -340,10 +350,12 @@ public class mainViewController {
     public void setIntentosPartida(int i){ intentos = i; }
     public void setNivelPartida (boolean isLevel){ this.isLevel = isLevel; }
     public void setLevelPartida (int n){ lvl = n; }
+    public void setRanking(Ranking ranking){this.ranking = ranking;}
+    public void setHistorial(Historial historial){this.historial = historial;}
 
     /**
      * Cambia el valor de la puntuación
      * @param intentos
      */
-    public void setIntentos(int intentos) { this.intentos = intentos; }
+    public void setIntentos(int intentos) { intentosLabel.setText("INTENTOS RESTANTES " +  intentos ); }
 }

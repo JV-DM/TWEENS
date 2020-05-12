@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="550.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <bottom>
+        <Pane prefHeight="85.0" prefWidth="600.0" BorderPane.alignment="CENTER" />
+    </bottom>
+    <top>
+        <Pane prefHeight="80.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label layoutX="182.0" layoutY="14.0" text="RANKINGS" textFill="#fcfcfc">
+                    <font>
+                        <Font name="System Bold" size="36.0" />
+                    </font></Label>
+            </children>
+        </Pane>
+    </top>
+    <left>
+        <Pane prefHeight="235.0" prefWidth="77.0" BorderPane.alignment="CENTER" />
+    </left>
+    <right>
+        <Pane prefHeight="235.0" prefWidth="77.0" BorderPane.alignment="CENTER" />
+    </right>
+    <center>
+        <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label fx:id="perfil1" layoutX="34.0" layoutY="69.0" text="PRIMERO" textFill="WHITE" />
+                <Label fx:id="perfil2" layoutX="34.0" layoutY="119.0" text="SEGUNDO" textFill="WHITE" />
+                <Label fx:id="perfil3" layoutX="34.0" layoutY="169.0" text="TERCERO" textFill="WHITE" />
+                <Label fx:id="puntuacion1" layoutX="293.0" layoutY="69.0" text="Puntuación" textFill="WHITE" />
+                <Label fx:id="puntuacion2" layoutX="293.0" layoutY="119.0" text="Puntuación" textFill="WHITE" />
+                <Label fx:id="puntuacion3" layoutX="293.0" layoutY="169.0" text="Puntuación" textFill="WHITE" />
+                <Label layoutX="34.0" layoutY="14.0" text="POSICIÓN" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold Italic" size="18.0" />
+                    </font></Label>
+                <Label layoutX="240.0" layoutY="14.0" text="PUNTUACIÓN" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold Italic" size="18.0" />
+                    </font></Label>
+                <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="99.0" layoutY="64.0">
+                    <image>
+                        <Image url="@../imagenes/ImagenesSistema/Ranking/medalla1.png" />
+                    </image>
+                </ImageView>
+                <ImageView fitHeight="29.0" fitWidth="29.0" layoutX="99.0" layoutY="113.0">
+                    <image>
+                        <Image url="@../imagenes/ImagenesSistema/Ranking/medalla2.png" />
+                    </image>
+                </ImageView>
+                <ImageView fitHeight="29.0" fitWidth="29.0" layoutX="99.0" layoutY="163.0">
+                    <image>
+                        <Image url="@../imagenes/ImagenesSistema/Ranking/medalla3.png" />
+                    </image>
+                </ImageView>
+            </children>
+        </Pane>
+    </center>
+</BorderPane>
