@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -36,6 +37,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.xml.sax.SAXException;
 
@@ -74,6 +76,7 @@ public class NivelesViewController implements Initializable {
 
     private Perfil perfil;
     private GestorBarajas gestorBarajas;
+    Baraja baraja;
 
 
     /**
@@ -102,7 +105,7 @@ public class NivelesViewController implements Initializable {
         controller.setNivelPartida(true);
         controller.setLevelPartida(1);
         this.setUp(new SeleccionNormal(),controller);
-        controller.iniciarPartida(gestorBarajas.getBarajaPorDefecto());
+        controller.iniciarPartida(baraja);
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
@@ -120,7 +123,7 @@ public class NivelesViewController implements Initializable {
         controller.setNivelPartida(true);
         controller.setLevelPartida(2);
         this.setUp(new SeleccionNormal(),controller);
-        controller.iniciarPartida(gestorBarajas.getBarajaPorDefecto());
+        controller.iniciarPartida(baraja);
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
@@ -138,7 +141,7 @@ public class NivelesViewController implements Initializable {
         controller.setNivelPartida(true);
         controller.setLevelPartida(3);
         this.setUp(new SeleccionNormal(),controller);
-        controller.iniciarPartida(gestorBarajas.getBarajaPorDefecto());
+        controller.iniciarPartida(baraja);
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
@@ -155,8 +158,8 @@ public class NivelesViewController implements Initializable {
         controller.gestor = gestor;
         controller.gestor.cargarBarajas();
         controller.gestor.cargarBarajaPorDefecto();
+        baraja = gestor.getBarajaPorDefecto();
         controller.setPerfil(this.perfil);
-
     }
 
     @Override
@@ -200,10 +203,9 @@ public class NivelesViewController implements Initializable {
             bt_nivel3.setDisable(true);
             labelNivel3.setVisible(false);
             imageNivel2.setImage(new Image("imagenes/ImagenesNivel/nivel2.png"));
-        }else if(perfil.getNivelActual() <= 3){
+        }else if(perfil.getNivelActual() >= 3){
             imageNivel3.setImage(new Image("imagenes/ImagenesNivel/nivel3.png"));
             imageNivel2.setImage(new Image("imagenes/ImagenesNivel/nivel2.png"));
         }
     }
-
 }

@@ -112,7 +112,7 @@ public class Partida {
      * Para el tiempo de la partida
      */
    public void stopTimer(){
-       if (isNivel == false){
+       if (isNivel == false || level == 1 || level == 3){
            if(timer == null) return;
            timer.cancel();
            if(isGameCompleted()) {

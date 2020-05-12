@@ -188,7 +188,7 @@ public class mainViewController {
                         if(time >= 0)
                             timeLabel.setText(formatTime(time));
                         if(time <= 0){
-                            partida.stopTimer();                           
+                            partida.stopTimer();
                         }
                     }
                     if(partidaAcabada)
@@ -220,18 +220,18 @@ public class mainViewController {
         return res;
     }
 
-    public void pantallaFinPartida(boolean victoria){    
-        partidaAcabada = true;       
+    public void pantallaFinPartida(boolean victoria){
+        partidaAcabada = true;
         Label finPartida = new Label();
         Label estadisticasPartida = new Label();
         Label repetirPartida = new Label();
-        
+
         String textoFinPartida = "  DERROTA";
         String textoRepetirPartida = "   Haz clic para repetir partida";
-        
-        if(victoria) 
+
+        if(victoria)
             textoFinPartida = "¡VICTORIA!";
-        
+
         finPartida.setText(""
                 +"\n\n                 "
                 + textoFinPartida);
@@ -240,29 +240,29 @@ public class mainViewController {
                 + partida.getPuntuacion().getPuntos()+ " \n"
                 + "TIEMPO DE PARTIDA \n          "
                 + formatTime(TIEMPO_PARTIDA - time));
-        
+
         repetirPartida.setText(textoRepetirPartida);
 
         repetirPartida.setTextFill(Paint.valueOf("white"));
         repetirPartida.setFont(Font.font(20));
-        
+
         estadisticasPartida.setTextFill(Paint.valueOf("white"));
         estadisticasPartida.setFont(Font.font(30));
-        
+
         finPartida.setTextFill(Paint.valueOf("white"));
         finPartida.setFont(Font.font(70));
 
         partida.restartTimer();
 
+        mainBorderPane.setCenter(estadisticasPartida);
         mainBorderPane.setTop(finPartida);
-        mainBorderPane.setCenter(estadisticasPartida);       
         mainBorderPane.setBottom(repetirPartida);
     }
+
 
     public Partida getPartida() {
         return partida;
     }
-
     public void iniciarPartida(Baraja baraja){
         partidaAcabada = false;
         partida = Partida.getInstance(baraja,new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
@@ -274,9 +274,11 @@ public class mainViewController {
         playGridPane = new GridPane();
         partida.setController(this);
         partida.setPuntuacion(new Puntuacion());
+        intentos = INTENTOS;
+        if(isLevel && lvl == 3)
+            intentos = 5;
         setPuntuacion(0);
         partida.setErrorCounter(0);
-        intentos = INTENTOS;
         partida.setIntentos(intentos);
         partida.setNivel(isLevel);
         partida.setLevel(lvl);
@@ -310,15 +312,17 @@ public class mainViewController {
         } else if (partida.isNivel() && partida.isVictoria()) {
             perfil.setNivelActual(partida.getLevel());
         }
-
-        ranking.actualizarRanking(partida.getPuntuacion().getPuntos());
-        Date fechaActual = new Date();
-        historial.actualizarFecha(new SimpleDateFormat("dd-MM-yyyy").format(fechaActual));
-
+        if(!partida.isNivel()) {
+            ranking.actualizarRanking(partida.getPuntuacion().getPuntos());
+            Date fechaActual = new Date();
+            historial.actualizarFecha(new SimpleDateFormat("dd-MM-yyyy").format(fechaActual));
+        }
         try {
             perfil.guardarPerfil();
-            ranking.guardarRanking();
-            historial.guardarHistorial();
+            if(!partida.isNivel()){
+                ranking.guardarRanking();
+                historial.guardarHistorial();
+            }
         } catch (ParserConfigurationException ex) {
         } catch (TransformerException ex) {
         }
@@ -328,6 +332,7 @@ public class mainViewController {
     private void initialize(){
         //iniciarPartida(baraja);
        // gestor = new GestorBarajas();
+//        this.baraja = gestor.getBarajaPorDefecto();
         mainBorderPane.addEventFilter(MouseEvent.MOUSE_CLICKED, reinicarPartida);
        
         //aesthetic puntuacion

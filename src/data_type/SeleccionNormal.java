@@ -47,6 +47,4 @@ public class SeleccionNormal extends EstrategiaSeleccion {
             if(partida.getErrorCounter() <= partida.getIntentos())
             partida.getController().setIntentos(partida.getIntentos() - partida.getErrorCounter());
     }
-
-
 }
