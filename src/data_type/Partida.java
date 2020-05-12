@@ -135,12 +135,11 @@ public class Partida {
                soundManager.playDerrotaSound();
            }
        }
-
-
+       //timer = new Timer();
+       //timer.cancel();
        controller.pantallaFinPartida(victoria);
        controller.actualizarPerfil();
     }
-
     /**
      * @return Duración de la partida
      */

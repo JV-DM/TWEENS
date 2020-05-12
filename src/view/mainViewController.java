@@ -191,6 +191,8 @@ public class mainViewController {
                             partida.stopTimer();                           
                         }
                     }
+                    if(partidaAcabada)
+                        this.cancel();
                 });
             }
         },0,1000);
