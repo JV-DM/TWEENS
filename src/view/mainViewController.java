@@ -21,6 +21,8 @@ import java.util.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
+
+import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
@@ -39,7 +41,7 @@ public class mainViewController {
 
     private final static long ONE_DAY = ONE_HOUR * 24;
 
-    private long TIEMPO_PARTIDA = ONE_MINUTE;
+    private long TIEMPO_PARTIDA = 5;
 
     private final static int INTENTOS = 10;
 
@@ -223,46 +225,50 @@ public class mainViewController {
     public void pantallaFinPartida(boolean victoria){
         partidaAcabada = true;
         Label finPartida = new Label();
-        Label estadisticasPartida = new Label();
+        Label timeText = new Label();
+        Label puntuacionLabel = new Label();
         Label repetirPartida = new Label();
-
-        String textoFinPartida = "  DERROTA";
+        Label puntuacion = new Label();
+        Label tiempo = new Label();
+        String textoFinPartida = "DERROTA";
         String textoRepetirPartida = "   Haz clic para repetir partida";
 
         if(victoria)
             textoFinPartida = "¡VICTORIA!";
 
-        finPartida.setText(""
-                +"\n\n                 "
-                + textoFinPartida);
-        estadisticasPartida.setText(""
-                + "     PUNTUACIÓN \n               "
-                + partida.getPuntuacion().getPuntos()+ " \n"
-                + "TIEMPO DE PARTIDA \n          "
-                + formatTime(TIEMPO_PARTIDA - time));
-
+        finPartida.setText(textoFinPartida);
+        timeText.setText("TIEMPO");
+        puntuacionLabel.setText("PUNTUACIÓN");
+        puntuacion.setText(Integer.toString(partida.getPuntuacion().getPuntos()));
+        tiempo.setText(formatTime(TIEMPO_PARTIDA - time));
         repetirPartida.setText(textoRepetirPartida);
 
         repetirPartida.setTextFill(Paint.valueOf("white"));
         repetirPartida.setFont(Font.font(20));
 
-        estadisticasPartida.setTextFill(Paint.valueOf("white"));
-        estadisticasPartida.setFont(Font.font(30));
+        timeText.setTextFill(Paint.valueOf("white"));
+        timeText.setFont(Font.font(30));
 
         finPartida.setTextFill(Paint.valueOf("white"));
         finPartida.setFont(Font.font(70));
 
         partida.restartTimer();
-
-        mainBorderPane.setCenter(estadisticasPartida);
+        mainBorderPane.setCenter(puntuacionLabel);
+        mainBorderPane.setCenter(puntuacion);
+        mainBorderPane.setCenter(timeText);
+        mainBorderPane.setCenter(tiempo);
         mainBorderPane.setTop(finPartida);
         mainBorderPane.setBottom(repetirPartida);
+        mainBorderPane.setAlignment(timeText, Pos.CENTER);
+        mainBorderPane.setAlignment(finPartida, Pos.TOP_CENTER);
+        mainBorderPane.setAlignment(repetirPartida, Pos.BOTTOM_LEFT);
     }
 
 
     public Partida getPartida() {
         return partida;
     }
+
     public void iniciarPartida(Baraja baraja){
         partidaAcabada = false;
         partida = Partida.getInstance(baraja,new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
@@ -309,8 +315,8 @@ public class mainViewController {
             } else
                 perfil.setDerrotas(perfil.getDerrotas() + 1);
 
-        } else if (partida.isNivel() && partida.isVictoria()) {
-            perfil.setNivelActual(partida.getLevel());
+        } else if (partida.isNivel() && partida.isVictoria() && partida.getLevel() <= 3) {
+            perfil.setNivelActual(partida.getLevel() + 1);
         }
         if(!partida.isNivel()) {
             ranking.actualizarRanking(partida.getPuntuacion().getPuntos());

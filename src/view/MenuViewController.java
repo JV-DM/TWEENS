@@ -86,7 +86,7 @@ public class MenuViewController implements Initializable {
         this.setUp(new SeleccionNormal(),controller);
 
         controller.iniciarPartida(baraja);
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root,menuBorderPane.getWidth(), menuBorderPane.getHeight());
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
@@ -141,16 +141,17 @@ public class MenuViewController implements Initializable {
     @FXML
     public void clickNiveles(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(("NivelesView.fxml")));
-        NivelesViewController controller = new NivelesViewController(perfil,gestorBarajas);
+        Parent root = loader.load();
+        NivelesViewController controller = loader.getController();
         controller.setPerfil(this.perfil);
-        loader.setController(controller);
-        Scene scene = new Scene(loader.load());
-        Stage stage = new Stage();
+        controller.setGestorBarajas(gestorBarajas);
+        Scene scene = new Scene(root,1024, 768);
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.setTitle("Elegir Nivel");
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner((Stage) ((Node) actionEvent.getSource()).getScene().getWindow());
-        stage.setResizable(false);
+        //stage.initModality(Modality.WINDOW_MODAL);
+        //stage.initOwner((Stage) ((Node) actionEvent.getSource()).getScene().getWindow());
+        //stage.setResizable(false);
         stage.show();
     }
     private void setUp(EstrategiaSeleccion estrategia, mainViewController controller){

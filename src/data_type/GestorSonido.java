@@ -12,31 +12,51 @@ public class GestorSonido {
     private String SONIDO_CARTA = "src/sound/sonido_carta.mp3";
     private String SONIDO_DERROTA = "src/sound/sonido_derrota.mp3";
     private String SONIDO_VICTORIA = "src/sound/sonido_victoria.mp3";
-
+    MediaPlayer mediaPlayer;
     public GestorSonido(){}
     public void playCorrectSound(){
-        Media sound = new Media(new File(SONIDO_CORRECTO).toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.play();
+        new Thread(()->
+        {
+            Media sound = new Media(new File(SONIDO_CORRECTO).toURI().toString());
+            mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.setVolume(0.5);
+            mediaPlayer.play();
+        }).start();
     }
     public void playErrorSound(){
-        Media sound = new Media(new File(SONIDO_INCORRECTO).toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.play();
+        new Thread(()->
+        {
+            Media sound = new Media(new File(SONIDO_INCORRECTO).toURI().toString());
+            mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.setVolume(0.5);
+            mediaPlayer.play();
+        }).start();
     }
     public void playCartaSound(){
-        Media sound = new Media(new File(SONIDO_CARTA).toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.play();
+        new Thread(()->
+        {
+            Media sound = new Media(new File(SONIDO_CARTA).toURI().toString());
+            mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.setVolume(0.5);
+            mediaPlayer.play();
+        }).start();
     }
     public void playDerrotaSound(){
-        Media sound = new Media(new File(SONIDO_DERROTA).toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.play();
+        new Thread(()->
+        {
+            Media sound = new Media(new File(SONIDO_DERROTA).toURI().toString());
+            mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.setVolume(0.5);
+            mediaPlayer.play();
+        }).start();
     }
     public void playVictoriaSound(){
-        Media sound = new Media(new File(SONIDO_VICTORIA).toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.play();
+        new Thread(()->
+        {
+            Media sound = new Media(new File(SONIDO_VICTORIA).toURI().toString());
+            mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.setVolume(0.5);
+            mediaPlayer.play();
+        }).start();
     }
 }

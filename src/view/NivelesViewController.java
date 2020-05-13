@@ -12,6 +12,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -89,11 +91,7 @@ public class NivelesViewController implements Initializable {
     }*/
 
     public void setPerfil(Perfil p) {this.perfil = p; }
-
-    public NivelesViewController(Perfil perfil, GestorBarajas gestorBarajas) {
-        this.perfil = perfil;
-        this.gestorBarajas = gestorBarajas;
-    }
+    public void setGestorBarajas(GestorBarajas gestorBarajas) {this.gestorBarajas = gestorBarajas;}
 
     @FXML
     private void clickNivele1(ActionEvent event) throws IOException {
@@ -192,20 +190,21 @@ public class NivelesViewController implements Initializable {
         imageNivel1.setImage(new Image("imagenes/ImagenesNivel/nivel1.png"));
         imageNivel2.setImage(new Image("imagenes/ImagenesNivel/candado.png"));
         imageNivel3.setImage(new Image("imagenes/ImagenesNivel/candado.png"));
+        Platform.runLater(() ->{
+            if(perfil.getNivelActual() == 1){
+                bt_nivel2.setDisable(true);
+                bt_nivel3.setDisable(true);
+                labelNivel3.setVisible(false);
+                labelNivel2.setVisible(false);
+            }else if(perfil.getNivelActual() == 2){
+                bt_nivel3.setDisable(true);
+                labelNivel3.setVisible(false);
+                imageNivel2.setImage(new Image("imagenes/ImagenesNivel/nivel2.png"));
+            }else if(perfil.getNivelActual() >= 3){
+                imageNivel3.setImage(new Image("imagenes/ImagenesNivel/nivel3.png"));
+                imageNivel2.setImage(new Image("imagenes/ImagenesNivel/nivel2.png"));
+            }
+        });
 
-
-        if(perfil.getNivelActual() == 1){
-            bt_nivel2.setDisable(true);
-            bt_nivel3.setDisable(true);
-            labelNivel3.setVisible(false);
-            labelNivel2.setVisible(false);
-        }else if(perfil.getNivelActual() == 2){
-            bt_nivel3.setDisable(true);
-            labelNivel3.setVisible(false);
-            imageNivel2.setImage(new Image("imagenes/ImagenesNivel/nivel2.png"));
-        }else if(perfil.getNivelActual() >= 3){
-            imageNivel3.setImage(new Image("imagenes/ImagenesNivel/nivel3.png"));
-            imageNivel2.setImage(new Image("imagenes/ImagenesNivel/nivel2.png"));
-        }
     }
 }
