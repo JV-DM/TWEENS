@@ -224,6 +224,7 @@ public class mainViewController {
 
     public void pantallaFinPartida(boolean victoria){
         partidaAcabada = true;
+        VBox vBox;
         Label finPartida = new Label();
         Label timeText = new Label();
         Label puntuacionLabel = new Label();
@@ -231,7 +232,7 @@ public class mainViewController {
         Label puntuacion = new Label();
         Label tiempo = new Label();
         String textoFinPartida = "DERROTA";
-        String textoRepetirPartida = "   Haz clic para repetir partida";
+        String textoRepetirPartida = "Haz clic para repetir partida";
 
         if(victoria)
             textoFinPartida = "¡VICTORIA!";
@@ -247,20 +248,34 @@ public class mainViewController {
         repetirPartida.setFont(Font.font(20));
 
         timeText.setTextFill(Paint.valueOf("white"));
+        timeText.setStyle("-fx-font-weight: bold");
         timeText.setFont(Font.font(30));
 
         finPartida.setTextFill(Paint.valueOf("white"));
+        finPartida.setStyle("-fx-font-weight: bold");
         finPartida.setFont(Font.font(70));
 
+        tiempo.setTextFill(Paint.valueOf("white"));
+        tiempo.setStyle("-fx-font-weight: bold");
+        tiempo.setFont(Font.font(30));
+
+        timeText.setTextFill(Paint.valueOf("white"));
+        timeText.setStyle("-fx-font-weight: bold");
+        timeText.setFont(Font.font(30));
+
+        puntuacion.setTextFill(Paint.valueOf("white"));
+        puntuacion.setFont(Font.font(30));
+
+        puntuacionLabel.setTextFill(Paint.valueOf("white"));
+        puntuacionLabel.setStyle("-fx-font-weight: bold");
+        puntuacionLabel.setFont(Font.font(30));
+
         partida.restartTimer();
-        mainBorderPane.setCenter(puntuacionLabel);
-        mainBorderPane.setCenter(puntuacion);
-        mainBorderPane.setCenter(timeText);
-        mainBorderPane.setCenter(tiempo);
-        mainBorderPane.setTop(finPartida);
+        vBox = new VBox(20, finPartida, puntuacionLabel, puntuacion, timeText, tiempo);
+        mainBorderPane.setCenter(vBox);
         mainBorderPane.setBottom(repetirPartida);
-        mainBorderPane.setAlignment(timeText, Pos.CENTER);
-        mainBorderPane.setAlignment(finPartida, Pos.TOP_CENTER);
+        mainBorderPane.setAlignment(vBox, Pos.CENTER);
+        vBox.setAlignment(Pos.CENTER);
         mainBorderPane.setAlignment(repetirPartida, Pos.BOTTOM_LEFT);
     }
 
