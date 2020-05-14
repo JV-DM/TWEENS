@@ -19,7 +19,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -48,6 +50,10 @@ public class MenuViewController implements Initializable {
     private Ranking ranking;
     private Historial historial;
     private Baraja baraja;
+    @FXML
+    private ImageView imagenPerfil;
+    @FXML
+    private Label nombrePerfil;
     /**
      * Initializes the controller class.
      */
@@ -66,6 +72,8 @@ public class MenuViewController implements Initializable {
             e.printStackTrace();
         }
         perfil.setBarajaPorDefecto(gestorBarajas.getBarajaPorDefecto());
+        imagenPerfil.setImage(new Image(perfil.getRutaImagen()));
+        nombrePerfil.setText(perfil.getNombre());
         Menu m = new Menu(new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
         menuBorderPane.setPrefSize(1024, 768);
         menuBorderPane.setBackground(new Background(new BackgroundImage(m.getBackground(),
