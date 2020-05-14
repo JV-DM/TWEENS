@@ -41,7 +41,7 @@ public class mainViewController {
 
     private final static long ONE_DAY = ONE_HOUR * 24;
 
-    private long TIEMPO_PARTIDA = 5;
+    private long TIEMPO_PARTIDA = ONE_MINUTE;
 
     private final static int INTENTOS = 10;
 
