@@ -112,7 +112,7 @@ public class Partida {
      * Para el tiempo de la partida
      */
    public void stopTimer(){
-       if (isNivel == false){
+       if (isNivel == false ||isNivel && level == 1 || isNivel && level == 3){
            if(timer == null) return;
            timer.cancel();
            if(isGameCompleted()) {
@@ -135,12 +135,11 @@ public class Partida {
                soundManager.playDerrotaSound();
            }
        }
-
-
+       //timer = new Timer();
+       //timer.cancel();
        controller.pantallaFinPartida(victoria);
        controller.actualizarPerfil();
     }
-
     /**
      * @return Duración de la partida
      */
@@ -193,7 +192,6 @@ public class Partida {
     }
 
     public void restartTimer(){
-        timer.cancel();
         this.timer = new Timer();
     }
 

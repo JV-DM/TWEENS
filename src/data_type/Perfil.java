@@ -241,7 +241,7 @@ public class Perfil {
                 }
             }
             extraerDatos(listaDeElementos);
-            //validarImagenes();
+            validarImagenes();
         }
     
     /**

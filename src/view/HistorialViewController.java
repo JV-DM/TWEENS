@@ -48,7 +48,7 @@ public class HistorialViewController implements Initializable {
     private Label fecha5;
     @FXML
     private BorderPane borderPane;
-    
+
     private Historial historial;
 
     /**
@@ -57,23 +57,23 @@ public class HistorialViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        if(!historial.getFecha1().equals("null")){
+        if(historial.getFecha1() != null){
             fecha1.setText(String.valueOf(historial.getFecha1()));
         }
-        
-        if(!historial.getFecha2().equals("null")){
+
+        if(historial.getFecha2() != null){
             fecha2.setText(String.valueOf(historial.getFecha2()));
         }
-        
-        if(!historial.getFecha3().equals("null")){
+
+        if(historial.getFecha3() != null){
             fecha3.setText(String.valueOf(historial.getFecha3()));
         }
-        
-        if(!historial.getFecha4().equals("null")){
+
+        if(historial.getFecha4() != null){
             fecha4.setText(String.valueOf(historial.getFecha4()));
         }
-        
-        if(!historial.getFecha5().equals("null")){
+
+        if(historial.getFecha5() != null){
             fecha5.setText(String.valueOf(historial.getFecha5()));
         }
 
@@ -86,6 +86,6 @@ public class HistorialViewController implements Initializable {
 
     public HistorialViewController(Historial historial){
         this.historial = historial;
-    }    
-    
+    }
+
 }

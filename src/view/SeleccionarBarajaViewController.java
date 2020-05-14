@@ -39,9 +39,9 @@ public class SeleccionarBarajaViewController implements Initializable {
 
     private final double CARTA_WIDTH = 126;
     private final double CARTA_HEIGHT = 106;
-    private final int TAMAÑO_CELDAS_GRID_PANE_BARAJAS = 5;
+    private final int TAMAÑO_CELDAS_GRID_PANE_BARAJAS = 4;
     private final String RUTA_BACKGROUND = "imagenes/ImagenesBackground/fondo-verde.jpg";
-    
+
     @FXML
     private BorderPane mainBorderPane;
     private GestorBarajas gestorBarajas;
@@ -58,30 +58,30 @@ public class SeleccionarBarajaViewController implements Initializable {
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.DEFAULT,
-                new BackgroundSize(100, 100, true,true, false, true))));   
+                new BackgroundSize(100, 100, true,true, false, true))));
     }
 
     public SeleccionarBarajaViewController(GestorBarajas gestorBarajas,MenuViewController controller){
         this.gestorBarajas = gestorBarajas;
         this.controller = controller;
     }
-    
+
     public void createGridPaneBarajas(){
         List<Baraja> listaDeBarajas = gestorBarajas.getBarajas();
         int indice = 0;
         for(int i = 0; indice < listaDeBarajas.size(); i++){
-            for(int j = 0; j < TAMAÑO_CELDAS_GRID_PANE_BARAJAS; j++){      
+            for(int j = 0; j < TAMAÑO_CELDAS_GRID_PANE_BARAJAS; j++){
                 if(indice < listaDeBarajas.size() && listaDeBarajas.get(indice).getCartas().size() > 0) {
                     ImageView imagenBaraja = new ImageView(listaDeBarajas.get(indice).getCartas().get(0).getImagen());
                     imagenBaraja.setPreserveRatio(false);
                     imagenBaraja.setFitWidth(CARTA_WIDTH);
-                    imagenBaraja.setFitHeight(CARTA_HEIGHT);   
-                    Label nombreBaraja = new Label(listaDeBarajas.get(indice).getNombre());                   
+                    imagenBaraja.setFitHeight(CARTA_HEIGHT);
+                    Label nombreBaraja = new Label(listaDeBarajas.get(indice).getNombre());
                     VBox vbox = new VBox(imagenBaraja,nombreBaraja);
                     vbox.setAlignment(Pos.CENTER);
                     vbox.addEventHandler(MouseEvent.MOUSE_CLICKED, verBaraja);
                     gridPaneBarajas.add(vbox, j, i);
-                    indice++;                  
+                    indice++;
                 }
             }
         }
@@ -90,7 +90,7 @@ public class SeleccionarBarajaViewController implements Initializable {
         gridPaneBarajas.setVgap(20);
         mainBorderPane.setCenter(gridPaneBarajas);
     }
-    
+
     EventHandler<MouseEvent> verBaraja = (MouseEvent event) -> {
         VBox vbox = (VBox) event.getSource();
         ObservableList<Node> listaNodos = vbox.getChildren();
@@ -100,5 +100,5 @@ public class SeleccionarBarajaViewController implements Initializable {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
     };
-    
+
 }

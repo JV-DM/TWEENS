@@ -41,7 +41,7 @@ public class RankingsViewController implements Initializable {
     private Label puntuacion3;
     @FXML
     private BorderPane borderPane;
-    
+
     private Ranking ranking;
 
     /**
@@ -59,12 +59,12 @@ public class RankingsViewController implements Initializable {
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.DEFAULT,
                 new BackgroundSize(100, 100, true,true, false, true))));
-        
-    } 
-    
+
+    }
+
     public RankingsViewController(Ranking ranking){
         this.ranking = ranking;
     }
 
-    
+
 }
