@@ -286,9 +286,9 @@ public class mainViewController {
 
     public void iniciarPartida(Baraja baraja){
         partidaAcabada = false;
-        partida = Partida.getInstance(baraja,new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
+        partida = Partida.getInstance(baraja,new Image(perfil.getRutaTableroPorDefecto()));
         partida.setBaraja(baraja);
-        partida.setBackground(new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
+        partida.setBackground(new Image(perfil.getRutaTableroPorDefecto()));
        // gridCreation(partida.getBaraja().getCartas(), mainBorderPane.heightProperty(), mainBorderPane.widthProperty());
         if(this.modoJuego == null) modoJuego = new SeleccionTrios();
         modoJuego.setPartida(partida);

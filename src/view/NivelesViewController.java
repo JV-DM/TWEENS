@@ -92,6 +92,7 @@ public class NivelesViewController implements Initializable {
 
     public void setPerfil(Perfil p) {this.perfil = p; }
     public void setGestorBarajas(GestorBarajas gestorBarajas) {this.gestorBarajas = gestorBarajas;}
+    public void setBaraja(Baraja baraja){this.baraja = baraja;}
 
     @FXML
     private void clickNivele1(ActionEvent event) throws IOException {
@@ -150,13 +151,12 @@ public class NivelesViewController implements Initializable {
 
 
     private void setUp(EstrategiaSeleccion estrategia, mainViewController controller){
-        GestorBarajas gestor = new GestorBarajas();
         controller.modoJuego = estrategia;
         controller.modoJuego.setPartida(controller.getPartida());
-        controller.gestor = gestor;
+        controller.gestor = gestorBarajas;
         controller.gestor.cargarBarajas();
         controller.gestor.cargarBarajaPorDefecto();
-        baraja = gestor.getBarajaPorDefecto();
+        baraja = gestorBarajas.getBarajaPorDefecto();
         controller.setPerfil(this.perfil);
     }
 
