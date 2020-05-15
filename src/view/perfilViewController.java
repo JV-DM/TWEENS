@@ -8,6 +8,7 @@ package view;
 import data_type.GestorBarajas;
 import data_type.Idioma;
 import data_type.Perfil;
+import data_type.Ranking;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -16,8 +17,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ChoiceBox;
@@ -33,6 +38,7 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -77,6 +83,7 @@ public class perfilViewController implements Initializable {
     @FXML
     private Label numeroBarajas;
     private GestorBarajas gestorBarajas;
+    private Ranking ranking;
     
     public void setElements(Perfil perfil){
         nombrePerfil.setText(perfil.getNombre());
@@ -112,9 +119,10 @@ public class perfilViewController implements Initializable {
          return archivoDeImagen;
     }
      
-    public perfilViewController(Perfil perfil,GestorBarajas gestorBarajas){
+    public perfilViewController(Perfil perfil,GestorBarajas gestorBarajas,Ranking ranking){
         this.perfil = perfil;
         this.gestorBarajas = gestorBarajas;
+        this.ranking = ranking;
     }
     
     /**
@@ -182,6 +190,22 @@ public class perfilViewController implements Initializable {
             imagenCambiadaTablero = true;
             guardarPerfil.setVisible(true);
         }
+    }
+
+    @FXML
+    private void rankingOnClick(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("RankingsView.fxml"));
+        RankingsViewController controller = new RankingsViewController(ranking);
+        loader.setController(controller);
+        Scene scene = new Scene(loader.load());
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Rankings");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner((Stage) ((Node) event.getSource()).getScene().getWindow());
+        stage.getIcons().add(new Image("imagenes/ImagenesCaraPosterior/BacCard.png"));
+        stage.setResizable(false);
+        stage.showAndWait();
     }
     
 }

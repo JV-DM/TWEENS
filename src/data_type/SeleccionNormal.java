@@ -1,8 +1,6 @@
 package data_type;
 
-import data_type.Puntuacion.DecoradorParejaCorrecta;
-import data_type.Puntuacion.DecoradorParejaIncorrecta;
-import data_type.Puntuacion.Puntuacion;
+import data_type.Puntuacion.*;
 
 public class SeleccionNormal extends EstrategiaSeleccion {
     //public SeleccionNormal(){};
@@ -23,7 +21,8 @@ public class SeleccionNormal extends EstrategiaSeleccion {
                 partida.increaseErrors();
                 partida.clearSelection();
                 partida.soundManager.playErrorSound();
-
+                if(partida.esPrimera)
+                    partida.esPrimera = false;
                 if (partida.getPuntuacion().getPuntos() >= 3)
                     partida.setPuntuacion(new DecoradorParejaIncorrecta(partida.getPuntuacion()));
 
@@ -38,6 +37,16 @@ public class SeleccionNormal extends EstrategiaSeleccion {
                 partida.clearSelection();
                 partida.setPuntuacion(new DecoradorParejaCorrecta(partida.getPuntuacion()));
                 partida.soundManager.playCorrectSound();
+                partida.parejaSeguida();
+
+                if (partida.getParejasSeguidas() == 5){
+                    partida.setPuntuacion(new DecoradorLogroParejasSeguidas(partida.getPuntuacion()));
+                    partida.resetParejasSeguidas();
+                }
+                else if(partida.esPrimera){
+                    partida.setPuntuacion(new DecoradorLogroPrimeraCorrecta(partida.getPuntuacion()));
+                    partida.esPrimera = false;
+                }
                 if (partida.isGameCompleted()) {
                     partida.finish();
                     partida.stopTimer();

@@ -39,7 +39,7 @@ public class SeleccionarBarajaViewController implements Initializable {
 
     private final double CARTA_WIDTH = 126;
     private final double CARTA_HEIGHT = 106;
-    private final int TAMAÑO_CELDAS_GRID_PANE_BARAJAS = 5;
+    private final int TAMAÑO_CELDAS_GRID_PANE_BARAJAS = 4;
     private final String RUTA_BACKGROUND = "imagenes/ImagenesBackground/fondo-verde.jpg";
 
     @FXML
