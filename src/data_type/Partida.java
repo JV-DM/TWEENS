@@ -26,6 +26,8 @@ public class Partida {
     private int intentos;
     private boolean isNivel = false;
     private int level;
+    private int parejasSeguidas;
+    public boolean esPrimera;
 
     private Partida(Baraja b, Image back){
         this.baraja = b;
@@ -34,6 +36,7 @@ public class Partida {
         running = false;
         timer = new Timer();
         soundManager = new GestorSonido();
+        esPrimera = true;
     }
 
     public static Partida getInstance(Baraja baraja, Image back){
@@ -222,4 +225,10 @@ public class Partida {
     public int getLevel() { return level; }
 
     public boolean isNivel(){ return isNivel; }
+
+    public void resetParejasSeguidas(){this.parejasSeguidas = 0;}
+    public void parejaSeguida(){
+        this.parejasSeguidas += 1;
+    }
+    public int getParejasSeguidas(){return this.parejasSeguidas;}
 }
