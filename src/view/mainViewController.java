@@ -4,6 +4,7 @@ import data_type.*;
 import data_type.Puntuacion.Decorador;
 import data_type.Puntuacion.DecoradorLogroFinPartidaRapido;
 import data_type.Puntuacion.Puntuacion;
+import java.io.IOException;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.event.EventHandler;
@@ -18,10 +19,16 @@ import javafx.scene.input.MouseEvent;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import javafx.event.Event;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
@@ -391,4 +398,11 @@ public class mainViewController {
      * @param intentos
      */
     public void setIntentos(int intentos) { intentosLabel.setText("INTENTOS RESTANTES " +  intentos ); }
+    
+    public void salirPartida(Event event) throws IOException{
+        partida.stopTimer();
+        Parent root = FXMLLoader.load(getClass().getResource("MenuView.fxml"));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+    }
 }
