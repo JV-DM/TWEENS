@@ -58,7 +58,7 @@ public class Perfil {
         nivelActual = 1;
     }
     
-    public Perfil(String rutaImagen, Idioma language, String name, 
+    public Perfil(String rutaImage, Idioma language, String name, 
             Baraja barajaPorDefecto, String tableroPorDefecto,
             int puntuacionTotal, int puntuacionMaxima,
             int victorias, int derrotas,int nivelActual){

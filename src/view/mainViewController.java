@@ -2,6 +2,7 @@ package view;
 
 import data_type.*;
 import data_type.Puntuacion.Decorador;
+import data_type.Puntuacion.DecoradorLogroFinPartidaRapido;
 import data_type.Puntuacion.Puntuacion;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyDoubleProperty;
@@ -163,7 +164,7 @@ public class mainViewController {
      * @param tiempoPartida 
      */
     public void setTime(long tiempoPartida){
-        time =  tiempoPartida;       
+        time =  tiempoPartida;
     }
     
     /**
@@ -223,6 +224,9 @@ public class mainViewController {
     }
 
     public void pantallaFinPartida(boolean victoria){
+        if(TIEMPO_PARTIDA - time == 30 * ONE_SECOND )
+            partida.setPuntuacion(new DecoradorLogroFinPartidaRapido(partida.getPuntuacion()));
+
         partidaAcabada = true;
         VBox vBox;
         Label finPartida = new Label();
@@ -286,9 +290,9 @@ public class mainViewController {
 
     public void iniciarPartida(Baraja baraja){
         partidaAcabada = false;
-        partida = Partida.getInstance(baraja,new Image(perfil.getRutaTableroPorDefecto()));
+        partida = Partida.getInstance(baraja,new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
         partida.setBaraja(baraja);
-        partida.setBackground(new Image(perfil.getRutaTableroPorDefecto()));
+        partida.setBackground(new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
        // gridCreation(partida.getBaraja().getCartas(), mainBorderPane.heightProperty(), mainBorderPane.widthProperty());
         if(this.modoJuego == null) modoJuego = new SeleccionTrios();
         modoJuego.setPartida(partida);
@@ -299,6 +303,7 @@ public class mainViewController {
         if(isLevel && lvl == 3)
             intentos = 5;
         setPuntuacion(0);
+        partida.esPrimera = true;
         partida.setErrorCounter(0);
         partida.setIntentos(intentos);
         partida.setNivel(isLevel);
