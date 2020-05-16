@@ -120,11 +120,10 @@ public class Partida {
            timer.cancel();
            if(isGameCompleted()) {
                soundManager.playVictoriaSound();
-               this.victoria = true;
-               baraja.resetBaraja();
            }
            else{
                soundManager.playDerrotaSound();
+               
            }
        }else if(isNivel && level == 2){
            if (timer == null) return;
@@ -132,14 +131,14 @@ public class Partida {
            if(isGameCompleted() && getPuntuacion().getPuntos() >= 60) {
                soundManager.playVictoriaSound();
                this.victoria = true;
-               baraja.resetBaraja();
            }
            else{
                soundManager.playDerrotaSound();
-           }
+           }           
        }
        //timer = new Timer();
        //timer.cancel();
+       baraja.resetBaraja();
        controller.pantallaFinPartida(victoria);
        controller.actualizarPerfil();
     }

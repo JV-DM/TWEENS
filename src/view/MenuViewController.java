@@ -10,7 +10,10 @@ import data_type.*;
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -19,7 +22,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -27,6 +33,7 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -48,6 +55,19 @@ public class MenuViewController implements Initializable {
     private Ranking ranking;
     private Historial historial;
     private Baraja baraja;
+    @FXML
+    private ImageView imagenPerfil;
+    @FXML
+    private Label nombrePerfil;
+    @FXML
+    private Button modosDeJuego;
+    @FXML
+    private VBox modosDeJuegoVBox;
+    private boolean verModosDeJuego = false;
+    @FXML
+    private VBox otrosButtons;
+    @FXML
+    private VBox modoVBox;
     /**
      * Initializes the controller class.
      */
@@ -55,7 +75,6 @@ public class MenuViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         gestorBarajas = new GestorBarajas();
         gestorBarajas.cargarBarajas();
-        baraja = gestorBarajas.buscarBaraja("Baraja de animales");
         perfil = new Perfil();
         ranking = new Ranking();
         historial = new Historial();
@@ -67,6 +86,8 @@ public class MenuViewController implements Initializable {
             e.printStackTrace();
         }
         perfil.setBarajaPorDefecto(gestorBarajas.getBarajaPorDefecto());
+        imagenPerfil.setImage(new Image(perfil.getRutaImagen()));
+        nombrePerfil.setText(perfil.getNombre());
         Menu m = new Menu(new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
         menuBorderPane.setPrefSize(1024, 768);
         menuBorderPane.setBackground(new Background(new BackgroundImage(m.getBackground(),
@@ -74,6 +95,9 @@ public class MenuViewController implements Initializable {
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.DEFAULT,
                 new BackgroundSize(100, 100, true,true, false, true))));
+        modoVBox.getChildren().add(otrosButtons);
+        modosDeJuegoVBox.setVisible(false);
+        
         
     }    
     
@@ -83,19 +107,20 @@ public class MenuViewController implements Initializable {
         Parent root = loader.load();
         mainViewController controller = loader.getController();
         elegirBaraja(event);
-        this.setUp(new SeleccionNormal(),controller);
-
-        controller.iniciarPartida(baraja);
-        Scene scene = new Scene(root,menuBorderPane.getWidth(), menuBorderPane.getHeight());
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
+        if(baraja != null) {
+            this.setUp(new SeleccionNormal(),controller);
+            controller.iniciarPartida(baraja);
+            Scene scene = new Scene(root,menuBorderPane.getWidth(), menuBorderPane.getHeight());
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        }
     }
 
     @FXML
     private void clickPerfil(MouseEvent event) throws IOException {         
         FXMLLoader loader = new FXMLLoader(getClass().getResource("PerfilView.fxml"));       
-        perfilViewController controller = new perfilViewController(perfil, gestorBarajas);
+        perfilViewController controller = new perfilViewController(perfil, gestorBarajas,ranking);
         loader.setController(controller);
         Scene scene = new Scene(loader.load());
         Stage stage = new Stage();
@@ -126,29 +151,33 @@ public class MenuViewController implements Initializable {
 
     @FXML
     private void clickModoTrios(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(("MainView.fxml")));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainView.fxml"));
         Parent root = loader.load();
         mainViewController controller = loader.getController();
         elegirBaraja(event);
-        this.setUp(new SeleccionTrios(),controller);
-        controller.setTiempoPartida(90000);
-        controller.iniciarPartida(gestorBarajas.barajaATrios(baraja));
-        Scene scene = new Scene(root);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
+        if(baraja != null) {
+            this.setUp(new SeleccionTrios(),controller);
+            controller.setTiempoPartida(90000);
+            controller.iniciarPartida(gestorBarajas.barajaATrios(baraja));
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        }
     }
     @FXML
     public void clickNiveles(ActionEvent actionEvent) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(("NivelesView.fxml")));
+        //elegirBaraja(actionEvent);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("NivelesView.fxml"));
         Parent root = loader.load();
-        NivelesViewController controller = loader.getController();
+        NivelesViewController controller = loader.getController();      
         controller.setPerfil(this.perfil);
         controller.setGestorBarajas(gestorBarajas);
+        controller.setBaraja(gestorBarajas.getBarajaPorDefecto());
         Scene scene = new Scene(root,1024, 768);
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(scene);
-        stage.setTitle("Elegir Nivel");
+        stage.setTitle("Elegir Nivel");       
         //stage.initModality(Modality.WINDOW_MODAL);
         //stage.initOwner((Stage) ((Node) actionEvent.getSource()).getScene().getWindow());
         //stage.setResizable(false);
@@ -159,31 +188,14 @@ public class MenuViewController implements Initializable {
         controller.modoJuego = estrategia;
         controller.modoJuego.setPartida(controller.getPartida());
         controller.gestor = gestor;
-        controller.gestor.cargarBarajas();
-        controller.gestor.cargarBarajaPorDefecto();
         controller.setPerfil(this.perfil);
         controller.setRanking(this.ranking);
         controller.setHistorial(this.historial);
     }
-    @FXML
-    private void clickRanking(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("RankingsView.fxml"));
-        RankingsViewController controller = new RankingsViewController(ranking);
-        loader.setController(controller);
-        Scene scene = new Scene(loader.load());
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.setTitle("Rankings");
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner((Stage) ((Node) event.getSource()).getScene().getWindow());
-        stage.getIcons().add(new Image("imagenes/ImagenesCaraPosterior/BacCard.png"));
-        stage.setResizable(false);
-        stage.showAndWait();
-    }
 
     @FXML
     private void clickHistorial(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("historialView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("HistorialView.fxml"));
         HistorialViewController controller = new HistorialViewController(historial);
         loader.setController(controller);
         Scene scene = new Scene(loader.load());
@@ -214,5 +226,25 @@ public class MenuViewController implements Initializable {
         stage.getIcons().add(new Image("imagenes/ImagenesCaraPosterior/BacCard.png"));
         stage.setResizable(false);
         stage.showAndWait();
+    }
+
+    @FXML
+    private void modosDeJuegoOnClick(ActionEvent event) {
+        if(verModosDeJuego){
+            verModosDeJuego = false;
+            modosDeJuego.getStyleClass().remove("button-pressed");
+            modoVBox.getChildren().clear();
+            modoVBox.getChildren().add(otrosButtons);    
+            modosDeJuegoVBox.setVisible(false);
+            otrosButtons.setVisible(true);
+        }
+        else {
+            verModosDeJuego = true;
+            modosDeJuego.getStyleClass().add("button-pressed");
+            modoVBox.getChildren().clear();
+            modoVBox.getChildren().add(modosDeJuegoVBox);    
+            modosDeJuegoVBox.setVisible(true);
+            otrosButtons.setVisible(false);
+        }
     }
 }

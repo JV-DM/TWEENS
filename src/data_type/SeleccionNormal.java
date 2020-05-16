@@ -21,6 +21,7 @@ public class SeleccionNormal extends EstrategiaSeleccion {
                 partida.increaseErrors();
                 partida.clearSelection();
                 partida.soundManager.playErrorSound();
+                partida.resetParejasSeguidas();
                 if(partida.esPrimera)
                     partida.esPrimera = false;
                 if (partida.getPuntuacion().getPuntos() >= 3)
