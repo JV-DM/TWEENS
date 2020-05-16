@@ -111,6 +111,8 @@ public class mainViewController implements Initializable {
     
     private boolean partidaPausada = false;
     private boolean partidaSonido = true;
+    @FXML
+    private ImageView salirPartida;
 
     
     /**
@@ -121,6 +123,7 @@ public class mainViewController implements Initializable {
         replay.setVisible(false);
         pause.setVisible(false);
         sound.setVisible(false);
+        salirPartida.setVisible(false);
     }      
     
     /**
@@ -453,6 +456,7 @@ public class mainViewController implements Initializable {
             replay.setVisible(!replay.visibleProperty().getValue());
             pause.setVisible(!pause.visibleProperty().getValue());
             sound.setVisible(!sound.visibleProperty().getValue());
+            salirPartida.setVisible(!salirPartida.visibleProperty().getValue());
      
     }
     
