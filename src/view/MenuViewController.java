@@ -146,7 +146,8 @@ public class MenuViewController implements Initializable {
         stage.initOwner((Stage) ((Node) event.getSource()).getScene().getWindow());
         stage.getIcons().add(new Image("imagenes/ImagenesCaraPosterior/BacCard.png"));
         stage.setResizable(false);
-        stage.show();
+        stage.showAndWait();
+        //gestorBarajas.cargarBarajas();
     }
 
     @FXML

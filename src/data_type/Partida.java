@@ -120,6 +120,7 @@ public class Partida {
            timer.cancel();
            if(isGameCompleted()) {
                soundManager.playVictoriaSound();
+               this.victoria = true;
            }
            else{
                soundManager.playDerrotaSound();

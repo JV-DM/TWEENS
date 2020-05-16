@@ -1,29 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.mainViewController">
+<BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.mainViewController">
    <top>
-      <Label fx:id="timeLabel" text="tiempo" BorderPane.alignment="CENTER">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font></Label>
+      <HBox fx:id="topBorderPane" prefHeight="34.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Pane prefHeight="43.0" prefWidth="41.0" />
+            <ImageView fitHeight="42.0" fitWidth="42.0" onMouseClicked="#salirPartidaOnClick" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../imagenes/ImagenesSistema/iconoAtras.png" />
+               </image>
+            </ImageView>
+            <Pane prefHeight="42.0" prefWidth="368.0" />
+            <Label fx:id="timeLabel" text="tiempo" textFill="WHITE">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Label>
+            <Pane prefHeight="42.0" prefWidth="63.0" />
+         </children>
+      </HBox>
    </top>
    <bottom>
-      <Label fx:id="puntuationLabel" text="Puntuación" BorderPane.alignment="CENTER">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-         <graphic>
-            <Label fx:id="intentosLabel" text="Intentos">
-               <padding>
-                  <Insets left="30.0" right="50.0" />
-               </padding>
+      <HBox fx:id="bottomBorderPane" alignment="BOTTOM_LEFT" prefHeight="37.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Pane prefHeight="39.0" prefWidth="302.0" />
+            <Label fx:id="intentosLabel" text="Intentos" textFill="WHITE">
+               <font>
+                  <Font size="27.0" />
+               </font>
             </Label>
-         </graphic>
-      </Label>
+            <Pane prefHeight="39.0" prefWidth="144.0" />
+            <Label fx:id="puntuationLabel" text="Puntuacion" textFill="WHITE">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
    </bottom>
 </BorderPane>
