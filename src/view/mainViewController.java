@@ -1,5 +1,13 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package view;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.fxml.Initializable;
 import data_type.*;
 import data_type.Puntuacion.Decorador;
 import data_type.Puntuacion.DecoradorLogroFinPartidaRapido;
@@ -34,9 +42,12 @@ import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
-
-
-public class mainViewController {
+/**
+ * FXML Controller class
+ *
+ * @author Javier
+ */
+public class mainViewController implements Initializable {
 
     private final static long ONE_SECOND = 1000;
     private final static long SECONDS = 60;
@@ -52,18 +63,6 @@ public class mainViewController {
     private long TIEMPO_PARTIDA = ONE_MINUTE;
 
     private final static int INTENTOS = 10;
-
-    @FXML
-    private BorderPane mainBorderPane;
-
-    @FXML
-    private Label timeLabel;
-
-    @FXML
-    private Label puntuationLabel;
-
-    @FXML
-    private Label  intentosLabel;
 
     GridPane playGridPane;
 
@@ -87,7 +86,39 @@ public class mainViewController {
     private int intentos = 10;
     private boolean isLevel = false;
     private int lvl = 1;
-     /**
+    
+    @FXML
+    private BorderPane mainBorderPane;
+    @FXML
+    private Label timeLabel;
+    @FXML
+    private Label intentosLabel;
+    @FXML
+    private Label puntuationLabel;
+    @FXML
+    private HBox topBorderPane;
+    @FXML
+    private HBox bottomBorderPane;
+
+    
+    /**
+     * Initializes the controller class.
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // TODO
+    }    
+
+    @FXML
+    private void salirPartidaOnClick(MouseEvent event) throws IOException {
+        if(!partida.isFinished())
+            partida.stopTimer();
+        Parent root = FXMLLoader.load(getClass().getResource("MenuView.fxml"));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+    }
+    
+    /**
      * Crea un gridPane con las cartas (mostrando la parte de atrás de la carta) con su posición random
      * (los parametros height y width en principio se usarán en los próximos sprints, creo)
      * @param cards lista de cartas de la baraja
@@ -179,8 +210,8 @@ public class mainViewController {
      */
     public void reiniciarTablero(){
         mainBorderPane.setCenter(playGridPane);
-        mainBorderPane.setTop(timeLabel);
-        mainBorderPane.setBottom(puntuationLabel);
+        mainBorderPane.setTop(topBorderPane);
+        mainBorderPane.setBottom(bottomBorderPane);
         mainBorderPane.setPrefSize(1024, 768);
     }
 
@@ -299,8 +330,7 @@ public class mainViewController {
         partidaAcabada = false;
         partida = Partida.getInstance(baraja,new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
         partida.setBaraja(baraja);
-        partida.setBackground(new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
-       // gridCreation(partida.getBaraja().getCartas(), mainBorderPane.heightProperty(), mainBorderPane.widthProperty());
+        partida.setBackground(new Image(perfil.getRutaTableroPorDefecto()));
         if(this.modoJuego == null) modoJuego = new SeleccionTrios();
         modoJuego.setPartida(partida);
         playGridPane = new GridPane();
@@ -361,30 +391,7 @@ public class mainViewController {
         }
 
     }
-    @FXML
-    private void initialize(){
-        //iniciarPartida(baraja);
-       // gestor = new GestorBarajas();
-//        this.baraja = gestor.getBarajaPorDefecto();
-        mainBorderPane.addEventFilter(MouseEvent.MOUSE_CLICKED, reinicarPartida);
-       
-        //aesthetic puntuacion
-        puntuationLabel.setFont(Font.font("anton"));
-        puntuationLabel.setFont(Font.font(30));
-        puntuationLabel.setTextFill(Color.web("#FFFFFF"));
-        puntuationLabel.setStyle("-fx-font-weight: bold");
 
-        intentosLabel.setFont(Font.font("anton"));
-        intentosLabel.setFont(Font.font(30));
-        intentosLabel.setTextFill(Color.web("#FFFFFF"));
-        intentosLabel.setStyle("-fx-font-weight: bold");
-
-        //aesthetic tiempo
-        timeLabel.setFont(Font.font("anton"));
-        timeLabel.setFont(Font.font(30));
-        timeLabel.setTextFill(Color.web("#FFFFFF"));
-        timeLabel.setStyle("-fx-font-weight: bold");
-    }
     public void setTiempoPartida(long time){ TIEMPO_PARTIDA = time;}
     public void setPerfil(Perfil perfil){ this.perfil = perfil; }
     public void setIntentosPartida(int i){ intentos = i; }
@@ -397,12 +404,7 @@ public class mainViewController {
      * Cambia el valor de la puntuación
      * @param intentos
      */
-    public void setIntentos(int intentos) { intentosLabel.setText("INTENTOS RESTANTES " +  intentos ); }
-    
-    public void salirPartida(Event event) throws IOException{
-        partida.stopTimer();
-        Parent root = FXMLLoader.load(getClass().getResource("MenuView.fxml"));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-    }
+    public void setIntentos(int intentos) { intentosLabel.setText("INTENTOS " +  intentos ); }
+
 }
+    
