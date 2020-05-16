@@ -12,35 +12,59 @@
    <top>
       <HBox fx:id="topBorderPane" prefHeight="34.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <Pane prefHeight="43.0" prefWidth="41.0" />
-            <ImageView fitHeight="42.0" fitWidth="42.0" onMouseClicked="#salirPartidaOnClick" pickOnBounds="true" preserveRatio="true">
+            <Pane prefHeight="42.0" prefWidth="17.0" />
+            <ImageView fitHeight="32.0" fitWidth="32.0" onMouseClicked="#salirPartidaOnClick" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../imagenes/ImagenesSistema/iconoAtras.png" />
                </image>
             </ImageView>
-            <Pane prefHeight="42.0" prefWidth="368.0" />
-            <Label fx:id="timeLabel" text="tiempo" textFill="WHITE">
+            <Pane prefHeight="39.0" prefWidth="453.0" />
+            <Label fx:id="timeLabel" prefHeight="39.0" prefWidth="124.0" text="tiempo" textFill="WHITE">
                <font>
-                  <Font size="27.0" />
+                  <Font name="System Bold" size="27.0" />
                </font>
             </Label>
-            <Pane prefHeight="42.0" prefWidth="63.0" />
+            <Pane prefHeight="39.0" prefWidth="211.0" />
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="18.0">
+               <children>
+                  <ImageView fx:id="replay" fitHeight="32.0" fitWidth="32.0" layoutX="52.0" layoutY="10.0" onMouseClicked="#replayOnClick" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imagenes/ImagenesSistema/AjustesPartida/iconoReplay.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="pause" fitHeight="32.0" fitWidth="32.0" layoutX="94.0" layoutY="10.0" onMouseClicked="#pauseOnClick" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imagenes/ImagenesSistema/AjustesPartida/iconoPause.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="sound" fitHeight="32.0" fitWidth="32.0" layoutX="136.0" layoutY="10.0" onMouseClicked="#soundOnClick" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imagenes/ImagenesSistema/AjustesPartida/iconoSoundOn.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="menu" fitHeight="38.0" fitWidth="38.0" layoutX="178.0" layoutY="10.0" onMouseClicked="#menuOnClick" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imagenes/ImagenesSistema/AjustesPartida/iconoMenu.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
          </children>
       </HBox>
    </top>
    <bottom>
       <HBox fx:id="bottomBorderPane" alignment="BOTTOM_LEFT" prefHeight="37.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <Pane prefHeight="39.0" prefWidth="302.0" />
+            <Pane prefHeight="39.0" prefWidth="288.0" />
             <Label fx:id="intentosLabel" text="Intentos" textFill="WHITE">
                <font>
-                  <Font size="27.0" />
+                  <Font name="System Bold" size="27.0" />
                </font>
             </Label>
             <Pane prefHeight="39.0" prefWidth="144.0" />
             <Label fx:id="puntuationLabel" text="Puntuacion" textFill="WHITE">
                <font>
-                  <Font size="27.0" />
+                  <Font name="System Bold" size="27.0" />
                </font>
             </Label>
          </children>

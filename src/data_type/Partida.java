@@ -28,6 +28,7 @@ public class Partida {
     private int level;
     private int parejasSeguidas;
     public boolean esPrimera;
+    private boolean sonido = true;
 
     private Partida(Baraja b, Image back){
         this.baraja = b;
@@ -111,34 +112,42 @@ public class Partida {
      */
     public Timer getTimer(){ return timer;}
 
+    public void setSonido(boolean nuevoSonido){sonido = nuevoSonido;}
+    public boolean getSonido(){return sonido;}
+    
     /**
      * Para el tiempo de la partida
      */
    public void stopTimer(){
        if (isNivel == false ||isNivel && level == 1 || isNivel && level == 3){
            if(timer == null) return;
-           timer.cancel();
+           
            if(isGameCompleted()) {
-               soundManager.playVictoriaSound();
+               if(sonido)
+                soundManager.playVictoriaSound();
                this.victoria = true;
            }
            else{
-               soundManager.playDerrotaSound();
+               if(sonido)
+                soundManager.playDerrotaSound();
                
            }
        }else if(isNivel && level == 2){
            if (timer == null) return;
-           timer.cancel();
+           
            if(isGameCompleted() && getPuntuacion().getPuntos() >= 60) {
-               soundManager.playVictoriaSound();
+               if(sonido)
+                soundManager.playVictoriaSound();
                this.victoria = true;
            }
            else{
-               soundManager.playDerrotaSound();
+               if(sonido)
+                soundManager.playDerrotaSound();
            }           
        }
        //timer = new Timer();
-       //timer.cancel();
+       timer.cancel();
+       timer.purge();
        baraja.resetBaraja();
        controller.pantallaFinPartida(victoria);
        controller.actualizarPerfil();
