@@ -99,6 +99,18 @@ public class mainViewController implements Initializable {
     private HBox topBorderPane;
     @FXML
     private HBox bottomBorderPane;
+    @FXML
+    private ImageView replay;
+    @FXML
+    private ImageView pause;
+    @FXML
+    private ImageView sound;
+    @FXML
+    private ImageView menu;
+    private AjustesPartida ajustes = new AjustesPartida();
+    
+    private boolean partidaPausada = false;
+    private boolean partidaSonido = true;
 
     
     /**
@@ -106,17 +118,10 @@ public class mainViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-
-    @FXML
-    private void salirPartidaOnClick(MouseEvent event) throws IOException {
-        if(!partida.isFinished())
-            partida.stopTimer();
-        Parent root = FXMLLoader.load(getClass().getResource("MenuView.fxml"));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-    }
+        replay.setVisible(false);
+        pause.setVisible(false);
+        sound.setVisible(false);
+    }      
     
     /**
      * Crea un gridPane con las cartas (mostrando la parte de atrás de la carta) con su posición random
@@ -224,7 +229,7 @@ public class mainViewController implements Initializable {
             @Override
             public void run() {
                 Platform.runLater(() -> {
-                    if(!partidaAcabada){
+                    if(!partidaAcabada && !partidaPausada){
                         time -= ONE_SECOND;
                         if(time >= 0)
                             timeLabel.setText(formatTime(time));
@@ -327,6 +332,7 @@ public class mainViewController implements Initializable {
     }
 
     public void iniciarPartida(Baraja baraja){
+        this.baraja = baraja;
         partidaAcabada = false;
         partida = Partida.getInstance(baraja,new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
         partida.setBaraja(baraja);
@@ -405,6 +411,60 @@ public class mainViewController implements Initializable {
      * @param intentos
      */
     public void setIntentos(int intentos) { intentosLabel.setText("INTENTOS " +  intentos ); }
+
+    @FXML
+    private void replayOnClick(MouseEvent event) {
+        partida.setSonido(false);
+        partida.stopTimer();
+        iniciarPartida(baraja);
+    }
+
+    @FXML
+    private void pauseOnClick(MouseEvent event) throws InterruptedException {
+        if(!partidaPausada){         
+            partidaPausada = true;
+            playGridPane.setDisable(true);
+            pause.setImage(new Image(ajustes.getPlay()));
+        }
+        else {
+            partidaPausada = false;
+            playGridPane.setDisable(false);
+            pause.setImage(new Image(ajustes.getPausa()));
+        }
+        
+    }
+
+    @FXML
+    private void soundOnClick(MouseEvent event) {
+        if(!partidaSonido){         
+            partidaSonido = true;
+            partida.setSonido(true);
+            sound.setImage(new Image(ajustes.getSonido()));
+        }
+        else {
+            partidaSonido = false;
+            partida.setSonido(false);
+            sound.setImage(new Image(ajustes.getSinSonido()));
+        }
+    }
+
+    @FXML
+    private void menuOnClick(MouseEvent event) {
+            replay.setVisible(!replay.visibleProperty().getValue());
+            pause.setVisible(!pause.visibleProperty().getValue());
+            sound.setVisible(!sound.visibleProperty().getValue());
+     
+    }
+    
+    @FXML
+    private void salirPartidaOnClick(MouseEvent event) throws IOException {
+        partida.setSonido(false);
+        if(!partida.isFinished())
+            partida.stopTimer();
+        Parent root = FXMLLoader.load(getClass().getResource("MenuView.fxml"));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+    }
 
 }
     

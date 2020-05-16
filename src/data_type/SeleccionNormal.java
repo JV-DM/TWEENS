@@ -20,7 +20,8 @@ public class SeleccionNormal extends EstrategiaSeleccion {
             if (!checkCardsCombination() && partida.getSelectedCards().size() == 2) {
                 partida.increaseErrors();
                 partida.clearSelection();
-                partida.soundManager.playErrorSound();
+                if(partida.getSonido())
+                    partida.soundManager.playErrorSound();
                 if(partida.esPrimera)
                     partida.esPrimera = false;
                 if (partida.getPuntuacion().getPuntos() >= 3)
@@ -36,7 +37,8 @@ public class SeleccionNormal extends EstrategiaSeleccion {
                 partida.getSelectedCards().stream().forEach(x -> x.foundCard());
                 partida.clearSelection();
                 partida.setPuntuacion(new DecoradorParejaCorrecta(partida.getPuntuacion()));
-                partida.soundManager.playCorrectSound();
+                if(partida.getSonido())
+                    partida.soundManager.playCorrectSound();
                 partida.parejaSeguida();
 
                 if (partida.getParejasSeguidas() == 5){

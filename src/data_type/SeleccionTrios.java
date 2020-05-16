@@ -21,7 +21,8 @@ public class SeleccionTrios extends EstrategiaSeleccion {
         if(!checkCardsCombination() && partida.getSelectedCards().size() == 3){
             partida.increaseErrors();
             partida.clearSelection();
-            partida.soundManager.playErrorSound();
+            if(partida.getSonido())
+                partida.soundManager.playErrorSound();
             if(partida.getPuntuacion().getPuntos() >= 3)
                 partida.setPuntuacion(new DecoradorParejaIncorrecta(partida.getPuntuacion()));
             else if( partida.getErrorCounter() > partida.getIntentos()) {
@@ -34,7 +35,8 @@ public class SeleccionTrios extends EstrategiaSeleccion {
             partida.getSelectedCards().stream().forEach(x -> x.foundCard());
             partida.clearSelection();
             partida.setPuntuacion(new DecoradorParejaCorrecta(partida.getPuntuacion()));
-            partida.soundManager.playCorrectSound();
+            if(partida.getSonido())
+                partida.soundManager.playCorrectSound();
             if(partida.isGameCompleted()) {
                 partida.finish();
                 partida.stopTimer();
