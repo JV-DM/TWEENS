@@ -13,12 +13,7 @@
       <HBox fx:id="topBorderPane" prefHeight="34.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
             <Pane prefHeight="42.0" prefWidth="17.0" />
-            <ImageView fitHeight="32.0" fitWidth="32.0" onMouseClicked="#salirPartidaOnClick" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../imagenes/ImagenesSistema/iconoAtras.png" />
-               </image>
-            </ImageView>
-            <Pane prefHeight="39.0" prefWidth="453.0" />
+            <Pane prefHeight="39.0" prefWidth="448.0" />
             <Label fx:id="timeLabel" prefHeight="39.0" prefWidth="124.0" text="tiempo" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="27.0" />
@@ -27,6 +22,11 @@
             <Pane prefHeight="39.0" prefWidth="211.0" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="18.0">
                <children>
+                  <ImageView fx:id="salirPartida" fitHeight="32.0" fitWidth="32.0" onMouseClicked="#salirPartidaOnClick" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imagenes/ImagenesSistema/iconoAtras.png" />
+                     </image>
+                  </ImageView>
                   <ImageView fx:id="replay" fitHeight="32.0" fitWidth="32.0" layoutX="52.0" layoutY="10.0" onMouseClicked="#replayOnClick" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../imagenes/ImagenesSistema/AjustesPartida/iconoReplay.png" />
