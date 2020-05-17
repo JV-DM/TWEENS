@@ -35,6 +35,11 @@ public class SeleccionTrios extends EstrategiaSeleccion {
             partida.clearSelection();
             partida.setPuntuacion(new DecoradorParejaCorrecta(partida.getPuntuacion()));
             partida.soundManager.playCorrectSound();
+            if(partida.esPrimera)
+                partida.esPrimera = false;
+            if (partida.getPuntuacion().getPuntos() >= 3)
+                partida.setPuntuacion(new DecoradorParejaIncorrecta(partida.getPuntuacion()));
+
             if(partida.isGameCompleted()) {
                 partida.finish();
                 partida.stopTimer();
