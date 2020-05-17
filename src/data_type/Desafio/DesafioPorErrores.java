@@ -11,15 +11,23 @@ package data_type.Desafio;
  */
 public class DesafioPorErrores implements Desafio{
 
+    public int id;
     private String nombre;
     private String descripcion;
     private int erroresParaDesafio;
     
-    public DesafioPorErrores(String nombre, String descripcion, int erroresParaDesafio){
+    public DesafioPorErrores(int id, String nombre, String descripcion, int erroresParaDesafio){
+        this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.erroresParaDesafio = erroresParaDesafio;
     }
+    
+    /**
+     * Devuelve la id del desafio
+     * @return 
+     */
+    public int getId(){return id;}
     
     /**
      * Devuelve el nombre del desafio
@@ -38,6 +46,12 @@ public class DesafioPorErrores implements Desafio{
      * @return 
      */
     public int getErroresParaDesafio(){return erroresParaDesafio;}
+    
+    /**
+     * Establece la id del desafio
+     * @param nuevaId 
+     */
+    public void setId(int nuevaId){this.id = nuevaId;}
     
     /**
      * Establece el nombre del desafio

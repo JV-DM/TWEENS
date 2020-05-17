@@ -11,15 +11,23 @@ package data_type.Desafio;
  */
 public class DesafioPorTiempo implements Desafio {
 
+    private int id;
     private String nombre;
     private String descripcion;
     private int tiempoParaDesafio;
     
-    public DesafioPorTiempo(String nombre, String descripcion, int tiempoParaDesafio){
+    public DesafioPorTiempo(int id, String nombre, String descripcion, int tiempoParaDesafio){
+        this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.tiempoParaDesafio = tiempoParaDesafio;
     }
+    
+    /**
+     * Devuelve la id del desafio
+     * @return 
+     */
+    public int getId(){return id;}
     
     /**
      * Devuelve el nombre del desafio
@@ -38,6 +46,12 @@ public class DesafioPorTiempo implements Desafio {
      * @return 
      */
     public int getTiempoParaDesafio(){return tiempoParaDesafio;}
+    
+    /**
+     * Establece la id del desafio
+     * @param nuevaId 
+     */
+    public void setId(int nuevaId){this.id = nuevaId;}
     
     /**
      * Establece el nombre del desafio
