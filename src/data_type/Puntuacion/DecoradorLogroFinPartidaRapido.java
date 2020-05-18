@@ -1,8 +1,8 @@
 package data_type.Puntuacion;
 
 public class DecoradorLogroFinPartidaRapido extends DecoradorConcreto{
-    public DecoradorLogroFinPartidaRapido(Decorador decorador){
-        this.decorador = decorador;
+    public DecoradorLogroFinPartidaRapido(IPuntuacion IPuntuacion){
+        this.IPuntuacion = IPuntuacion;
     }
     @Override
     public int getPuntos() {

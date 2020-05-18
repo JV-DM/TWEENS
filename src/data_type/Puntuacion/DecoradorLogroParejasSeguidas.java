@@ -2,8 +2,8 @@ package data_type.Puntuacion;
 
 public class DecoradorLogroParejasSeguidas extends DecoradorConcreto {
 
-    public DecoradorLogroParejasSeguidas(Decorador decorador){
-        this.decorador = decorador;
+    public DecoradorLogroParejasSeguidas(IPuntuacion IPuntuacion){
+        this.IPuntuacion = IPuntuacion;
     }
 
     @Override

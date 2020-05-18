@@ -1,6 +1,6 @@
 package data_type.Puntuacion;
 
-public interface Decorador {
+public interface IPuntuacion {
     DecoradorConcreto decorador = new DecoradorConcreto();
     int getPuntos();
 }

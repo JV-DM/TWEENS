@@ -5,8 +5,7 @@ import data_type.Puntuacion.*;
 public class SeleccionNormal extends EstrategiaSeleccion {
     //public SeleccionNormal(){};
 
-    @Override
-    public void pickCard(Carta card) {
+    public void pickCard(Carta card,Partida partida) {
             if (!partida.getBaraja().getCartas().contains(card) || card.isFound())
                 return;
 
@@ -17,7 +16,7 @@ public class SeleccionNormal extends EstrategiaSeleccion {
 
             partida.getSelectedCards().add(card);
 
-            if (!checkCardsCombination() && partida.getSelectedCards().size() == 2) {
+            if (!checkCardsCombination(partida) && partida.getSelectedCards().size() == 2) {
                 partida.increaseErrors();
                 partida.clearSelection();
                 partida.soundManager.playErrorSound();
@@ -33,7 +32,7 @@ public class SeleccionNormal extends EstrategiaSeleccion {
                     partida.stopTimer();
                 }
             }
-            if (checkCardsCombination() && partida.getSelectedCards().size() == 2) {
+            if (checkCardsCombination(partida) && partida.getSelectedCards().size() == 2) {
                 partida.getSelectedCards().stream().forEach(x -> x.foundCard());
                 partida.clearSelection();
                 partida.setPuntuacion(new DecoradorParejaCorrecta(partida.getPuntuacion()));

@@ -1,6 +1,6 @@
 package data_type;
 
-import data_type.Puntuacion.Decorador;
+import data_type.Puntuacion.IPuntuacion;
 import data_type.Puntuacion.Puntuacion;
 import javafx.scene.image.Image;
 import view.mainViewController;
@@ -16,7 +16,7 @@ public class Partida {
     private boolean isFinished = false;
     private Timer timer;
     private boolean running;
-    private Decorador decorador = new Puntuacion();
+    private IPuntuacion IPuntuacion = new Puntuacion();
     private long startTime = 0L, endTime = 0L;
     private mainViewController controller;
     private EstrategiaSeleccion modoJuego;
@@ -58,7 +58,7 @@ public class Partida {
      * @param card
      */
     public void pickCard(Carta card){
-        modoJuego.pickCard(card);
+        modoJuego.pickCard(card,this);
     }
 
     /**
@@ -76,8 +76,8 @@ public class Partida {
         selectedCards.clear();
     }
 
-    public Decorador getPuntuacion(){
-        return decorador;
+    public IPuntuacion getPuntuacion(){
+        return IPuntuacion;
     }
 
 
@@ -200,8 +200,8 @@ public class Partida {
     public void setTime(long tiempo){
         controller.setTime(tiempo);
     }
-    public void setPuntuacion(Decorador decorador){
-        this.decorador = decorador;
+    public void setPuntuacion(IPuntuacion IPuntuacion){
+        this.IPuntuacion = IPuntuacion;
     }
 
     public void setErrorCounter(int errors){
