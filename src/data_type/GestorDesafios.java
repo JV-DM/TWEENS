@@ -24,6 +24,7 @@ public class GestorDesafios {
     private final static String DESCRIPCION_DESAFIO_3 = "Gana una partida sin cometer ningún error";
     
     private List<Desafio> desafios;
+    private Desafio desafioEnCurso;
     
     public GestorDesafios(){
         desafios = new ArrayList();
@@ -34,14 +35,32 @@ public class GestorDesafios {
     }
     
     public void cargarDesafios(){
-        Desafio desafio1 = new DesafioPorTiempo(1,NOMBRE_DESAFIO_1,DESCRIPCION_DESAFIO_1,40);
+        Desafio desafio1 = new DesafioPorTiempo(1,NOMBRE_DESAFIO_1,DESCRIPCION_DESAFIO_1,false,40);
         añadirDesafio(desafio1);
-        Desafio desafio2 = new DesafioPorTiempo(2,NOMBRE_DESAFIO_2,DESCRIPCION_DESAFIO_2,60);
+        Desafio desafio2 = new DesafioPorTiempo(2,NOMBRE_DESAFIO_2,DESCRIPCION_DESAFIO_2,false,60);
         añadirDesafio(desafio2);
-        Desafio desafio3 = new DesafioPorErrores(3,NOMBRE_DESAFIO_3,DESCRIPCION_DESAFIO_3,0);
+        Desafio desafio3 = new DesafioPorErrores(3,NOMBRE_DESAFIO_3,DESCRIPCION_DESAFIO_3,false,0);
         añadirDesafio(desafio3);
     }
     
     public List<Desafio> getDesafios(){return desafios;}
+    
+    public int getTipoDesafio(Desafio desafio){
+        if(desafio instanceof DesafioPorErrores)
+            return 1;
+        else return 2;
+    }
+    
+    public DesafioPorErrores getDesafioPorErrores(Desafio desafio){
+         if(desafio instanceof DesafioPorErrores)
+             return (DesafioPorErrores) desafio;
+         return null;
+    }
+    
+    public DesafioPorTiempo getDesafioPorTiempo(Desafio desafio){
+         if(desafio instanceof DesafioPorTiempo)
+             return (DesafioPorTiempo) desafio;
+         return null;
+    }
     
 }

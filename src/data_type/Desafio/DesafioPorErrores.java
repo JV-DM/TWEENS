@@ -14,12 +14,14 @@ public class DesafioPorErrores implements Desafio{
     public int id;
     private String nombre;
     private String descripcion;
+    private boolean completado;
     private int erroresParaDesafio;
     
-    public DesafioPorErrores(int id, String nombre, String descripcion, int erroresParaDesafio){
+    public DesafioPorErrores(int id, String nombre, String descripcion, boolean completado, int erroresParaDesafio){
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
+        this.completado = completado;
         this.erroresParaDesafio = erroresParaDesafio;
     }
     
@@ -40,6 +42,12 @@ public class DesafioPorErrores implements Desafio{
      * @return 
      */
     public String getDescripcion(){return descripcion;}
+    
+    /**
+     * Devuelve si el desafio ha sido completado
+     * @return 
+     */
+    public boolean getCompletado(){return completado;}
     
     /**
      * Devuelve los errores para conseguir el desafio
@@ -66,6 +74,12 @@ public class DesafioPorErrores implements Desafio{
     public void setDescripcion(String nuevoDescripcion){
         this.descripcion = nuevoDescripcion;
     }
+    
+    /**
+     * Establece si el desafio ha sido completado
+     * @param nuevoCompletado 
+     */
+    public void setCompletado(boolean nuevoCompletado){this.completado = nuevoCompletado;}
     
     /**
      * Establece los errores para conseguir el desafio

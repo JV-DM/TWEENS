@@ -14,13 +14,15 @@ public class DesafioPorTiempo implements Desafio {
     private int id;
     private String nombre;
     private String descripcion;
+    private boolean completado;
     private int tiempoParaDesafio;
     
-    public DesafioPorTiempo(int id, String nombre, String descripcion, int tiempoParaDesafio){
+    public DesafioPorTiempo(int id, String nombre, String descripcion,boolean completado, int tiempoParaDesafio){
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.tiempoParaDesafio = tiempoParaDesafio;
+        this.completado = completado;
     }
     
     /**
@@ -40,6 +42,12 @@ public class DesafioPorTiempo implements Desafio {
      * @return 
      */
     public String getDescripcion(){return descripcion;}
+    
+    /**
+     * Devuelve si el desafio ha sido completado
+     * @return 
+     */
+    public boolean getCompletado(){return completado;}
     
     /**
      * Devuelve el tiempo para conseguir el desafio
@@ -66,6 +74,12 @@ public class DesafioPorTiempo implements Desafio {
     public void setDescripcion(String nuevoDescripcion){
         this.descripcion = nuevoDescripcion;
     }
+    
+    /**
+     * Establece si el desafio ha sido completado
+     * @param nuevoCompletado 
+     */
+    public void setCompletado(boolean nuevoCompletado){this.completado = nuevoCompletado;}
     
     /**
      * Establece el tiempo para conseguir el desafio
