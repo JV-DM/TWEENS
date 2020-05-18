@@ -82,6 +82,7 @@ public class mainViewController implements Initializable {
     private Baraja baraja;
     private Ranking ranking;
     private Historial historial;
+    private GestorDesafios gestorDesafios;
 
     private int intentos = 10;
     private boolean isLevel = false;
@@ -113,6 +114,8 @@ public class mainViewController implements Initializable {
     private boolean partidaSonido = true;
     @FXML
     private ImageView salirPartida;
+    @FXML
+    private ImageView desafioIcono;
 
     
     /**
@@ -335,6 +338,8 @@ public class mainViewController implements Initializable {
     }
 
     public void iniciarPartida(Baraja baraja){
+        if(gestorDesafios.getDesafioEnCurso() == null)
+            desafioIcono.setVisible(false);
         this.baraja = baraja;
         partidaAcabada = false;
         partida = Partida.getInstance(baraja,new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
@@ -408,6 +413,7 @@ public class mainViewController implements Initializable {
     public void setLevelPartida (int n){ lvl = n; }
     public void setRanking(Ranking ranking){this.ranking = ranking;}
     public void setHistorial(Historial historial){this.historial = historial;}
+    public void setGestorDesafios(GestorDesafios gestorDesafios){this.gestorDesafios = gestorDesafios;}
 
     /**
      * Cambia el valor de la puntuación
@@ -465,6 +471,7 @@ public class mainViewController implements Initializable {
         partida.setSonido(false);
         if(!partida.isFinished())
             partida.stopTimer();
+        partida.setSonido(true);
         Parent root = FXMLLoader.load(getClass().getResource("MenuView.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));

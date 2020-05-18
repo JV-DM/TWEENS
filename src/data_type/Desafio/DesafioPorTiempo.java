@@ -39,7 +39,7 @@ public class DesafioPorTiempo extends Desafio {
      * @return 
      */   
 
-    public boolean desafioConseguido(int tiempoPartida) {
+    public boolean desafioCompletado(int tiempoPartida) {
         return tiempoPartida < tiempoParaDesafio;
     }
     

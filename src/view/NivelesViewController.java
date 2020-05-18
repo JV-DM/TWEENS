@@ -22,6 +22,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
@@ -67,6 +68,7 @@ public class NivelesViewController implements Initializable {
 
     private Perfil perfil;
     private GestorBarajas gestorBarajas;
+    private GestorDesafios gestorDesafios;
     Baraja baraja;
 
 
@@ -82,6 +84,7 @@ public class NivelesViewController implements Initializable {
     public void setPerfil(Perfil p) {this.perfil = p; }
     public void setGestorBarajas(GestorBarajas gestorBarajas) {this.gestorBarajas = gestorBarajas;}
     public void setBaraja(Baraja baraja){this.baraja = baraja;}
+    public void setGestorDesafios(GestorDesafios gestorDesafios){this.gestorDesafios = gestorDesafios;}
 
     @FXML
     private void clickNivele1(ActionEvent event) throws IOException {
@@ -196,5 +199,13 @@ public class NivelesViewController implements Initializable {
             }
         });
 
+    }
+
+    @FXML
+    private void atrasOnClick(MouseEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("MenuView.fxml"));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        
     }
 }

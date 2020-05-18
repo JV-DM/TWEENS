@@ -10,10 +10,16 @@ import data_type.Desafio.Desafio;
 import data_type.GestorDesafios;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -47,8 +53,7 @@ public class DesafioViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        createGridPaneDesafios();
-        borderPane.setCenter(gridPane);
+        createGridPaneDesafios();       
         borderPane.setPrefSize(924, 668);
         borderPane.setBackground(new Background(new BackgroundImage(new Image(RUTA_BACKGROUND),
                 BackgroundRepeat.NO_REPEAT,
@@ -69,13 +74,14 @@ public class DesafioViewController implements Initializable {
             for(int j = 0; j < NUMERO_DESAFIOS_POR_FILA; j++){      
                 if(indice < listaDeDesafios.size()) {
                     ImageView imagenDesafio = new ImageView(listaDeDesafios.get(indice).getImagen());
+                    imagenDesafio.setId(String.valueOf(listaDeDesafios.get(indice).getId()));
                     imagenDesafio.setPreserveRatio(false);
                     imagenDesafio.setFitWidth(IMAGEN_WIDTH);
                     imagenDesafio.setFitHeight(IMAGEN_HEIGHT);   
                     Label desafioCompletado = new Label(desafioCompletado(listaDeDesafios.get(indice)));                   
                     VBox vbox = new VBox(imagenDesafio,desafioCompletado);
                     vbox.setAlignment(Pos.CENTER);
-                    //vbox.addEventHandler(MouseEvent.MOUSE_CLICKED, verBaraja);
+                    vbox.addEventHandler(MouseEvent.MOUSE_CLICKED, verDesafio);
                     gridPane.add(vbox, j, i);
                     indice++;                  
                 }
@@ -84,8 +90,30 @@ public class DesafioViewController implements Initializable {
         //asthetics
         gridPane.setHgap(40);
         gridPane.setVgap(20);
+        borderPane.setCenter(gridPane);
     }
+    
+    EventHandler<MouseEvent> verDesafio = (MouseEvent event) -> {
+        VBox vbox = (VBox) event.getSource();
+        ObservableList<Node> listaNodos = vbox.getChildren();
+        int idDesafio = Integer.valueOf(listaNodos.get(0).getId());
+        Desafio desafio = gestorDesafios.getDesafioPorId(idDesafio);
+        boolean confirmado = mensajeDeConfirmacion(desafio.getDescripcion());
+        if(confirmado) {
+            gestorDesafios.setDesafioEnCUrso(desafio);
+            createGridPaneDesafios();   
+        }
+    };
 
+    public boolean mensajeDeConfirmacion(String texto){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText(null);
+        alert.setTitle("¿Deseas aceptar el desafio?");
+        alert.setContentText(texto);
+        Optional<ButtonType> action = alert.showAndWait();
+        return action.get() == ButtonType.OK;
+    }
+    
     public String desafioCompletado(Desafio desafio){
         if(desafio.getCompletado()) return "Conseguido";
         else if(gestorDesafios.getDesafioEnCurso() != null)

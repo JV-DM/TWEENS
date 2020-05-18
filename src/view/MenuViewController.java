@@ -177,6 +177,7 @@ public class MenuViewController implements Initializable {
         controller.setPerfil(this.perfil);
         controller.setGestorBarajas(gestorBarajas);
         controller.setBaraja(gestorBarajas.getBarajaPorDefecto());
+        controller.setGestorDesafios(gestorDesafios);
         Scene scene = new Scene(root,1024, 768);
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(scene);
@@ -194,6 +195,7 @@ public class MenuViewController implements Initializable {
         controller.setPerfil(this.perfil);
         controller.setRanking(this.ranking);
         controller.setHistorial(this.historial);
+        controller.setGestorDesafios(gestorDesafios);
     }
 
     @FXML

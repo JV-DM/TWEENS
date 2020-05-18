@@ -9,7 +9,7 @@ package data_type.Desafio;
  *
  * @author Javier
  */
-public abstract class Desafio {
+public abstract class Desafio implements IDesafio{
     public int id;
     private String nombre;
     private String descripcion;

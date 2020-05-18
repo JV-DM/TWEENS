@@ -1,5 +1,6 @@
 package data_type;
 
+import data_type.Desafio.Desafio;
 import data_type.Puntuacion.Decorador;
 import data_type.Puntuacion.Puntuacion;
 import javafx.scene.image.Image;
@@ -29,6 +30,7 @@ public class Partida {
     private int parejasSeguidas;
     public boolean esPrimera;
     private boolean sonido = true;
+    private Desafio desafio;
 
     private Partida(Baraja b, Image back){
         this.baraja = b;
@@ -207,6 +209,10 @@ public class Partida {
         this.timer = new Timer();
     }
 
+    public void setDesafio(Desafio desafio){
+        this.desafio = desafio;
+    }
+    
     public void setTime(long tiempo){
         controller.setTime(tiempo);
     }

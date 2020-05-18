@@ -38,7 +38,8 @@ public class DesafioPorErrores extends Desafio{
      * @param erroresPartida
      * @return 
      */
-    public boolean desafioConseguido(int erroresPartida) {
+    @Override
+    public boolean desafioCompletado(int erroresPartida) {
         return erroresPartida == erroresParaDesafio;
     }
     

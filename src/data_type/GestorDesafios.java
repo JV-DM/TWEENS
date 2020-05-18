@@ -52,6 +52,10 @@ public class GestorDesafios {
     
     public List<Desafio> getDesafios(){return desafios;}
     
+    public Desafio getDesafioEnCurso(){return desafioEnCurso;}
+    
+    public void setDesafioEnCUrso(Desafio nuevoDesafio){this.desafioEnCurso = nuevoDesafio;}
+    
     public int getTipoDesafio(Desafio desafio){
         if(desafio instanceof DesafioPorErrores)
             return 1;
@@ -70,7 +74,11 @@ public class GestorDesafios {
          return null;
     }
     
-    public Desafio getDesafioEnCurso(){return desafioEnCurso;}
+    public Desafio getDesafioPorId(int id){
+        for(Desafio desafio : desafios)
+            if(desafio.getId() == id) return desafio;
+        return null;               
+    }
     
-    public void setDesafioEnCUrso(Desafio nuevoDesafio){this.desafioEnCurso = nuevoDesafio;}
+    
 }

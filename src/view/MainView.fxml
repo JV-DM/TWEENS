@@ -13,7 +13,14 @@
       <HBox fx:id="topBorderPane" prefHeight="34.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
             <Pane prefHeight="42.0" prefWidth="17.0" />
-            <Pane prefHeight="39.0" prefWidth="448.0" />
+            <Pane prefHeight="39.0" prefWidth="448.0">
+               <children>
+                  <ImageView fx:id="desafioIcono" accessibleHelp="Tienes un desafio en curso" accessibleRoleDescription="Tienes un desafio en curso" accessibleText="Tienes un desafio en curso" fitHeight="35.0" fitWidth="37.0" layoutX="310.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imagenes/ImagenesSistema/iconoDesafio.png" />
+                     </image>
+                  </ImageView>
+               </children></Pane>
             <Label fx:id="timeLabel" prefHeight="39.0" prefWidth="124.0" text="tiempo" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="27.0" />
