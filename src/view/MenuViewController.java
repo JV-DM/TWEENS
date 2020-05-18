@@ -51,7 +51,8 @@ public class MenuViewController implements Initializable {
     private BorderPane menuBorderPane;
     
     private Perfil perfil;
-    GestorBarajas gestorBarajas;
+    private GestorBarajas gestorBarajas;
+    private GestorDesafios gestorDesafios;
     private Ranking ranking;
     private Historial historial;
     private Baraja baraja;
@@ -78,6 +79,7 @@ public class MenuViewController implements Initializable {
         perfil = new Perfil();
         ranking = new Ranking();
         historial = new Historial();
+        gestorDesafios = new GestorDesafios();
         try {
             perfil.cargarPerfil();
             ranking.cargarRanking();
@@ -247,5 +249,21 @@ public class MenuViewController implements Initializable {
             modosDeJuegoVBox.setVisible(true);
             otrosButtons.setVisible(false);
         }
+    }
+
+    @FXML
+    private void desafiosOnClick(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("DesafioView.fxml"));
+        DesafioViewController controller = new DesafioViewController(gestorDesafios);
+        loader.setController(controller);
+        Scene scene = new Scene(loader.load());
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Desafios");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner((Stage) ((Node) event.getSource()).getScene().getWindow());
+        stage.getIcons().add(new Image("imagenes/ImagenesCaraPosterior/BacCard.png"));
+        stage.setResizable(false);
+        stage.showAndWait();
     }
 }

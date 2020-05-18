@@ -22,12 +22,16 @@ public class GestorDesafios {
     private final static String DESCRIPCION_DESAFIO_1 = "Consigue acabar el nivel en tan solo 40 segundos";
     private final static String DESCRIPCION_DESAFIO_2 = "¡Acaba dos niveles en menos de 60 segundos!";
     private final static String DESCRIPCION_DESAFIO_3 = "Gana una partida sin cometer ningún error";
+    private final static String RUTA_IMAGENES_DESAFIO1 = "imagenes/Desafios/Desafio1.png";
+    private final static String RUTA_IMAGENES_DESAFIO2 = "imagenes/Desafios/Desafio2.png";
+    private final static String RUTA_IMAGENES_DESAFIO3 = "imagenes/Desafios/Desafio3.png";
     
     private List<Desafio> desafios;
     private Desafio desafioEnCurso;
     
     public GestorDesafios(){
         desafios = new ArrayList();
+        cargarDesafios();
     }
     
     public void añadirDesafio(Desafio desafio){
@@ -35,11 +39,14 @@ public class GestorDesafios {
     }
     
     public void cargarDesafios(){
-        Desafio desafio1 = new DesafioPorTiempo(1,NOMBRE_DESAFIO_1,DESCRIPCION_DESAFIO_1,false,40);
+        Desafio desafio1 = new DesafioPorTiempo(1,NOMBRE_DESAFIO_1,DESCRIPCION_DESAFIO_1
+                ,RUTA_IMAGENES_DESAFIO1,false,40);
         añadirDesafio(desafio1);
-        Desafio desafio2 = new DesafioPorTiempo(2,NOMBRE_DESAFIO_2,DESCRIPCION_DESAFIO_2,false,60);
+        Desafio desafio2 = new DesafioPorTiempo(2,NOMBRE_DESAFIO_2,DESCRIPCION_DESAFIO_2
+                ,RUTA_IMAGENES_DESAFIO2,false,60);
         añadirDesafio(desafio2);
-        Desafio desafio3 = new DesafioPorErrores(3,NOMBRE_DESAFIO_3,DESCRIPCION_DESAFIO_3,false,0);
+        Desafio desafio3 = new DesafioPorErrores(3,NOMBRE_DESAFIO_3,DESCRIPCION_DESAFIO_3
+                ,RUTA_IMAGENES_DESAFIO3,false,0);
         añadirDesafio(desafio3);
     }
     
@@ -63,4 +70,7 @@ public class GestorDesafios {
          return null;
     }
     
+    public Desafio getDesafioEnCurso(){return desafioEnCurso;}
+    
+    public void setDesafioEnCUrso(Desafio nuevoDesafio){this.desafioEnCurso = nuevoDesafio;}
 }

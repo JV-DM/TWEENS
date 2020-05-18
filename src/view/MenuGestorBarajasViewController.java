@@ -135,7 +135,7 @@ public class MenuGestorBarajasViewController implements Initializable {
                     imagenBaraja.setPreserveRatio(false);
                     imagenBaraja.setFitWidth(CARTA_WIDTH);
                     imagenBaraja.setFitHeight(CARTA_HEIGHT);   
-                    Label nombreBaraja = new Label(listaDeCartas.get(indice).getNombre());                   
+                    Label nombreBaraja = new Label(listaDeCartas.get(indice).getNombre());    
                     VBox vbox = new VBox(imagenBaraja,nombreBaraja);
                     vbox.setAlignment(Pos.CENTER);
                     vbox.addEventHandler(MouseEvent.MOUSE_CLICKED, borrarCarta);
