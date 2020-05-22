@@ -1,5 +1,6 @@
 package view;
 
+import com.sun.javafx.scene.ImageViewHelper;
 import data_type.*;
 import data_type.Puntuacion.Decorador;
 import data_type.Puntuacion.DecoradorLogroFinPartidaRapido;
@@ -41,6 +42,8 @@ public class mainViewController {
     private final static long HOURS = 24;
 
     private final static long ONE_DAY = ONE_HOUR * 24;
+
+    public ImageView imageViewCarta;
 
     private long TIEMPO_PARTIDA = ONE_MINUTE;
 
@@ -118,7 +121,6 @@ public class mainViewController {
                 BackgroundPosition.DEFAULT,
                 new BackgroundSize(100, 100, true,true, false, true))));
     }
-
     /**
      * Manejador de eventos para TODAS las cartas
      * @param carta carta que se supone que hay debajo de cada imagen de cara posterior
@@ -145,11 +147,16 @@ public class mainViewController {
                     for (Carta cardFromMap : cardImageViewMap.keySet())
                         if(!cardFromMap.isFound())
                             cardImageViewMap.get(cardFromMap).setImage(partida.getBaraja().getCaraPosterior().getImagen());
+                         if(modoJuego instanceof SeleccionModoCarta) imageViewCarta.setImage(partida.cartaABuscar().getImagen());
                     playGridPane.setDisable(false);
                 }
             }).start();
         };
     }
+
+
+
+
 
     /**
      * Cambia el valor de la puntuación
@@ -314,8 +321,9 @@ public class mainViewController {
         updateTimer();
         gridCreation(partida.getBaraja().getCartas(), mainBorderPane.heightProperty(), mainBorderPane.widthProperty());
         partida.startGame();
+        if(modoJuego instanceof SeleccionModoCarta) imageViewCarta.setImage(partida.cartaABuscar().getImagen());
     }
-    
+
     EventHandler<MouseEvent> reinicarPartida = (MouseEvent event) -> {
         if(partidaAcabada) {            
             iniciarPartida(partida.getBaraja());

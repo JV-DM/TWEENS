@@ -8,5 +8,6 @@
     <orderEntry type="jdk" jdkName="11.0.3" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="javafx-sdk-11.0" level="application" />
+    <orderEntry type="library" name="javafx-swt" level="application" />
   </component>
 </module>
