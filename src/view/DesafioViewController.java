@@ -21,6 +21,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -34,6 +35,7 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.StageStyle;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
@@ -106,7 +108,8 @@ public class DesafioViewController implements Initializable {
             Desafio desafio = gestorDesafios.getDesafioPorId(idDesafio);
             boolean confirmado = mensajeDeConfirmacion(desafio.getDescripcion());
             if(confirmado) {
-                gestorDesafios.setDesafioEnCurso(desafio);
+                if(desafio.getCompletado() == true) desafio.setCompletado(false);
+                gestorDesafios.setDesafioEnCurso(desafio);               
                 createGridPaneDesafios();               
                 try {
                     gestorDesafios.guardarDesafios();
@@ -122,7 +125,7 @@ public class DesafioViewController implements Initializable {
         alert.setContentText(texto);
         Optional<ButtonType> action = alert.showAndWait();
         return action.get() == ButtonType.OK;
-    }
+    }   
     
     public String desafioCompletado(Desafio desafio){
         if(desafio.getCompletado()) return "Conseguido";

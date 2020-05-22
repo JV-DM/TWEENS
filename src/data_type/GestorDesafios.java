@@ -149,8 +149,10 @@ public class GestorDesafios {
     }
 
     private void extraerDatos(List<String> listaDeElementos) {
-        if(!listaDeElementos.get(0).equals("0"))
+        if(!listaDeElementos.get(0).equals("0")){
             desafioEnCurso = getDesafioPorId(Integer.valueOf(listaDeElementos.get(0)));
+            if(desafioEnCurso.getCompletado() == true) desafioEnCurso = null;
+        }
         int indice = 1;
         for(Desafio desafio: desafios){
             desafio.setCompletado(Boolean.valueOf(listaDeElementos.get(indice)));

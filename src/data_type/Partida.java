@@ -8,6 +8,8 @@ import view.mainViewController;
 import java.time.Duration;
 import java.util.*;
 import java.util.Timer;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 public class Partida {
     private Baraja baraja;
@@ -119,8 +121,10 @@ public class Partida {
     
     /**
      * Para el tiempo de la partida
+     * @throws javax.xml.parsers.ParserConfigurationException
+     * @throws javax.xml.transform.TransformerException
      */
-   public void stopTimer(){
+   public void stopTimer() throws ParserConfigurationException, TransformerException{
        if (isNivel == false ||isNivel && level == 1 || isNivel && level == 3){
            if(timer == null) return;
            
@@ -128,6 +132,7 @@ public class Partida {
                if(sonido)
                 soundManager.playVictoriaSound();
                this.victoria = true;
+               this.controller.comprobarDesafio();
            }
            else{
                if(sonido)

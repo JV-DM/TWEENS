@@ -41,7 +41,7 @@ public class DesafioPorTiempo extends Desafio {
 
     @Override
     public boolean desafioCompletado(int tiempoPartida) {
-        return tiempoPartida < tiempoParaDesafio;
+        return tiempoPartida <= tiempoParaDesafio;
     }
     
 }

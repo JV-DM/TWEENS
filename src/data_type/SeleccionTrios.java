@@ -3,6 +3,10 @@ package data_type;
 import data_type.Puntuacion.DecoradorParejaCorrecta;
 import data_type.Puntuacion.DecoradorParejaIncorrecta;
 import data_type.Puntuacion.Puntuacion;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 public class SeleccionTrios extends EstrategiaSeleccion {
 
@@ -28,7 +32,9 @@ public class SeleccionTrios extends EstrategiaSeleccion {
             else if( partida.getErrorCounter() > partida.getIntentos()) {
                 partida.setPuntuacion(new Puntuacion());
                 partida.finish();
-                partida.stopTimer();
+                try {
+                    partida.stopTimer();
+                } catch (ParserConfigurationException ex) {} catch (TransformerException ex) {}
             }
         }
         if(checkCardsCombination() && partida.getSelectedCards().size() == 3){
@@ -39,7 +45,9 @@ public class SeleccionTrios extends EstrategiaSeleccion {
                 partida.soundManager.playCorrectSound();
             if(partida.isGameCompleted()) {
                 partida.finish();
-                partida.stopTimer();
+                try {
+                    partida.stopTimer();
+                } catch (ParserConfigurationException ex) {} catch (TransformerException ex) {}
             }
         }
         if (partida.getController() != null)

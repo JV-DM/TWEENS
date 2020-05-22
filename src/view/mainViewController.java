@@ -27,16 +27,20 @@ import javafx.scene.input.MouseEvent;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
@@ -116,8 +120,6 @@ public class mainViewController implements Initializable {
     private boolean partidaSonido = true;
     @FXML
     private ImageView salirPartida;
-    @FXML
-    private ImageView desafioIcono;
 
     
     /**
@@ -242,7 +244,9 @@ public class mainViewController implements Initializable {
                         if(time >= 0)
                             timeLabel.setText(formatTime(time));
                         if(time <= 0){
-                            partida.stopTimer();
+                            try {
+                                partida.stopTimer();
+                            } catch (ParserConfigurationException ex) {} catch (TransformerException ex) {}
                         }
                     }
                     if(partidaAcabada)
@@ -274,6 +278,14 @@ public class mainViewController implements Initializable {
         return res;
     }
 
+    public void comprobarDesafio() throws ParserConfigurationException, TransformerException{
+        if(gestorDesafios.getDesafioEnCurso() != null){
+                gestorDesafios.comprobarDesafioEnCurso(partida.getErrorCounter(), partida.getPuntuacion().getPuntos(), (int) (TIEMPO_PARTIDA - time)/1000);
+                gestorDesafios.guardarDesafios();
+                mensajeDesafioConseguido();
+            }
+    }
+    
     public void pantallaFinPartida(boolean victoria){
         if(TIEMPO_PARTIDA - time == 30 * ONE_SECOND )
             partida.setPuntuacion(new DecoradorLogroFinPartidaRapido(partida.getPuntuacion()));
@@ -290,10 +302,7 @@ public class mainViewController implements Initializable {
         String textoRepetirPartida = "Haz clic para repetir partida";
 
         if(victoria){
-            textoFinPartida = "¡VICTORIA!";
-            if(gestorDesafios.getDesafioEnCurso() != null)
-            gestorDesafios.comprobarDesafioEnCurso(partida.getErrorCounter(), partida.getPuntuacion().getPuntos(), (int) (TIEMPO_PARTIDA - time));
-            System.out.println(gestorDesafios.getDesafioEnCurso().getCompletado());
+            textoFinPartida = "¡VICTORIA!";           
         }
 
         finPartida.setText(textoFinPartida);
@@ -344,8 +353,6 @@ public class mainViewController implements Initializable {
     }
 
     public void iniciarPartida(Baraja baraja){
-        if(gestorDesafios.getDesafioEnCurso() == null)
-            desafioIcono.setVisible(false);
         this.baraja = baraja;
         partidaAcabada = false;
         partida = Partida.getInstance(baraja,new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
@@ -427,8 +434,16 @@ public class mainViewController implements Initializable {
      */
     public void setIntentos(int intentos) { intentosLabel.setText("INTENTOS " +  intentos ); }
 
+    public void mensajeDesafioConseguido(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText("¡¡¡Enhorabuena!!!");
+        alert.setContentText("Has conseguido el desafio: " + gestorDesafios.getDesafioEnCurso().getNombre());
+        alert.initStyle(StageStyle.UTILITY);
+        alert.showAndWait();
+    }
+    
     @FXML
-    private void replayOnClick(MouseEvent event) {
+    private void replayOnClick(MouseEvent event) throws ParserConfigurationException, TransformerException {
         partida.setSonido(false);
         partida.stopTimer();
         iniciarPartida(baraja);
@@ -473,7 +488,7 @@ public class mainViewController implements Initializable {
     }
     
     @FXML
-    private void salirPartidaOnClick(MouseEvent event) throws IOException {
+    private void salirPartidaOnClick(MouseEvent event) throws IOException, ParserConfigurationException, TransformerException {
         partida.setSonido(false);
         if(!partida.isFinished())
             partida.stopTimer();
