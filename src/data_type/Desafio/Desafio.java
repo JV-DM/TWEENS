@@ -10,17 +10,19 @@ package data_type.Desafio;
  * @author Javier
  */
 public abstract class Desafio implements IDesafio{
-    public int id;
+    private int id;
     private String nombre;
     private String descripcion;
     private String imagen;
+    private int tipo;
     private boolean completado;
     
-    public Desafio(int id, String nombre, String descripcion,String imagen, boolean completado){
+    public Desafio(int id, String nombre, String descripcion,String imagen,int tipo,boolean completado){
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.imagen = imagen;
+        this.tipo = tipo;
         this.completado = completado;
     }
     
@@ -47,6 +49,12 @@ public abstract class Desafio implements IDesafio{
      * @return 
      */
     public String getImagen(){return imagen;}
+    
+    /**
+     * Devuelve el tipo de desafio
+     * @return 
+     */
+    public int getTipo(){return tipo;}
     
     /**
      * Devuelve si el desafio ha sido completado

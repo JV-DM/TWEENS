@@ -12,6 +12,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -32,6 +34,8 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 /**
  * FXML Controller class
@@ -93,15 +97,21 @@ public class DesafioViewController implements Initializable {
         borderPane.setCenter(gridPane);
     }
     
-    EventHandler<MouseEvent> verDesafio = (MouseEvent event) -> {
-        VBox vbox = (VBox) event.getSource();
-        ObservableList<Node> listaNodos = vbox.getChildren();
-        int idDesafio = Integer.valueOf(listaNodos.get(0).getId());
-        Desafio desafio = gestorDesafios.getDesafioPorId(idDesafio);
-        boolean confirmado = mensajeDeConfirmacion(desafio.getDescripcion());
-        if(confirmado) {
-            gestorDesafios.setDesafioEnCUrso(desafio);
-            createGridPaneDesafios();   
+    EventHandler<MouseEvent> verDesafio = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+            VBox vbox = (VBox) event.getSource();
+            ObservableList<Node> listaNodos = vbox.getChildren();
+            int idDesafio = Integer.valueOf(listaNodos.get(0).getId());
+            Desafio desafio = gestorDesafios.getDesafioPorId(idDesafio);
+            boolean confirmado = mensajeDeConfirmacion(desafio.getDescripcion());
+            if(confirmado) {
+                gestorDesafios.setDesafioEnCurso(desafio);
+                createGridPaneDesafios();               
+                try {
+                    gestorDesafios.guardarDesafios();
+                } catch (ParserConfigurationException ex) {} catch (TransformerException ex) {}
+            }
         }
     };
 

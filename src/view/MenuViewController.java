@@ -84,6 +84,7 @@ public class MenuViewController implements Initializable {
             perfil.cargarPerfil();
             ranking.cargarRanking();
             historial.cargarHistorial();
+            gestorDesafios.cargarDesafios();
         } catch (ParserConfigurationException ex) {} catch (SAXException ex) {} catch (IOException ex) {} catch (ParseException e) {
             e.printStackTrace();
         }
@@ -195,7 +196,7 @@ public class MenuViewController implements Initializable {
         controller.setPerfil(this.perfil);
         controller.setRanking(this.ranking);
         controller.setHistorial(this.historial);
-        controller.setGestorDesafios(gestorDesafios);
+        controller.setGestorDesafios(this.gestorDesafios);
     }
 
     @FXML
@@ -267,5 +268,9 @@ public class MenuViewController implements Initializable {
         stage.getIcons().add(new Image("imagenes/ImagenesCaraPosterior/BacCard.png"));
         stage.setResizable(false);
         stage.showAndWait();
+    }
+    
+    public void setGestorDesafios(GestorDesafios gestorDesafios){
+        this.gestorDesafios = gestorDesafios;
     }
 }

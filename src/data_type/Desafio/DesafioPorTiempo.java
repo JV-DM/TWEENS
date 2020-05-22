@@ -13,8 +13,8 @@ public class DesafioPorTiempo extends Desafio {
 
     private int tiempoParaDesafio;
     
-    public DesafioPorTiempo(int id, String nombre, String descripcion,String imagen, boolean completado, int tiempoParaDesafio){
-        super(id,nombre,descripcion,imagen,completado);
+    public DesafioPorTiempo(int id, String nombre, String descripcion,String imagen,int tipo, boolean completado, int tiempoParaDesafio){
+        super(id,nombre,descripcion,imagen,tipo,completado);
         this.tiempoParaDesafio = tiempoParaDesafio;
     }
     
@@ -39,6 +39,7 @@ public class DesafioPorTiempo extends Desafio {
      * @return 
      */   
 
+    @Override
     public boolean desafioCompletado(int tiempoPartida) {
         return tiempoPartida < tiempoParaDesafio;
     }

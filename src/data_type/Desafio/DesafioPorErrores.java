@@ -13,8 +13,8 @@ public class DesafioPorErrores extends Desafio{
 
     private int erroresParaDesafio;
     
-    public DesafioPorErrores(int id, String nombre, String descripcion,String imagen, boolean completado, int erroresParaDesafio){
-        super(id,nombre,descripcion,imagen,completado);
+    public DesafioPorErrores(int id, String nombre, String descripcion,String imagen,int tipo, boolean completado, int erroresParaDesafio){
+        super(id,nombre,descripcion,imagen,tipo,completado);
         this.erroresParaDesafio = erroresParaDesafio;
     }
     

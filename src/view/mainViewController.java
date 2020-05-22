@@ -88,6 +88,8 @@ public class mainViewController implements Initializable {
     private boolean isLevel = false;
     private int lvl = 1;
     
+    
+    
     @FXML
     private BorderPane mainBorderPane;
     @FXML
@@ -287,8 +289,12 @@ public class mainViewController implements Initializable {
         String textoFinPartida = "DERROTA";
         String textoRepetirPartida = "Haz clic para repetir partida";
 
-        if(victoria)
+        if(victoria){
             textoFinPartida = "¡VICTORIA!";
+            if(gestorDesafios.getDesafioEnCurso() != null)
+            gestorDesafios.comprobarDesafioEnCurso(partida.getErrorCounter(), partida.getPuntuacion().getPuntos(), (int) (TIEMPO_PARTIDA - time));
+            System.out.println(gestorDesafios.getDesafioEnCurso().getCompletado());
+        }
 
         finPartida.setText(textoFinPartida);
         timeText.setText("TIEMPO");
