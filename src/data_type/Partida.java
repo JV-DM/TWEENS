@@ -46,7 +46,7 @@ public class Partida {
         return instancia;
     }
 
-    public Carta cartaABuscar(){
+    public Carta cartaABuscar(Baraja baraja){
         Carta cartaaencontrar = null;
         if(isGameCompleted()){
             return cartaaencontrar;

@@ -17,7 +17,7 @@ public class SeleccionModoCarta extends EstrategiaSeleccion {
 
         partida.getSelectedCards().add(card);
 
-        if(partida.getSelectedCards().size() == 1 && partida.getSelectedCards().get(0).getId() != partida.cartaABuscar().getId()){
+        if(partida.getSelectedCards().size() == 1 && partida.getSelectedCards().get(0).getId() != partida.cartaABuscar(partida.getBaraja()).getId()){
             partida.clearSelection();
             partida.soundManager.playErrorSound();
             partida.resetParejasSeguidas();

@@ -147,7 +147,7 @@ public class mainViewController {
                     for (Carta cardFromMap : cardImageViewMap.keySet())
                         if(!cardFromMap.isFound())
                             cardImageViewMap.get(cardFromMap).setImage(partida.getBaraja().getCaraPosterior().getImagen());
-                         if(modoJuego instanceof SeleccionModoCarta) imageViewCarta.setImage(partida.cartaABuscar().getImagen());
+                         if(modoJuego instanceof SeleccionModoCarta) imageViewCarta.setImage(partida.cartaABuscar(partida.getBaraja()).getImagen());
                     playGridPane.setDisable(false);
                 }
             }).start();
@@ -321,7 +321,14 @@ public class mainViewController {
         updateTimer();
         gridCreation(partida.getBaraja().getCartas(), mainBorderPane.heightProperty(), mainBorderPane.widthProperty());
         partida.startGame();
-        if(modoJuego instanceof SeleccionModoCarta) imageViewCarta.setImage(partida.cartaABuscar().getImagen());
+        if(modoJuego instanceof SeleccionModoCarta) {
+            Collections.shuffle(partida.getBaraja().getCartas());
+            imageViewCarta.setImage(partida.cartaABuscar(partida.getBaraja()).getImagen());
+            imageViewCarta.setFitWidth(100);
+            imageViewCarta.setFitHeight(100);
+        }
+
+        imageViewCarta.setDisable(true);
     }
 
     EventHandler<MouseEvent> reinicarPartida = (MouseEvent event) -> {
