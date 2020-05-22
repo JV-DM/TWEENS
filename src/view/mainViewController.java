@@ -29,7 +29,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
 
-
 public class mainViewController {
 
     private final static long ONE_SECOND = 1000;
@@ -59,21 +58,21 @@ public class mainViewController {
     private Label puntuationLabel;
 
     @FXML
-    private Label  intentosLabel;
+    private Label intentosLabel;
 
     GridPane playGridPane;
 
     private Partida partida;
-    
+
     GestorBarajas gestor;
-    
+
     private boolean partidaAcabada;
 
-    private Map<Carta, ImageView> cardImageViewMap; 
+    private Map<Carta, ImageView> cardImageViewMap;
 
     private long time;
     EstrategiaSeleccion modoJuego;
-    
+
     private Perfil perfil;
 
     private Baraja baraja;
@@ -83,14 +82,16 @@ public class mainViewController {
     private int intentos = 10;
     private boolean isLevel = false;
     private int lvl = 1;
-     /**
+
+    /**
      * Crea un gridPane con las cartas (mostrando la parte de atrás de la carta) con su posición random
      * (los parametros height y width en principio se usarán en los próximos sprints, creo)
-     * @param cards lista de cartas de la baraja
+     *
+     * @param cards  lista de cartas de la baraja
      * @param height numero de columnas
-     * @param width número de filas
+     * @param width  número de filas
      **/
-    private void gridCreation(List<Carta> cards, ReadOnlyDoubleProperty height, ReadOnlyDoubleProperty width){
+    private void gridCreation(List<Carta> cards, ReadOnlyDoubleProperty height, ReadOnlyDoubleProperty width) {
         int cardNumber = 0;
         playGridPane = new GridPane();
         cardImageViewMap = new HashMap<>();
@@ -98,16 +99,16 @@ public class mainViewController {
         playGridPane.setPadding(new Insets(10));
         List<Carta> cardList = new ArrayList<>(cards);
         Collections.shuffle(cardList);
-        for(int i = 0; i < (int) Math.sqrt(cardList.size()); i++){
-            for(int j = 0; j < (int) Math.sqrt(cardList.size()) +1; j++){
+        for (int i = 0; i < (int) Math.sqrt(cardList.size()); i++) {
+            for (int j = 0; j < (int) Math.sqrt(cardList.size()) + 1; j++) {
                 Image image = partida.getBaraja().getCaraPosterior().getImagen();
                 ImageView imageView = new ImageView(image);
                 imageView.setPreserveRatio(false);
                 imageView.fitWidthProperty().bind(width.divide(9));
-                imageView.fitHeightProperty().bind(height.divide(9*0.7));
+                imageView.fitHeightProperty().bind(height.divide(9 * 0.7));
                 cardImageViewMap.put(cardList.get(cardNumber), imageView);
                 imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, clickOnCardEventHandler(cardList.get(cardNumber), imageView));
-                playGridPane.add(imageView,j,i);
+                playGridPane.add(imageView, j, i);
                 cardNumber += 1;
             }
         }
@@ -119,65 +120,74 @@ public class mainViewController {
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.DEFAULT,
-                new BackgroundSize(100, 100, true,true, false, true))));
+                new BackgroundSize(100, 100, true, true, false, true))));
     }
+
     /**
      * Manejador de eventos para TODAS las cartas
-     * @param carta carta que se supone que hay debajo de cada imagen de cara posterior
+     *
+     * @param carta     carta que se supone que hay debajo de cada imagen de cara posterior
      * @param imageView objeto de la imagen que se ha pulsado
      * @return
      */
     private EventHandler clickOnCardEventHandler(Carta carta, ImageView imageView) {
-        return event ->{
+        return event -> {
             //patron estrategia
             modoJuego.pickCard(carta);
             //hago un nuevo hilo para que no lagee la interfaz
-            new Thread(()->
+            new Thread(() ->
             {
                 imageView.setImage(carta.getImagen());
 
-                if(partida.getSelectedCards().isEmpty()){
+                if (partida.getSelectedCards().isEmpty()) {
                     playGridPane.setDisable(true);
                     try {
                         Thread.sleep(400);
-                    }
-                    catch (InterruptedException e) {
+                    } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                     for (Carta cardFromMap : cardImageViewMap.keySet())
-                        if(!cardFromMap.isFound())
+                        if (!cardFromMap.isFound())
                             cardImageViewMap.get(cardFromMap).setImage(partida.getBaraja().getCaraPosterior().getImagen());
-                         if(modoJuego instanceof SeleccionModoCarta) imageViewCarta.setImage(partida.cartaABuscar(partida.getBaraja()).getImagen());
+                    if (modoJuego instanceof SeleccionModoCarta && partidaAcabada == false)
+                        imageViewCarta.setImage(partida.cartaABuscar(partida.getBaraja()).getImagen());
+                    else if (partidaAcabada)  mainBorderPane.getChildren().remove(imageViewCarta);;
                     playGridPane.setDisable(false);
                 }
             }).start();
         };
     }
 
-
-
+    public void cartaASeleccionar() {
+        imageViewCarta = new ImageView();
+        mainBorderPane.setRight(imageViewCarta);
+        Insets insets = new Insets(0,10,0,0);
+        mainBorderPane.setPadding(insets);
+    }
 
 
     /**
      * Cambia el valor de la puntuación
+     *
      * @param puntuacion
      */
     public void setPuntuacion(int puntuacion) {
         puntuationLabel.setText("PUNTUACIÓN " + puntuacion);
     }
-   
+
     /**
      * Cambia el valor del tiempo
-     * @param tiempoPartida 
+     *
+     * @param tiempoPartida
      */
-    public void setTime(long tiempoPartida){
-        time =  tiempoPartida;
+    public void setTime(long tiempoPartida) {
+        time = tiempoPartida;
     }
-    
+
     /**
      * Reestablece la pantalla para jugar una partida
      */
-    public void reiniciarTablero(){
+    public void reiniciarTablero() {
         mainBorderPane.setCenter(playGridPane);
         mainBorderPane.setTop(timeLabel);
         mainBorderPane.setBottom(puntuationLabel);
@@ -187,33 +197,34 @@ public class mainViewController {
     /**
      * Método que actualiza el contador de tiempo a cada segundo
      */
-    private void updateTimer(){
+    private void updateTimer() {
         //partida.restartTimer();
         partida.getTimer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 Platform.runLater(() -> {
-                    if(!partidaAcabada){
+                    if (!partidaAcabada) {
                         time -= ONE_SECOND;
-                        if(time >= 0)
+                        if (time >= 0)
                             timeLabel.setText(formatTime(time));
-                        if(time <= 0){
+                        if (time <= 0) {
                             partida.stopTimer();
                         }
                     }
-                    if(partidaAcabada)
+                    if (partidaAcabada)
                         this.cancel();
                 });
             }
-        },0,1000);
+        }, 0, 1000);
     }
 
     /**
      * Método para poner formato al label del tiempo
+     *
      * @param duration tiempo que ha pasado desde que ha empezado la partida
      * @return
      */
-    public static String formatTime(long duration){
+    public static String formatTime(long duration) {
         String res;
         duration /= ONE_SECOND;
         int seconds = (int) (duration % SECONDS);
@@ -230,8 +241,8 @@ public class mainViewController {
         return res;
     }
 
-    public void pantallaFinPartida(boolean victoria){
-        if(TIEMPO_PARTIDA - time == 30 * ONE_SECOND )
+    public void pantallaFinPartida(boolean victoria) {
+        if (TIEMPO_PARTIDA - time == 30 * ONE_SECOND)
             partida.setPuntuacion(new DecoradorLogroFinPartidaRapido(partida.getPuntuacion()));
 
         partidaAcabada = true;
@@ -245,7 +256,7 @@ public class mainViewController {
         String textoFinPartida = "DERROTA";
         String textoRepetirPartida = "Haz clic para repetir partida";
 
-        if(victoria)
+        if (victoria)
             textoFinPartida = "¡VICTORIA!";
 
         finPartida.setText(textoFinPartida);
@@ -288,6 +299,7 @@ public class mainViewController {
         mainBorderPane.setAlignment(vBox, Pos.CENTER);
         vBox.setAlignment(Pos.CENTER);
         mainBorderPane.setAlignment(repetirPartida, Pos.BOTTOM_LEFT);
+        mainBorderPane.getChildren().remove(imageViewCarta);
     }
 
 
@@ -295,19 +307,19 @@ public class mainViewController {
         return partida;
     }
 
-    public void iniciarPartida(Baraja baraja){
+    public void iniciarPartida(Baraja baraja) {
         partidaAcabada = false;
-        partida = Partida.getInstance(baraja,new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
+        partida = Partida.getInstance(baraja, new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
         partida.setBaraja(baraja);
         partida.setBackground(new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
-       // gridCreation(partida.getBaraja().getCartas(), mainBorderPane.heightProperty(), mainBorderPane.widthProperty());
-        if(this.modoJuego == null) modoJuego = new SeleccionTrios();
+        // gridCreation(partida.getBaraja().getCartas(), mainBorderPane.heightProperty(), mainBorderPane.widthProperty());
+        if (this.modoJuego == null) modoJuego = new SeleccionTrios();
         modoJuego.setPartida(partida);
         playGridPane = new GridPane();
         partida.setController(this);
         partida.setPuntuacion(new Puntuacion());
         intentos = INTENTOS;
-        if(isLevel && lvl == 3)
+        if (isLevel && lvl == 3)
             intentos = 5;
         setPuntuacion(0);
         partida.esPrimera = true;
@@ -317,26 +329,26 @@ public class mainViewController {
         partida.setLevel(lvl);
         setIntentos(intentos);
         setTime(TIEMPO_PARTIDA);
-        reiniciarTablero();     
+        reiniciarTablero();
         updateTimer();
         gridCreation(partida.getBaraja().getCartas(), mainBorderPane.heightProperty(), mainBorderPane.widthProperty());
         partida.startGame();
-        if(modoJuego instanceof SeleccionModoCarta) {
+        if (modoJuego instanceof SeleccionModoCarta) {
+            cartaASeleccionar();
             Collections.shuffle(partida.getBaraja().getCartas());
             imageViewCarta.setImage(partida.cartaABuscar(partida.getBaraja()).getImagen());
             imageViewCarta.setFitWidth(100);
             imageViewCarta.setFitHeight(100);
         }
 
-        imageViewCarta.setDisable(true);
     }
 
     EventHandler<MouseEvent> reinicarPartida = (MouseEvent event) -> {
-        if(partidaAcabada) {            
+        if (partidaAcabada) {
             iniciarPartida(partida.getBaraja());
         }
     };
-    
+
     /**
      * Método que actualiza las estadisticas del perfil del jugador
      */
@@ -353,14 +365,14 @@ public class mainViewController {
         } else if (partida.isNivel() && partida.isVictoria() && partida.getLevel() <= 3) {
             perfil.setNivelActual(partida.getLevel() + 1);
         }
-        if(!partida.isNivel()) {
+        if (!partida.isNivel()) {
             ranking.actualizarRanking(partida.getPuntuacion().getPuntos());
             Date fechaActual = new Date();
             historial.actualizarFecha(new SimpleDateFormat("dd-MM-yyyy").format(fechaActual));
         }
         try {
             perfil.guardarPerfil();
-            if(!partida.isNivel()){
+            if (!partida.isNivel()) {
                 ranking.guardarRanking();
                 historial.guardarHistorial();
             }
@@ -369,13 +381,14 @@ public class mainViewController {
         }
 
     }
+
     @FXML
-    private void initialize(){
+    private void initialize() {
         //iniciarPartida(baraja);
-       // gestor = new GestorBarajas();
+        // gestor = new GestorBarajas();
 //        this.baraja = gestor.getBarajaPorDefecto();
         mainBorderPane.addEventFilter(MouseEvent.MOUSE_CLICKED, reinicarPartida);
-       
+
         //aesthetic puntuacion
         puntuationLabel.setFont(Font.font("anton"));
         puntuationLabel.setFont(Font.font(30));
@@ -393,17 +406,41 @@ public class mainViewController {
         timeLabel.setTextFill(Color.web("#FFFFFF"));
         timeLabel.setStyle("-fx-font-weight: bold");
     }
-    public void setTiempoPartida(long time){ TIEMPO_PARTIDA = time;}
-    public void setPerfil(Perfil perfil){ this.perfil = perfil; }
-    public void setIntentosPartida(int i){ intentos = i; }
-    public void setNivelPartida (boolean isLevel){ this.isLevel = isLevel; }
-    public void setLevelPartida (int n){ lvl = n; }
-    public void setRanking(Ranking ranking){this.ranking = ranking;}
-    public void setHistorial(Historial historial){this.historial = historial;}
+
+    public void setTiempoPartida(long time) {
+        TIEMPO_PARTIDA = time;
+    }
+
+    public void setPerfil(Perfil perfil) {
+        this.perfil = perfil;
+    }
+
+    public void setIntentosPartida(int i) {
+        intentos = i;
+    }
+
+    public void setNivelPartida(boolean isLevel) {
+        this.isLevel = isLevel;
+    }
+
+    public void setLevelPartida(int n) {
+        lvl = n;
+    }
+
+    public void setRanking(Ranking ranking) {
+        this.ranking = ranking;
+    }
+
+    public void setHistorial(Historial historial) {
+        this.historial = historial;
+    }
 
     /**
      * Cambia el valor de la puntuación
+     *
      * @param intentos
      */
-    public void setIntentos(int intentos) { intentosLabel.setText("INTENTOS RESTANTES " +  intentos ); }
+    public void setIntentos(int intentos) {
+        intentosLabel.setText("INTENTOS RESTANTES " + intentos);
+    }
 }
