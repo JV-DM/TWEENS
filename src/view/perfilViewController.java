@@ -15,6 +15,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -96,6 +98,7 @@ public class perfilViewController implements Initializable {
         numeroDerrotas.setText(String.valueOf(perfil.getDerrotas()));
         numeroMejorPuntuacion.setText(String.valueOf(perfil.getPuntuacionMaxima()));
         numeroPuntuacionTotal.setText(String.valueOf(perfil.getPuntuacionTotal()));
+        selectorIdioma.getSelectionModel().selectedItemProperty().addListener(cambioIdioma);
         
     }
     
@@ -207,5 +210,23 @@ public class perfilViewController implements Initializable {
         stage.setResizable(false);
         stage.showAndWait();
     }
+            
+    ChangeListener<String> cambioIdioma = new ChangeListener<String>() {
+ 
+            @Override
+            public void changed(ObservableValue<? extends String> observable, //
+                    String oldValue, String newValue) {
+                if (newValue != null) {
+                    if(newValue.equals("Español")) perfil.setLanguage(Idioma.Español);
+                    else if(newValue.equals("Frances")) perfil.setLanguage(Idioma.Frances);
+                    else if(newValue.equals("Ingles")) perfil.setLanguage(Idioma.Ingles);
+                    else if(newValue.equals("Valenciano")) perfil.setLanguage(Idioma.Valenciano);
+                    banderaIdioma.setImage(perfil.getIdioma().getImagenBandera());
+                    if(!oldValue.equals(newValue)) guardarPerfil.setVisible(true);
+                }
+            }
+        };
+        
+            
     
 }

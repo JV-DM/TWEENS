@@ -12,7 +12,10 @@ import javafx.scene.image.Image;
  * @author Javier
  */
 public enum Idioma {
-    Español(new Image("imagenes/ImagenesSistema/idiomas/idioma_español.jpg"));
+    Español(new Image("imagenes/ImagenesSistema/idiomas/idioma_español.jpg")),
+    Frances(new Image("imagenes/ImagenesSistema/idiomas/idioma_frances.png")),
+    Ingles(new Image("imagenes/ImagenesSistema/idiomas/idioma_ingles.jpg")),
+    Valenciano(new Image("imagenes/ImagenesSistema/idiomas/idioma_valenciano.png"));
     
     private final Image imagenBandera;
     
