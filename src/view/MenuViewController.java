@@ -66,6 +66,9 @@ public class MenuViewController implements Initializable {
     private VBox otrosButtons;
     @FXML
     private VBox modoVBox;
+    @FXML
+    private Button btnModoCategoria;
+
     /**
      * Initializes the controller class.
      */
@@ -242,6 +245,20 @@ public class MenuViewController implements Initializable {
             stage.show();
         }
     }
+    @FXML
+    public void clickCategoria(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainView.fxml"));
+        Parent root = loader.load();
+        mainViewController controller = loader.getController();
+        //elegirBaraja(actionEvent);
+            this.setUp(new SeleccionCategoria(),controller);
+            controller.setTiempoPartida(90000);
+            controller.iniciarPartida(gestorBarajas.barajaCategorias());
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+    }
 
     @FXML
     private void modosDeJuegoOnClick(ActionEvent event) {
@@ -262,4 +279,6 @@ public class MenuViewController implements Initializable {
             otrosButtons.setVisible(false);
         }
     }
+
+
 }

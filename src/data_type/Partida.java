@@ -13,6 +13,7 @@ public class Partida {
     private Image background;
     private int errorCounter;
     private List<Carta> selectedCards = new ArrayList<>();
+    private List<CartaCategoria> selectedCardsCategoria = new ArrayList<>();
     private boolean isFinished = false;
     private Timer timer;
     private boolean running;
@@ -28,6 +29,7 @@ public class Partida {
     private int level;
     private int parejasSeguidas;
     public boolean esPrimera;
+    private String categoria;
 
     private Partida(Baraja b, Image back){
         this.baraja = b;
@@ -37,6 +39,10 @@ public class Partida {
         timer = new Timer();
         soundManager = new GestorSonido();
         esPrimera = true;
+    }
+
+    public Partida() {
+        this.getInstance(null,null);
     }
 
     public static Partida getInstance(Baraja baraja, Image back){
@@ -60,11 +66,39 @@ public class Partida {
      return cartaaencontrar;
     }
 
+    public String categoriaABuscar(Baraja baraja){
+        if(!(baraja.getCartas().get(0) instanceof CartaCategoria))
+            return null;
+        CartaCategoria cartaaencontrar = null;
+        Collections.shuffle(baraja.getCartas());
+        if(isGameCompleted()){
+            return " ";
+        }
+        for (int i = 0; i < baraja.getCartas().size(); i++) {
+            if (!baraja.getCartas().get(i).isFound()) {
+                cartaaencontrar = (CartaCategoria) baraja.getCartas().get(i);
+                this.categoria = cartaaencontrar.getCategoria();
+                controller.setLabelCategoria(categoria);
+                return cartaaencontrar.getCategoria();
+            }
+        }
+        this.categoria = cartaaencontrar.getCategoria();
+        controller.setLabelCategoria(categoria);
+        return cartaaencontrar.getCategoria();
+
+    }
+    public String getCategoria(){
+        return this.categoria;
+    }
+
     /**
      * @return Lista de cartas seleccionadas
      */
     public List<Carta> getSelectedCards(){
         return this.selectedCards;
+    }
+    public List<CartaCategoria> getlSelectedCardsCategoria(){
+        return this.selectedCardsCategoria;
     }
 
     /**
@@ -245,4 +279,7 @@ public class Partida {
     }
     public int getParejasSeguidas(){return this.parejasSeguidas;}
 
+    public void setCategoria(String categoriaABuscar) {
+        this.categoria = categoriaABuscar;
+    }
 }

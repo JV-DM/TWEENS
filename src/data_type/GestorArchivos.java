@@ -105,4 +105,5 @@ public class GestorArchivos {
         String name = file.getName();
         return name.substring(name.length() - 4, name.length());
     }
+
 }

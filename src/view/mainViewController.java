@@ -42,6 +42,7 @@ public class mainViewController {
     private final static long ONE_DAY = ONE_HOUR * 24;
 
     public ImageView imageViewCarta;
+    public Label labelCategoria;
 
     private long TIEMPO_PARTIDA = ONE_MINUTE;
 
@@ -150,16 +151,25 @@ public class mainViewController {
                             cardImageViewMap.get(cardFromMap).setImage(partida.getBaraja().getCaraPosterior().getImagen());
                     if (modoJuego instanceof SeleccionModoCarta && partidaAcabada == false)
                         imageViewCarta.setImage(partida.cartaABuscar(partida.getBaraja()).getImagen());
-                    else if (partidaAcabada)  mainBorderPane.getChildren().remove(imageViewCarta);;
+                    if (partidaAcabada)  mainBorderPane.getChildren().remove(imageViewCarta);
                     playGridPane.setDisable(false);
                 }
             }).start();
         };
     }
-
+    public void setLabelCategoria(String categoria){
+        labelCategoria.setText(categoria);
+    }
     public void cartaASeleccionar() {
         imageViewCarta = new ImageView();
         mainBorderPane.setRight(imageViewCarta);
+        Insets insets = new Insets(0,10,0,0);
+        mainBorderPane.setPadding(insets);
+    }
+
+    public void categoriaASeleccionar(){
+        labelCategoria = new Label();
+        mainBorderPane.setRight(labelCategoria);
         Insets insets = new Insets(0,10,0,0);
         mainBorderPane.setPadding(insets);
     }
@@ -339,6 +349,13 @@ public class mainViewController {
             imageViewCarta.setFitWidth(100);
             imageViewCarta.setFitHeight(100);
         }
+        if (modoJuego instanceof SeleccionCategoria) {
+            categoriaASeleccionar();
+            Collections.shuffle(partida.getBaraja().getCartas());
+            partida.setCategoria(partida.categoriaABuscar(partida.getBaraja()));
+            labelCategoria.setText(partida.getCategoria());
+        }
+
 
     }
 
