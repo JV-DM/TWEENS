@@ -21,6 +21,12 @@ public class SeleccionModoCarta extends EstrategiaSeleccion {
             partida.clearSelection();
             partida.soundManager.playErrorSound();
             partida.resetParejasSeguidas();
+            partida.increaseErrors();
+            if (partida.getErrorCounter() > partida.getIntentos()) {
+                partida.setPuntuacion(new Puntuacion());
+                partida.finish();
+                partida.stopTimer();
+            }
         }
 
         if (!checkCardsCombination() && partida.getSelectedCards().size() == 2) {
