@@ -7,6 +7,7 @@ package view;
 
 import data_type.GestorBarajas;
 import data_type.Idioma;
+import data_type.IdiomaProperty;
 import data_type.Perfil;
 import data_type.Ranking;
 import java.io.File;
@@ -86,8 +87,34 @@ public class perfilViewController implements Initializable {
     private Label numeroBarajas;
     private GestorBarajas gestorBarajas;
     private Ranking ranking;
+    private IdiomaProperty idioma;
+    @FXML
+    private Label nombreDelPerfilLabel;
+    @FXML
+    private Label tableroPorDefectoLabel;
+    @FXML
+    private Label numeroDeBarajasLabel;
+    @FXML
+    private Label estadisticasLabel;
+    @FXML
+    private Label victoriaLabel;
+    @FXML
+    private Label derrotasLabel;
+    @FXML
+    private Label mejorPuntuacionLabel;
+    @FXML
+    private Label puntuacionTotalLabel;
     
     public void setElements(Perfil perfil){
+        idioma = new IdiomaProperty(perfil.getIdioma());
+        nombreDelPerfilLabel.setText(idioma.getProp().getProperty("Nombre_del_perfil"));
+        tableroPorDefectoLabel.setText(idioma.getProp().getProperty("Tablero_Por_Defecto"));   
+        numeroDeBarajasLabel.setText(idioma.getProp().getProperty("Numero_de_barajas"));
+        estadisticasLabel.setText(idioma.getProp().getProperty("Estadisticas"));
+        victoriaLabel.setText(idioma.getProp().getProperty("Victorias"));
+        derrotasLabel.setText(idioma.getProp().getProperty("Derrotas"));
+        mejorPuntuacionLabel.setText(idioma.getProp().getProperty("Mejor_Puntuacion"));
+        puntuacionTotalLabel.setText(idioma.getProp().getProperty("Puntuacion_total"));
         nombrePerfil.setText(perfil.getNombre());
         imagenPerfil.setImage(new Image(perfil.getRutaImagen()));
         banderaIdioma.setImage(perfil.getIdioma().getImagenBandera());
@@ -198,7 +225,7 @@ public class perfilViewController implements Initializable {
     @FXML
     private void rankingOnClick(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("RankingsView.fxml"));
-        RankingsViewController controller = new RankingsViewController(ranking);
+        RankingsViewController controller = new RankingsViewController(ranking,perfil);
         loader.setController(controller);
         Scene scene = new Scene(loader.load());
         Stage stage = new Stage();

@@ -32,7 +32,7 @@
                <children>
                   <Pane prefHeight="72.0" prefWidth="196.0">
                      <children>
-                        <Label layoutX="-26.0" layoutY="45.0" text="Nombre del perfil">
+                        <Label fx:id="nombreDelPerfilLabel" layoutX="-26.0" layoutY="45.0" text="Nombre del perfil">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
@@ -64,13 +64,13 @@
    <right>
       <VBox alignment="CENTER" prefHeight="405.0" prefWidth="239.0" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" prefHeight="17.0" prefWidth="242.0" text="Estadísticas">
+            <Label fx:id="estadisticasLabel" alignment="CENTER" prefHeight="17.0" prefWidth="242.0" text="Estadísticas">
                <font>
                   <Font size="25.0" />
                </font>
             </Label>
             <Pane prefHeight="19.0" prefWidth="239.0" />
-            <Label alignment="CENTER" prefHeight="17.0" prefWidth="241.0" text="Victorias">
+            <Label fx:id="victoriaLabel" alignment="CENTER" prefHeight="17.0" prefWidth="241.0" text="Victorias">
                <font>
                   <Font size="20.0" />
                </font>
@@ -81,7 +81,7 @@
                </font>
             </Label>
             <Pane prefHeight="19.0" prefWidth="239.0" />
-            <Label alignment="CENTER" prefHeight="17.0" prefWidth="241.0" text="Derrotas">
+            <Label fx:id="derrotasLabel" alignment="CENTER" prefHeight="17.0" prefWidth="241.0" text="Derrotas">
                <font>
                   <Font size="20.0" />
                </font>
@@ -92,7 +92,7 @@
                </font>
             </Label>
             <Pane prefHeight="19.0" prefWidth="239.0" />
-            <Label alignment="CENTER" prefHeight="17.0" prefWidth="241.0" text="Mejor Puntuación">
+            <Label fx:id="mejorPuntuacionLabel" alignment="CENTER" prefHeight="17.0" prefWidth="241.0" text="Mejor Puntuación">
                <font>
                   <Font size="21.0" />
                </font>
@@ -103,7 +103,7 @@
                </font>
             </Label>
             <Pane prefHeight="19.0" prefWidth="239.0" />
-            <Label alignment="CENTER" prefHeight="17.0" prefWidth="241.0" text="Puntuación Total">
+            <Label fx:id="puntuacionTotalLabel" alignment="CENTER" prefHeight="17.0" prefWidth="241.0" text="Puntuación Total">
                <font>
                   <Font size="20.0" />
                </font>
@@ -141,7 +141,7 @@
                   <Pane prefHeight="44.0" prefWidth="250.0" />
                   <VBox prefHeight="200.0" prefWidth="117.0">
                      <children>
-                        <Label alignment="CENTER" prefHeight="25.0" prefWidth="250.0" text="Tablero por defecto">
+                        <Label fx:id="tableroPorDefectoLabel" alignment="CENTER" prefHeight="25.0" prefWidth="250.0" text="Tablero por defecto">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -157,7 +157,7 @@
                   <Pane prefHeight="44.0" prefWidth="250.0" />
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="117.0">
                      <children>
-                        <Label alignment="CENTER" prefHeight="30.0" prefWidth="226.0" text="Número de barajas">
+                        <Label fx:id="numeroDeBarajasLabel" alignment="CENTER" prefHeight="30.0" prefWidth="226.0" text="Número de barajas">
                            <font>
                               <Font size="20.0" />
                            </font>

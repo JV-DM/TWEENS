@@ -120,6 +120,9 @@ public class mainViewController implements Initializable {
     private boolean partidaSonido = true;
     @FXML
     private ImageView salirPartida;
+    private String puntuacionTexto;
+    private String intentosTexto;
+    private IdiomaProperty idioma;
 
     
     /**
@@ -130,7 +133,7 @@ public class mainViewController implements Initializable {
         replay.setVisible(false);
         pause.setVisible(false);
         sound.setVisible(false);
-        salirPartida.setVisible(false);
+        salirPartida.setVisible(false);        
     }      
     
     /**
@@ -209,9 +212,15 @@ public class mainViewController implements Initializable {
      * @param puntuacion
      */
     public void setPuntuacion(int puntuacion) {
-        puntuationLabel.setText("PUNTUACIÓN " + puntuacion);
+        puntuationLabel.setText(puntuacionTexto + " " + puntuacion);
     }
    
+    public void setElements(){
+        idioma = new IdiomaProperty(perfil.getIdioma());
+        puntuacionTexto = idioma.getProp().getProperty("Puntuacion");
+        intentosTexto = idioma.getProp().getProperty("Intentos");
+    }
+    
     /**
      * Cambia el valor del tiempo
      * @param tiempoPartida 
@@ -277,7 +286,7 @@ public class mainViewController implements Initializable {
         }
         return res;
     }
-
+    
     public void comprobarDesafio() throws ParserConfigurationException, TransformerException{
         if(gestorDesafios.getDesafioEnCurso() != null){
                 gestorDesafios.comprobarDesafioEnCurso(partida.getErrorCounter(), partida.getPuntuacion().getPuntos(), (int) (TIEMPO_PARTIDA - time)/1000);
@@ -298,16 +307,16 @@ public class mainViewController implements Initializable {
         Label repetirPartida = new Label();
         Label puntuacion = new Label();
         Label tiempo = new Label();
-        String textoFinPartida = "DERROTA";
-        String textoRepetirPartida = "Haz clic para repetir partida";
+        String textoFinPartida = idioma.getProp().getProperty("Derrota");;
+        String textoRepetirPartida = idioma.getProp().getProperty("Repetir_partida");
 
         if(victoria){
-            textoFinPartida = "¡VICTORIA!";           
+            textoFinPartida = idioma.getProp().getProperty("Victoria");;           
         }
 
         finPartida.setText(textoFinPartida);
-        timeText.setText("TIEMPO");
-        puntuacionLabel.setText("PUNTUACIÓN");
+        timeText.setText(idioma.getProp().getProperty("Tiempo"));
+        puntuacionLabel.setText(idioma.getProp().getProperty("Puntuacion"));
         puntuacion.setText(Integer.toString(partida.getPuntuacion().getPuntos()));
         tiempo.setText(formatTime(TIEMPO_PARTIDA - time));
         repetirPartida.setText(textoRepetirPartida);
@@ -420,7 +429,7 @@ public class mainViewController implements Initializable {
     }
 
     public void setTiempoPartida(long time){ TIEMPO_PARTIDA = time;}
-    public void setPerfil(Perfil perfil){ this.perfil = perfil; }
+    public void setPerfil(Perfil perfil){ this.perfil = perfil; setElements(); }
     public void setIntentosPartida(int i){ intentos = i; }
     public void setNivelPartida (boolean isLevel){ this.isLevel = isLevel; }
     public void setLevelPartida (int n){ lvl = n; }
@@ -432,7 +441,7 @@ public class mainViewController implements Initializable {
      * Cambia el valor de la puntuación
      * @param intentos
      */
-    public void setIntentos(int intentos) { intentosLabel.setText("INTENTOS " +  intentos ); }
+    public void setIntentos(int intentos) { intentosLabel.setText(intentosTexto + " " +  intentos ); }
 
     public void mensajeDesafioConseguido(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

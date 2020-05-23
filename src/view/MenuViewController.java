@@ -54,7 +54,7 @@ public class MenuViewController implements Initializable {
     private GestorBarajas gestorBarajas;
     private GestorDesafios gestorDesafios;
     private Ranking ranking;
-    private Historial historial;
+    
     private Baraja baraja;
     @FXML
     private ImageView imagenPerfil;
@@ -69,11 +69,27 @@ public class MenuViewController implements Initializable {
     private VBox otrosButtons;
     @FXML
     private VBox modoVBox;
+    
+    private IdiomaProperty idioma;
+    @FXML
+    private Button partidaEstandar;
+    @FXML
+    private Button modoTrios;
+    @FXML
+    private Button niveles;
+    @FXML
+    private Button gestorDeBarajas;
+    @FXML
+    private Button desafios;
+    @FXML
+    private Button historialButton;
+    private Historial historial;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
         gestorBarajas = new GestorBarajas();
         gestorBarajas.cargarBarajas();
         perfil = new Perfil();
@@ -88,6 +104,7 @@ public class MenuViewController implements Initializable {
         } catch (ParserConfigurationException ex) {} catch (SAXException ex) {} catch (IOException ex) {} catch (ParseException e) {
             e.printStackTrace();
         }
+        setElements();
         perfil.setBarajaPorDefecto(gestorBarajas.getBarajaPorDefecto());
         imagenPerfil.setImage(new Image(perfil.getRutaImagen()));
         nombrePerfil.setText(perfil.getNombre());
@@ -103,6 +120,17 @@ public class MenuViewController implements Initializable {
         
         
     }    
+    
+    public void setElements(){
+        idioma = new IdiomaProperty(perfil.getIdioma());
+        modosDeJuego.setText(idioma.getProp().getProperty("Modos_De_Juego"));
+        partidaEstandar.setText(idioma.getProp().getProperty("Partida_Estandar"));
+        modoTrios.setText(idioma.getProp().getProperty("Modo_trios"));
+        niveles.setText(idioma.getProp().getProperty("Niveles"));
+        gestorDeBarajas.setText(idioma.getProp().getProperty("Gestor_De_Barajas"));
+        desafios.setText(idioma.getProp().getProperty("Desafios"));
+        historialButton.setText(idioma.getProp().getProperty("Historial"));
+    }
     
     @FXML
     private void clickPartidaEstandar(MouseEvent event) throws IOException {
@@ -134,6 +162,7 @@ public class MenuViewController implements Initializable {
         stage.getIcons().add(new Image("imagenes/ImagenesCaraPosterior/BacCard.png"));
         stage.setResizable(false);
         stage.showAndWait();
+        setElements();
     }
 
     @FXML
@@ -202,7 +231,7 @@ public class MenuViewController implements Initializable {
     @FXML
     private void clickHistorial(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("HistorialView.fxml"));
-        HistorialViewController controller = new HistorialViewController(historial);
+        HistorialViewController controller = new HistorialViewController(historial,perfil);
         loader.setController(controller);
         Scene scene = new Scene(loader.load());
         Stage stage = new Stage();
@@ -257,7 +286,7 @@ public class MenuViewController implements Initializable {
     @FXML
     private void desafiosOnClick(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("DesafioView.fxml"));
-        DesafioViewController controller = new DesafioViewController(gestorDesafios);
+        DesafioViewController controller = new DesafioViewController(gestorDesafios,perfil);
         loader.setController(controller);
         Scene scene = new Scene(loader.load());
         Stage stage = new Stage();

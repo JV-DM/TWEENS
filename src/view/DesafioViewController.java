@@ -8,6 +8,8 @@ package view;
 import data_type.Baraja;
 import data_type.Desafio.Desafio;
 import data_type.GestorDesafios;
+import data_type.IdiomaProperty;
+import data_type.Perfil;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
@@ -54,6 +56,8 @@ public class DesafioViewController implements Initializable {
     private final String RUTA_BACKGROUND = "imagenes/ImagenesBackground/fondo-verde.jpg";
     @FXML
     private BorderPane borderPane;
+    private Perfil perfil;
+    private IdiomaProperty idioma;
     /**
      * Initializes the controller class.
      */
@@ -68,8 +72,9 @@ public class DesafioViewController implements Initializable {
                 new BackgroundSize(100, 100, true,true, false, true))));  
     }    
     
-    public DesafioViewController(GestorDesafios gestorDesafios){
+    public DesafioViewController(GestorDesafios gestorDesafios, Perfil perfil){
         this.gestorDesafios = gestorDesafios;
+        this.perfil = perfil;
     }
 
     public void createGridPaneDesafios(){
@@ -128,10 +133,11 @@ public class DesafioViewController implements Initializable {
     }   
     
     public String desafioCompletado(Desafio desafio){
-        if(desafio.getCompletado()) return "Conseguido";
+         idioma = new IdiomaProperty(perfil.getIdioma());
+        if(desafio.getCompletado()) return idioma.getProp().getProperty("Conseguido");
         else if(gestorDesafios.getDesafioEnCurso() != null)
                 if(gestorDesafios.getDesafioEnCurso().getId() == desafio.getId())
-                    return "En curso";
-        return "No empezado";
+                    return idioma.getProp().getProperty("En_Curso");
+        return idioma.getProp().getProperty("No_Empezado");
     }
 }

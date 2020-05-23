@@ -5,6 +5,8 @@
  */
 package view;
 
+import data_type.IdiomaProperty;
+import data_type.Perfil;
 import data_type.Ranking;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -27,6 +29,7 @@ import javafx.scene.layout.BorderPane;
  */
 public class RankingsViewController implements Initializable {
 
+    private Perfil perfil;
     @FXML
     private Label perfil1;
     @FXML
@@ -43,6 +46,13 @@ public class RankingsViewController implements Initializable {
     private BorderPane borderPane;
 
     private Ranking ranking;
+    @FXML
+    private Label rankingLabel;
+    @FXML
+    private Label posicionLabel;
+    @FXML
+    private Label puntuacionLabel;
+    private IdiomaProperty idioma;
 
     /**
      * Initializes the controller class.
@@ -50,7 +60,7 @@ public class RankingsViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-
+        setElements();
         puntuacion1.setText(String.valueOf(ranking.getPrimero()));
         puntuacion2.setText(String.valueOf(ranking.getSegundo()));
         puntuacion3.setText(String.valueOf(ranking.getTercero()));
@@ -62,8 +72,16 @@ public class RankingsViewController implements Initializable {
 
     }
 
-    public RankingsViewController(Ranking ranking){
+    public void setElements(){
+        idioma = new IdiomaProperty(perfil.getIdioma());
+        rankingLabel.setText(idioma.getProp().getProperty("Ranking"));
+        posicionLabel.setText(idioma.getProp().getProperty("Posicion"));
+        puntuacionLabel.setText(idioma.getProp().getProperty("Puntuacion"));
+    }
+    
+    public RankingsViewController(Ranking ranking, Perfil perfil){
         this.ranking = ranking;
+        this.perfil = perfil;
     }
 
 

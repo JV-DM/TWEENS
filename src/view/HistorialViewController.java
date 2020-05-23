@@ -6,6 +6,8 @@
 package view;
 
 import data_type.Historial;
+import data_type.IdiomaProperty;
+import data_type.Perfil;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -50,13 +52,20 @@ public class HistorialViewController implements Initializable {
     private BorderPane borderPane;
 
     private Historial historial;
-
+    @FXML
+    private Label partidaLabel;
+    @FXML
+    private Label fechaLabel;
+    private Perfil perfil;
+    private IdiomaProperty idioma;
+    @FXML
+    private Label historialLabel;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        setElements();
         if(historial.getFecha1() != null){
             fecha1.setText(String.valueOf(historial.getFecha1()));
         }
@@ -84,8 +93,16 @@ public class HistorialViewController implements Initializable {
                 new BackgroundSize(100, 100, true,true, false, true))));
     }
 
-    public HistorialViewController(Historial historial){
+    public void setElements(){
+        idioma = new IdiomaProperty(perfil.getIdioma());
+        partidaLabel.setText(idioma.getProp().getProperty("Partida"));
+        fechaLabel.setText(idioma.getProp().getProperty("Fecha"));
+        historialLabel.setText(idioma.getProp().getProperty("Historial"));
+    }
+    
+    public HistorialViewController(Historial historial,Perfil perfil){
         this.historial = historial;
+        this.perfil = perfil;
     }
 
 }
