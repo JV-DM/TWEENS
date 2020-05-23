@@ -10,10 +10,8 @@ import data_type.*;
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -226,6 +224,23 @@ public class MenuViewController implements Initializable {
         stage.getIcons().add(new Image("imagenes/ImagenesCaraPosterior/BacCard.png"));
         stage.setResizable(false);
         stage.showAndWait();
+    }
+
+    @FXML
+    private void clickModoCarta(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(("MainView.fxml")));
+        Parent root = loader.load();
+        mainViewController controller = loader.getController();
+        elegirBaraja(event);
+        if(baraja != null) {
+            this.setUp(new SeleccionModoCarta(),controller);
+            controller.setTiempoPartida(900000);
+            controller.iniciarPartida(baraja);
+            Scene scene = new Scene(root,menuBorderPane.getWidth(), menuBorderPane.getHeight());
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        }
     }
 
     @FXML

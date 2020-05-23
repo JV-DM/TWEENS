@@ -46,6 +46,20 @@ public class Partida {
         return instancia;
     }
 
+    public Carta cartaABuscar(Baraja baraja){
+        Carta cartaaencontrar = null;
+        if(isGameCompleted()){
+            return cartaaencontrar;
+        }
+        for (int i = 0; baraja.getCartas().size() > i; i++) {
+            if (!baraja.getCartas().get(i).isFound()) {
+                cartaaencontrar = baraja.getCartas().get(i);
+                return cartaaencontrar;
+            }
+        }
+     return cartaaencontrar;
+    }
+
     /**
      * @return Lista de cartas seleccionadas
      */
@@ -230,4 +244,5 @@ public class Partida {
         this.parejasSeguidas += 1;
     }
     public int getParejasSeguidas(){return this.parejasSeguidas;}
+
 }
