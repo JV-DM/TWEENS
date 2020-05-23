@@ -5,7 +5,7 @@ import data_type.Puntuacion.*;
 public class SeleccionModoCarta extends EstrategiaSeleccion {
 
     @Override
-    public void pickCard(Carta card) {
+    public void pickCard(Carta card, Partida partida) {
         if (!partida.getBaraja().getCartas().contains(card) || card.isFound())
             return;
 
@@ -23,7 +23,7 @@ public class SeleccionModoCarta extends EstrategiaSeleccion {
             partida.resetParejasSeguidas();
         }
 
-        if (!checkCardsCombination() && partida.getSelectedCards().size() == 2) {
+        if (!checkCardsCombination(partida) && partida.getSelectedCards().size() == 2) {
             partida.increaseErrors();
             partida.clearSelection();
             partida.soundManager.playErrorSound();
@@ -39,7 +39,7 @@ public class SeleccionModoCarta extends EstrategiaSeleccion {
                 partida.stopTimer();
             }
         }
-        if (checkCardsCombination() && partida.getSelectedCards().size() == 2) {
+        if (checkCardsCombination(partida) && partida.getSelectedCards().size() == 2) {
             partida.getSelectedCards().stream().forEach(x -> x.foundCard());
             partida.clearSelection();
             partida.setPuntuacion(new DecoradorParejaCorrecta(partida.getPuntuacion()));

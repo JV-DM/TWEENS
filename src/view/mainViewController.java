@@ -1,8 +1,7 @@
 package view;
 
-import com.sun.javafx.scene.ImageViewHelper;
 import data_type.*;
-import data_type.Puntuacion.Decorador;
+
 import data_type.Puntuacion.DecoradorLogroFinPartidaRapido;
 import data_type.Puntuacion.Puntuacion;
 import javafx.application.Platform;
@@ -133,7 +132,7 @@ public class mainViewController {
     private EventHandler clickOnCardEventHandler(Carta carta, ImageView imageView) {
         return event -> {
             //patron estrategia
-            modoJuego.pickCard(carta);
+            modoJuego.pickCard(carta,this.partida);
             //hago un nuevo hilo para que no lagee la interfaz
             new Thread(() ->
             {
@@ -314,7 +313,7 @@ public class mainViewController {
         partida.setBackground(new Image("imagenes/ImagenesBackground/fondo-verde.jpg"));
         // gridCreation(partida.getBaraja().getCartas(), mainBorderPane.heightProperty(), mainBorderPane.widthProperty());
         if (this.modoJuego == null) modoJuego = new SeleccionTrios();
-        modoJuego.setPartida(partida);
+        //modoJuego.setPartida(partida);
         playGridPane = new GridPane();
         partida.setController(this);
         partida.setPuntuacion(new Puntuacion());
