@@ -24,6 +24,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 
 import javax.swing.*;
+import javax.swing.text.Style;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
