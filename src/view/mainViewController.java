@@ -479,6 +479,7 @@ public class mainViewController implements Initializable {
     private void replayOnClick(MouseEvent event) throws ParserConfigurationException, TransformerException {
         partida.setSonido(false);
         partida.stopTimer();
+        partida.setSonido(true);
         iniciarPartida(baraja);
     }
 

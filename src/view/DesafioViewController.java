@@ -126,7 +126,7 @@ public class DesafioViewController implements Initializable {
     public boolean mensajeDeConfirmacion(String texto){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText(null);
-        alert.setTitle("¿Deseas aceptar el desafio?");
+        alert.setTitle(idioma.getProp().getProperty("Aceptar_Desafio"));
         alert.setContentText(texto);
         Optional<ButtonType> action = alert.showAndWait();
         return action.get() == ButtonType.OK;
@@ -137,7 +137,7 @@ public class DesafioViewController implements Initializable {
         if(desafio.getCompletado()) return idioma.getProp().getProperty("Conseguido");
         else if(gestorDesafios.getDesafioEnCurso() != null)
                 if(gestorDesafios.getDesafioEnCurso().getId() == desafio.getId())
-                    return idioma.getProp().getProperty("En_Curso");
+                    return idioma.getProp().getProperty("En_curso");
         return idioma.getProp().getProperty("No_Empezado");
     }
 }

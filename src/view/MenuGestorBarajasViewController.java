@@ -265,7 +265,7 @@ public class MenuGestorBarajasViewController implements Initializable {
     
     public void formularioCrearBaraja(MouseEvent event) throws IOException{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FormularioCrearBaraja.fxml"));       
-        FormularioCrearBarajaController controller = new FormularioCrearBarajaController(gestorBarajas,this);
+        FormularioCrearBarajaController controller = new FormularioCrearBarajaController(gestorBarajas,this,perfil);
         loader.setController(controller);
         Scene scene = new Scene(loader.load());
         Stage stage = new Stage();
