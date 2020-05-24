@@ -27,16 +27,20 @@ import javafx.scene.input.MouseEvent;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
@@ -82,11 +86,14 @@ public class mainViewController implements Initializable {
     private Baraja baraja;
     private Ranking ranking;
     private Historial historial;
+    private GestorDesafios gestorDesafios;
 
     private int intentos = 10;
     private boolean isLevel = false;
     private int lvl = 1;
-    
+
+
+
     @FXML
     private BorderPane mainBorderPane;
     @FXML
@@ -108,13 +115,16 @@ public class mainViewController implements Initializable {
     @FXML
     private ImageView menu;
     private AjustesPartida ajustes = new AjustesPartida();
-    
+
     private boolean partidaPausada = false;
     private boolean partidaSonido = true;
     @FXML
     private ImageView salirPartida;
+    private String puntuacionTexto;
+    private String intentosTexto;
+    private IdiomaProperty idioma;
 
-    
+
     /**
      * Initializes the controller class.
      */
@@ -124,8 +134,8 @@ public class mainViewController implements Initializable {
         pause.setVisible(false);
         sound.setVisible(false);
         salirPartida.setVisible(false);
-    }      
-    
+    }
+
     /**
      * Crea un gridPane con las cartas (mostrando la parte de atrás de la carta) con su posición random
      * (los parametros height y width en principio se usarán en los próximos sprints, creo)
@@ -202,9 +212,15 @@ public class mainViewController implements Initializable {
      * @param puntuacion
      */
     public void setPuntuacion(int puntuacion) {
-        puntuationLabel.setText("PUNTUACIÓN " + puntuacion);
+        puntuationLabel.setText(puntuacionTexto + " " + puntuacion);
     }
-   
+
+    public void setElements(){
+        idioma = new IdiomaProperty(perfil.getIdioma());
+        puntuacionTexto = idioma.getProp().getProperty("Puntuacion");
+        intentosTexto = idioma.getProp().getProperty("Intentos");
+    }
+
     /**
      * Cambia el valor del tiempo
      * @param tiempoPartida 
@@ -237,7 +253,9 @@ public class mainViewController implements Initializable {
                         if(time >= 0)
                             timeLabel.setText(formatTime(time));
                         if(time <= 0){
-                            partida.stopTimer();
+                            try {
+                                partida.stopTimer();
+                            } catch (ParserConfigurationException ex) {} catch (TransformerException ex) {}
                         }
                     }
                     if(partidaAcabada)
@@ -269,6 +287,14 @@ public class mainViewController implements Initializable {
         return res;
     }
 
+    public void comprobarDesafio() throws ParserConfigurationException, TransformerException{
+        if(gestorDesafios.getDesafioEnCurso() != null){
+                gestorDesafios.comprobarDesafioEnCurso(partida.getErrorCounter(), partida.getPuntuacion().getPuntos(), (int) (TIEMPO_PARTIDA - time)/1000);
+                gestorDesafios.guardarDesafios();
+                mensajeDesafioConseguido();
+            }
+    }
+
     public void pantallaFinPartida(boolean victoria){
         if(TIEMPO_PARTIDA - time == 30 * ONE_SECOND )
             partida.setPuntuacion(new DecoradorLogroFinPartidaRapido(partida.getPuntuacion()));
@@ -281,15 +307,16 @@ public class mainViewController implements Initializable {
         Label repetirPartida = new Label();
         Label puntuacion = new Label();
         Label tiempo = new Label();
-        String textoFinPartida = "DERROTA";
-        String textoRepetirPartida = "Haz clic para repetir partida";
+        String textoFinPartida = idioma.getProp().getProperty("Derrota");;
+        String textoRepetirPartida = idioma.getProp().getProperty("Repetir_partida");
 
-        if(victoria)
-            textoFinPartida = "¡VICTORIA!";
+        if(victoria){
+            textoFinPartida = idioma.getProp().getProperty("Victoria");;
+        }
 
         finPartida.setText(textoFinPartida);
-        timeText.setText("TIEMPO");
-        puntuacionLabel.setText("PUNTUACIÓN");
+        timeText.setText(idioma.getProp().getProperty("Tiempo"));
+        puntuacionLabel.setText(idioma.getProp().getProperty("Puntuacion"));
         puntuacion.setText(Integer.toString(partida.getPuntuacion().getPuntos()));
         tiempo.setText(formatTime(TIEMPO_PARTIDA - time));
         repetirPartida.setText(textoRepetirPartida);
@@ -402,21 +429,30 @@ public class mainViewController implements Initializable {
     }
 
     public void setTiempoPartida(long time){ TIEMPO_PARTIDA = time;}
-    public void setPerfil(Perfil perfil){ this.perfil = perfil; }
+    public void setPerfil(Perfil perfil){ this.perfil = perfil; setElements(); }
     public void setIntentosPartida(int i){ intentos = i; }
     public void setNivelPartida (boolean isLevel){ this.isLevel = isLevel; }
     public void setLevelPartida (int n){ lvl = n; }
     public void setRanking(Ranking ranking){this.ranking = ranking;}
     public void setHistorial(Historial historial){this.historial = historial;}
+    public void setGestorDesafios(GestorDesafios gestorDesafios){this.gestorDesafios = gestorDesafios;}
 
     /**
      * Cambia el valor de la puntuación
      * @param intentos
      */
-    public void setIntentos(int intentos) { intentosLabel.setText("INTENTOS " +  intentos ); }
+    public void setIntentos(int intentos) { intentosLabel.setText(intentosTexto + " " +  intentos ); }
+
+    public void mensajeDesafioConseguido(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText("¡¡¡Enhorabuena!!!");
+        alert.setContentText("Has conseguido el desafio: " + gestorDesafios.getDesafioEnCurso().getNombre());
+        alert.initStyle(StageStyle.UTILITY);
+        alert.showAndWait();
+    }
 
     @FXML
-    private void replayOnClick(MouseEvent event) {
+    private void replayOnClick(MouseEvent event) throws ParserConfigurationException, TransformerException {
         partida.setSonido(false);
         partida.stopTimer();
         iniciarPartida(baraja);
@@ -424,7 +460,7 @@ public class mainViewController implements Initializable {
 
     @FXML
     private void pauseOnClick(MouseEvent event) throws InterruptedException {
-        if(!partidaPausada){         
+        if(!partidaPausada){
             partidaPausada = true;
             playGridPane.setDisable(true);
             pause.setImage(new Image(ajustes.getPlay()));
@@ -434,12 +470,12 @@ public class mainViewController implements Initializable {
             playGridPane.setDisable(false);
             pause.setImage(new Image(ajustes.getPausa()));
         }
-        
+
     }
 
     @FXML
     private void soundOnClick(MouseEvent event) {
-        if(!partidaSonido){         
+        if(!partidaSonido){
             partidaSonido = true;
             partida.setSonido(true);
             sound.setImage(new Image(ajustes.getSonido()));
@@ -457,18 +493,19 @@ public class mainViewController implements Initializable {
             pause.setVisible(!pause.visibleProperty().getValue());
             sound.setVisible(!sound.visibleProperty().getValue());
             salirPartida.setVisible(!salirPartida.visibleProperty().getValue());
-     
+
     }
-    
+
     @FXML
-    private void salirPartidaOnClick(MouseEvent event) throws IOException {
+    private void salirPartidaOnClick(MouseEvent event) throws IOException, ParserConfigurationException, TransformerException {
         partida.setSonido(false);
         if(!partida.isFinished())
             partida.stopTimer();
+        partida.setSonido(true);
         Parent root = FXMLLoader.load(getClass().getResource("MenuView.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
     }
 
 }
-    
+

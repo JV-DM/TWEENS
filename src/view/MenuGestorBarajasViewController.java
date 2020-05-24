@@ -9,6 +9,7 @@ import data_type.Baraja;
 import data_type.Carta;
 import data_type.GestorArchivos;
 import data_type.GestorBarajas;
+import data_type.IdiomaProperty;
 import data_type.Perfil;
 import java.io.File;
 import java.io.IOException;
@@ -58,8 +59,8 @@ public class MenuGestorBarajasViewController implements Initializable {
     private final int TAMAÑO_CELDAS_GRID_PANE_BARAJAS = 5;
     private final int TAMAÑO_CELDAS_GRID_PANE_CARTAS = 5;
     
-    private final String MENSAJE_CARTAS_INSUFICIENTES = "La baraja debe tener 4 cartas como mínimo";
-    private final String NOMBRE_CARTA_YA_EXISTENTE = "Ya existe una carta con ese nombre";
+    private String MENSAJE_CARTAS_INSUFICIENTES = "La baraja debe tener 4 cartas como mínimo";
+    private String NOMBRE_CARTA_YA_EXISTENTE = "Ya existe una carta con ese nombre";
     
     private final int TAMAÑO_DE_BARAJA_MINIMO = 4;
     
@@ -86,10 +87,19 @@ public class MenuGestorBarajasViewController implements Initializable {
     private ImageView eliminarBaraja;
     @FXML
     private ImageView atras;
+    private IdiomaProperty idioma;
 
     MenuGestorBarajasViewController(GestorBarajas gestorBarajas, Perfil perfil) {
         this.perfil = perfil;
         this.gestorBarajas = gestorBarajas;
+        
+    }
+    
+    public void setElements(){
+        idioma = new IdiomaProperty(perfil.getIdioma());
+        MENSAJE_CARTAS_INSUFICIENTES = idioma.getProp().getProperty("Numero_de_cartas_minimo");
+        NOMBRE_CARTA_YA_EXISTENTE = idioma.getProp().getProperty("Carta_repetida");
+        textoCabecera.setText(idioma.getProp().getProperty("Baraja"));
     }
     
     /**
@@ -135,7 +145,7 @@ public class MenuGestorBarajasViewController implements Initializable {
                     imagenBaraja.setPreserveRatio(false);
                     imagenBaraja.setFitWidth(CARTA_WIDTH);
                     imagenBaraja.setFitHeight(CARTA_HEIGHT);   
-                    Label nombreBaraja = new Label(listaDeCartas.get(indice).getNombre());                   
+                    Label nombreBaraja = new Label(listaDeCartas.get(indice).getNombre());    
                     VBox vbox = new VBox(imagenBaraja,nombreBaraja);
                     vbox.setAlignment(Pos.CENTER);
                     vbox.addEventHandler(MouseEvent.MOUSE_CLICKED, borrarCarta);
@@ -167,9 +177,9 @@ public class MenuGestorBarajasViewController implements Initializable {
         modo = this.MODO_VER_BARAJAS;
         borderPane.setCenter(gridPaneBarajas);
         atras.setVisible(false);
-        verCartas.setVisible(false);
+        verCartas.setVisible(false); 
         eliminarBaraja.setVisible(false);
-        textoCabecera.setText("Barajas");
+        textoCabecera.setText(idioma.getProp().getProperty("Barajas"));
         baraja = null;
     }
     
@@ -191,7 +201,7 @@ public class MenuGestorBarajasViewController implements Initializable {
         ObservableList<Node> listaNodos = vbox.getChildren();
         Label label = (Label) listaNodos.get(1);  
         if(baraja.getTamaño() != TAMAÑO_DE_BARAJA_MINIMO * 2){
-            if(mensajeDeConfirmacion("¿Estás seguro de que quieres eliminar la carta?"))
+            if(mensajeDeConfirmacion(idioma.getProp().getProperty("Eliminar_carta")))
                 baraja.eliminarCarta(baraja.buscarCarta(label.getText()));
         }
         else mensajeError(this.MENSAJE_CARTAS_INSUFICIENTES) ;
@@ -205,7 +215,7 @@ public class MenuGestorBarajasViewController implements Initializable {
     public boolean mensajeDeConfirmacion(String texto){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText(null);
-        alert.setTitle("¿Eliminar la carta?");
+        alert.setTitle(idioma.getProp().getProperty("Eliminar_carta_titulo"));
         alert.setContentText(texto);
         Optional<ButtonType> action = alert.showAndWait();
         return action.get() == ButtonType.OK;
@@ -214,7 +224,7 @@ public class MenuGestorBarajasViewController implements Initializable {
     
     public void mensajeError(String texto){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Error");
+        alert.setTitle(idioma.getProp().getProperty("Error"));
         alert.setHeaderText(null);
         alert.setContentText(texto);
         alert.showAndWait();
@@ -226,6 +236,7 @@ public class MenuGestorBarajasViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         borderPane.setRight(null);
+        setElements();
         modoVerBarajas();
         borderPane.setPrefSize(924, 668);
         borderPane.setBackground(new Background(new BackgroundImage(new Image(RUTA_BACKGROUND),
@@ -279,7 +290,8 @@ public class MenuGestorBarajasViewController implements Initializable {
             String rutaDestino = gestorArchivos.getRuta_Barajas() + baraja.getNombre() 
                                  + ";" + baraja.getTematica() + "/";
             if (archivoImagen != null){                
-                    String nombreCarta = mensajeConCampoDeTexto("Nombre de la carta", "Introduce el nombre de la carta", archivoImagen.getName());
+                    String nombreCarta = mensajeConCampoDeTexto(idioma.getProp().getProperty("Nombre_de_la_carta"), 
+                            idioma.getProp().getProperty("Introduce_el_nombre_de_la_carta"), archivoImagen.getName());
                     if(baraja.buscarCarta(nombreCarta) == null){
                         gestorArchivos.copyFile(archivoImagen, rutaDestino + nombreCarta);
                         baraja.añadirCarta(new Carta(new Image("File:///" + rutaDestino + nombreCarta),nombreCarta,(baraja.getTamaño()/2) + 1));
@@ -309,7 +321,7 @@ public class MenuGestorBarajasViewController implements Initializable {
 
     @FXML
     private void eliminarBarajaOnClick(MouseEvent event) {
-        if(mensajeDeConfirmacion("¿Estás seguro de que quieres eliminar la baraja?")){
+        if(mensajeDeConfirmacion(idioma.getProp().getProperty("Eliminar_baraja"))){
             String rutaBaraja = gestorArchivos.getRuta_Barajas() 
                     + baraja.getNombre() +";" + baraja.getTematica() + "/";
             baraja.getCartas().forEach((carta) -> {

@@ -24,19 +24,20 @@
             </VBox>
             <VBox fx:id="modosDeJuegoVBox" alignment="CENTER" prefHeight="159.0" prefWidth="1024.0" spacing="9.0">
                <children>
-                  <Button mnemonicParsing="false" onMouseClicked="#clickPartidaEstandar" prefHeight="46.0" prefWidth="147.0" text="Partida Estandar" />
-                  <Button mnemonicParsing="false" onAction="#clickModoTrios" prefHeight="46.0" prefWidth="147.0" text="Modo trios" />
-                  <Button mnemonicParsing="false" onAction="#clickNiveles" prefHeight="46.0" prefWidth="147.0" text="Niveles" />
+                  <Button fx:id="partidaEstandar" mnemonicParsing="false" onMouseClicked="#clickPartidaEstandar" prefHeight="46.0" prefWidth="147.0" text="Partida Estandar" />
+                  <Button fx:id="modoTrios" mnemonicParsing="false" onAction="#clickModoTrios" prefHeight="46.0" prefWidth="147.0" text="Modo trios" />
+                  <Button fx:id="niveles" mnemonicParsing="false" onAction="#clickNiveles" prefHeight="46.0" prefWidth="147.0" text="Niveles" />
                </children>
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </VBox>
             <Pane prefHeight="9.0" prefWidth="200.0" />
-            <VBox fx:id="otrosButtons" alignment="TOP_CENTER" prefHeight="110.0" prefWidth="1024.0" spacing="9.0">
+            <VBox fx:id="otrosButtons" alignment="TOP_CENTER" prefHeight="176.0" prefWidth="1024.0" spacing="9.0">
                <children>
-                  <Button mnemonicParsing="false" onMouseClicked="#gestorDeBarajasOnClick" prefHeight="46.0" prefWidth="147.0" text="Gestor de Barajas" />
-                  <Button mnemonicParsing="false" onAction="#clickHistorial" prefHeight="46.0" prefWidth="147.0" text="Historial" />
+                  <Button fx:id="gestorDeBarajas" mnemonicParsing="false" onMouseClicked="#gestorDeBarajasOnClick" prefHeight="46.0" prefWidth="147.0" text="Gestor de Barajas" />
+                  <Button fx:id="historialButton" mnemonicParsing="false" onAction="#clickHistorial" prefHeight="46.0" prefWidth="147.0" text="Historial" />
+                  <Button fx:id="desafios" mnemonicParsing="false" onAction="#desafiosOnClick" prefHeight="46.0" prefWidth="147.0" text="Desafios" />
                </children>
             </VBox>
          </children>

@@ -1,5 +1,6 @@
 package data_type;
 
+import data_type.Desafio.Desafio;
 import data_type.Puntuacion.Decorador;
 import data_type.Puntuacion.Puntuacion;
 import javafx.scene.image.Image;
@@ -7,6 +8,8 @@ import view.mainViewController;
 import java.time.Duration;
 import java.util.*;
 import java.util.Timer;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 public class Partida {
     private Baraja baraja;
@@ -29,6 +32,7 @@ public class Partida {
     private int parejasSeguidas;
     public boolean esPrimera;
     private boolean sonido = true;
+    private Desafio desafio;
 
     private Partida(Baraja b, Image back){
         this.baraja = b;
@@ -114,18 +118,21 @@ public class Partida {
 
     public void setSonido(boolean nuevoSonido){sonido = nuevoSonido;}
     public boolean getSonido(){return sonido;}
-    
+
     /**
      * Para el tiempo de la partida
+     * @throws javax.xml.parsers.ParserConfigurationException
+     * @throws javax.xml.transform.TransformerException
      */
-   public void stopTimer(){
+   public void stopTimer() throws ParserConfigurationException, TransformerException{
        if (isNivel == false ||isNivel && level == 1 || isNivel && level == 3){
            if(timer == null) return;
-           
+
            if(isGameCompleted()) {
                if(sonido)
                 soundManager.playVictoriaSound();
                this.victoria = true;
+               this.controller.comprobarDesafio();
            }
            else{
                if(sonido)
@@ -134,7 +141,7 @@ public class Partida {
            }
        }else if(isNivel && level == 2){
            if (timer == null) return;
-           
+
            if(isGameCompleted() && getPuntuacion().getPuntos() >= 60) {
                if(sonido)
                 soundManager.playVictoriaSound();
@@ -205,6 +212,10 @@ public class Partida {
 
     public void restartTimer(){
         this.timer = new Timer();
+    }
+
+    public void setDesafio(Desafio desafio){
+        this.desafio = desafio;
     }
 
     public void setTime(long tiempo){

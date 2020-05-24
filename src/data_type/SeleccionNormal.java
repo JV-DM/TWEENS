@@ -1,6 +1,10 @@
 package data_type;
 
 import data_type.Puntuacion.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 public class SeleccionNormal extends EstrategiaSeleccion {
     //public SeleccionNormal(){};
@@ -30,7 +34,13 @@ public class SeleccionNormal extends EstrategiaSeleccion {
                 else if (partida.getErrorCounter() > partida.getIntentos()) {
                     partida.setPuntuacion(new Puntuacion());
                     partida.finish();
-                    partida.stopTimer();
+                    try {
+                        partida.stopTimer();
+                    } catch (ParserConfigurationException ex) {
+                        Logger.getLogger(SeleccionNormal.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (TransformerException ex) {
+                        Logger.getLogger(SeleccionNormal.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
             if (checkCardsCombination() && partida.getSelectedCards().size() == 2) {
@@ -51,7 +61,9 @@ public class SeleccionNormal extends EstrategiaSeleccion {
                 }
                 if (partida.isGameCompleted()) {
                     partida.finish();
-                    partida.stopTimer();
+                    try {
+                        partida.stopTimer();
+                    } catch (ParserConfigurationException ex) {} catch (TransformerException ex) {}
                 }
             }
             if (partida.getController() != null)
