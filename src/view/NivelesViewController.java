@@ -145,7 +145,7 @@ public class NivelesViewController implements Initializable {
     private void setUp(EstrategiaSeleccion estrategia, mainViewController controller){
         GestorBarajas gestor = new GestorBarajas();
         controller.modoJuego = estrategia;
-        controller.modoJuego.setPartida(controller.getPartida());
+       // controller.modoJuego.setPartida(controller.getPartida());
         controller.gestor = gestor;
         controller.gestor.cargarBarajas();
         controller.gestor.cargarBarajaPorDefecto();

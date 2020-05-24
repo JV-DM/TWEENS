@@ -1,10 +1,10 @@
 package data_type.Puntuacion;
 
-public class DecoradorConcreto implements Decorador {
-    Decorador decorador;
+public class DecoradorConcreto implements IPuntuacion {
+    IPuntuacion IPuntuacion;
     public DecoradorConcreto(){}
-    public DecoradorConcreto(Decorador decorador){
-        this.decorador = decorador;
+    public DecoradorConcreto(IPuntuacion IPuntuacion){
+        this.IPuntuacion = IPuntuacion;
     }
     @Override
     public int getPuntos() {

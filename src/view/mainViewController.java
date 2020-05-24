@@ -9,7 +9,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import data_type.*;
-import data_type.Puntuacion.Decorador;
 import data_type.Puntuacion.DecoradorLogroFinPartidaRapido;
 import data_type.Puntuacion.Puntuacion;
 import java.io.IOException;
@@ -27,22 +26,18 @@ import javafx.scene.input.MouseEvent;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.event.Event;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
@@ -68,19 +63,22 @@ public class mainViewController implements Initializable {
 
     private final static int INTENTOS = 10;
 
+    public ImageView imageViewCarta;
+    public Label labelCategoria;
+
     GridPane playGridPane;
 
     private Partida partida;
     
     GestorBarajas gestor;
-    
+
     private boolean partidaAcabada;
 
-    private Map<Carta, ImageView> cardImageViewMap; 
+    private Map<Carta, ImageView> cardImageViewMap;
 
     private long time;
     EstrategiaSeleccion modoJuego;
-    
+
     private Perfil perfil;
 
     private Baraja baraja;
@@ -184,7 +182,7 @@ public class mainViewController implements Initializable {
     private EventHandler clickOnCardEventHandler(Carta carta, ImageView imageView) {
         return event ->{
             //patron estrategia
-            modoJuego.pickCard(carta);
+            modoJuego.pickCard(carta,this.partida);
             //hago un nuevo hilo para que no lagee la interfaz
             new Thread(()->
             {
@@ -201,6 +199,9 @@ public class mainViewController implements Initializable {
                     for (Carta cardFromMap : cardImageViewMap.keySet())
                         if(!cardFromMap.isFound())
                             cardImageViewMap.get(cardFromMap).setImage(partida.getBaraja().getCaraPosterior().getImagen());
+                    if (modoJuego instanceof SeleccionModoCarta && partidaAcabada == false)
+                        imageViewCarta.setImage(partida.cartaABuscar(partida.getBaraja()).getImagen());
+                    else if (partidaAcabada)  mainBorderPane.getChildren().remove(imageViewCarta);;
                     playGridPane.setDisable(false);
                 }
             }).start();
@@ -354,6 +355,7 @@ public class mainViewController implements Initializable {
         mainBorderPane.setAlignment(vBox, Pos.CENTER);
         vBox.setAlignment(Pos.CENTER);
         mainBorderPane.setAlignment(repetirPartida, Pos.BOTTOM_LEFT);
+        mainBorderPane.getChildren().remove(imageViewCarta);
     }
 
 
@@ -368,7 +370,7 @@ public class mainViewController implements Initializable {
         partida.setBaraja(baraja);
         partida.setBackground(new Image(perfil.getRutaTableroPorDefecto()));
         if(this.modoJuego == null) modoJuego = new SeleccionTrios();
-        modoJuego.setPartida(partida);
+//        modoJuego.setPartida(partida);
         playGridPane = new GridPane();
         partida.setController(this);
         partida.setPuntuacion(new Puntuacion());
@@ -387,6 +389,28 @@ public class mainViewController implements Initializable {
         updateTimer();
         gridCreation(partida.getBaraja().getCartas(), mainBorderPane.heightProperty(), mainBorderPane.widthProperty());
         partida.startGame();
+        if(modoJuego instanceof SeleccionModoCarta) {
+            cartaASeleccionar();
+            Collections.shuffle(partida.getBaraja().getCartas());
+            imageViewCarta.setImage(partida.cartaABuscar(partida.getBaraja()).getImagen());
+            imageViewCarta.setFitWidth(100);
+            imageViewCarta.setFitHeight(100);
+        }
+        if (modoJuego instanceof SeleccionCategoria) {
+            categoriaASeleccionar();
+            Collections.shuffle(partida.getBaraja().getCartas());
+            partida.setCategoria(partida.categoriaABuscar(partida.getBaraja()));
+            labelCategoria.setText(partida.getCategoria());
+        }
+
+        imageViewCarta.setDisable(true);
+    }
+
+    public void cartaASeleccionar() {
+        imageViewCarta = new ImageView();
+        mainBorderPane.setRight(imageViewCarta);
+        Insets insets = new Insets(0,10,0,0);
+        mainBorderPane.setPadding(insets);
     }
     
     EventHandler<MouseEvent> reinicarPartida = (MouseEvent event) -> {
@@ -505,6 +529,17 @@ public class mainViewController implements Initializable {
         Parent root = FXMLLoader.load(getClass().getResource("MenuView.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
+    }
+
+    public void setLabelCategoria(String categoria){
+        labelCategoria.setText(categoria);
+    }
+
+    public void categoriaASeleccionar(){
+        labelCategoria = new Label();
+        mainBorderPane.setRight(labelCategoria);
+        Insets insets = new Insets(0,10,0,0);
+        mainBorderPane.setPadding(insets);
     }
 
 }

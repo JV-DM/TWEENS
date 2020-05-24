@@ -188,4 +188,20 @@ public class Baraja {
         }
         return null;
     }
+
+    public void añadirCartaCategoria(CartaCategoria carta){
+        if(carta == null) throw new NullPointerException();
+        if(cartas == null){
+            cartas = new ArrayList<>();
+            cartas.add(carta);
+            cartas.add(new CartaCategoria(carta.getImagen(),carta.getNombre(),carta.getId(),carta.getCategoria()));
+            tamaño += 2;
+        }
+        else if(!existeLaCarta(carta)) {
+            cartas.add(carta);
+            cartas.add(new CartaCategoria(carta.getImagen(),carta.getNombre(), carta.getId(),carta.getCategoria()));
+            tamaño += 2;
+        }
+    }
+
 }
