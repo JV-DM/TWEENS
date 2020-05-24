@@ -28,6 +28,7 @@
                   <Button mnemonicParsing="false" onAction="#clickModoTrios" prefHeight="46.0" prefWidth="147.0" text="Modo trios" />
                   <Button mnemonicParsing="false" onAction="#clickNiveles" prefHeight="46.0" prefWidth="147.0" text="Niveles" />
                   <Button mnemonicParsing="false" onAction="#clickModoCarta" prefHeight="46.0" prefWidth="147.0" text="Modo por carta" />
+                  <Button mnemonicParsing="false" onAction="#clickTableroDinamico" prefHeight="46.0" prefWidth="147.0" text="Tablero dinamico" />
                </children>
                <VBox.margin>
                   <Insets />

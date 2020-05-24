@@ -243,6 +243,24 @@ public class MenuViewController implements Initializable {
     }
 
     @FXML
+    private void clickTableroDinamico(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainView.fxml"));
+        Parent root = loader.load();
+        mainViewController controller = loader.getController();
+        elegirBaraja(event);
+        if(baraja != null) {
+            this.setUp(new SeleccionNormal(),controller);
+            controller.setTiempoPartida(90000);
+            controller.setPartidaDinamica(true);
+            controller.iniciarPartida(gestorBarajas.barajaATrios(baraja));
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        }
+    }
+
+    @FXML
     private void modosDeJuegoOnClick(ActionEvent event) {
         if(verModosDeJuego){
             verModosDeJuego = false;

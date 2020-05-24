@@ -92,6 +92,7 @@ public class mainViewController {
     private int intentos = 10;
     private boolean isLevel = false;
     private int lvl = 1;
+    private boolean esDinamico = false;
 
     /**
      * Crea un gridPane con las cartas (mostrando la parte de atrás de la carta) con su posición random
@@ -392,6 +393,7 @@ public class mainViewController {
         partida.setIntentos(intentos);
         partida.setNivel(isLevel);
         partida.setLevel(lvl);
+        partida.setDinamico(esDinamico);
         setIntentos(intentos);
         setTime(TIEMPO_PARTIDA);
         reiniciarTablero();
@@ -501,7 +503,7 @@ public class mainViewController {
     }
 
     public void setPartidaDinamica(boolean b) {
-        partida.setDinamico(b);
+       this.esDinamico= b;
     }
 
     /**
