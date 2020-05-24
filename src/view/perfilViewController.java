@@ -6,6 +6,7 @@
 package view;
 
 import data_type.GestorBarajas;
+import data_type.Historial;
 import data_type.Idioma;
 import data_type.IdiomaProperty;
 import data_type.Perfil;
@@ -107,6 +108,10 @@ public class perfilViewController implements Initializable {
     private Label puntuacionTotalLabel;
     @FXML
     private Button verRanking;
+    @FXML
+    private Button buttonHistorial;
+    
+    private Historial historial;
     
     public void setElements(Perfil perfil){
         setIdioma();
@@ -135,6 +140,8 @@ public class perfilViewController implements Initializable {
         mejorPuntuacionLabel.setText(idioma.getProp().getProperty("Mejor_Puntuacion"));
         puntuacionTotalLabel.setText(idioma.getProp().getProperty("Puntuacion_total"));
         verRanking.setText(idioma.getProp().getProperty("Ver_Ranking"));
+        buttonHistorial.setText(idioma.getProp().getProperty("Historial"));
+
     }
     
     public void setIdiomas(){
@@ -157,10 +164,12 @@ public class perfilViewController implements Initializable {
          return archivoDeImagen;
     }
      
-    public perfilViewController(Perfil perfil,GestorBarajas gestorBarajas,Ranking ranking){
+    public perfilViewController(Perfil perfil,GestorBarajas gestorBarajas,Ranking ranking, Historial historial){
         this.perfil = perfil;
         this.gestorBarajas = gestorBarajas;
         this.ranking = ranking;
+        this.historial = historial;
+        
     }
     
     /**
@@ -169,7 +178,7 @@ public class perfilViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //imagenPerfil.setDisable(true);
-        borderPane.setPrefSize(829, 543);
+        borderPane.setPrefSize(500, 700);
         borderPane.setBackground(new Background(new BackgroundImage(new Image("imagenes/ImagenesBackground/fondo-verde.jpg"),
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
@@ -262,7 +271,25 @@ public class perfilViewController implements Initializable {
                 }
             }
         };
+
+    @FXML
+    private void historialOnAction(ActionEvent event)throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("HistorialView.fxml"));
+        HistorialViewController controller = new HistorialViewController(historial,perfil);
+        loader.setController(controller);
+        Scene scene = new Scene(loader.load());
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Historial");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner((Stage) ((Node) event.getSource()).getScene().getWindow());
+        stage.getIcons().add(new Image("imagenes/ImagenesCaraPosterior/BacCard.png"));
+        stage.setResizable(false);
+        stage.showAndWait();
+    }
+
+    }
         
             
     
-}
+

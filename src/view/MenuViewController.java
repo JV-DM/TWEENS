@@ -131,7 +131,6 @@ public class MenuViewController implements Initializable {
         niveles.setText(idioma.getProp().getProperty("Niveles"));
         gestorDeBarajas.setText(idioma.getProp().getProperty("Gestor_De_Barajas"));
         desafios.setText(idioma.getProp().getProperty("Desafios"));
-        historialButton.setText(idioma.getProp().getProperty("Historial"));
     }
     
     @FXML
@@ -153,7 +152,7 @@ public class MenuViewController implements Initializable {
     @FXML
     private void clickPerfil(MouseEvent event) throws IOException {         
         FXMLLoader loader = new FXMLLoader(getClass().getResource("PerfilView.fxml"));       
-        perfilViewController controller = new perfilViewController(perfil, gestorBarajas,ranking);
+        perfilViewController controller = new perfilViewController(perfil, gestorBarajas,ranking,historial);
         loader.setController(controller);
         Scene scene = new Scene(loader.load());
         Stage stage = new Stage();
@@ -261,22 +260,7 @@ public class MenuViewController implements Initializable {
         }
     }
 
-    @FXML
-    private void clickHistorial(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("HistorialView.fxml"));
-        HistorialViewController controller = new HistorialViewController(historial,perfil);
-        loader.setController(controller);
-        Scene scene = new Scene(loader.load());
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.setTitle("Historial");
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner((Stage) ((Node) event.getSource()).getScene().getWindow());
-        stage.getIcons().add(new Image("imagenes/ImagenesCaraPosterior/BacCard.png"));
-        stage.setResizable(false);
-        stage.showAndWait();
-    }
-
+    
     public void barajaSeleccionada(Baraja baraja){
         this.baraja = baraja;
     }

@@ -38,7 +38,6 @@
             <VBox fx:id="otrosButtons" alignment="TOP_CENTER" prefHeight="176.0" prefWidth="1024.0" spacing="9.0">
                <children>
                   <Button fx:id="gestorDeBarajas" mnemonicParsing="false" onMouseClicked="#gestorDeBarajasOnClick" prefHeight="46.0" prefWidth="147.0" text="Gestor de Barajas" />
-                  <Button fx:id="historialButton" mnemonicParsing="false" onAction="#clickHistorial" prefHeight="46.0" prefWidth="147.0" text="Historial" />
                   <Button fx:id="desafios" mnemonicParsing="false" onAction="#desafiosOnClick" prefHeight="46.0" prefWidth="147.0" text="Desafios" />
                </children>
             </VBox>

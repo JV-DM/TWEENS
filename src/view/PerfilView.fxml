@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="543.0" prefWidth="820.0" stylesheets="@../css/perfil.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="500.0" stylesheets="@../css/perfil.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <HBox prefHeight="148.0" prefWidth="820.0" BorderPane.alignment="CENTER">
          <children>
@@ -32,27 +32,30 @@
                <children>
                   <Pane prefHeight="72.0" prefWidth="196.0">
                      <children>
-                        <Label fx:id="nombreDelPerfilLabel" layoutX="-26.0" layoutY="45.0" text="Nombre del perfil">
+                        <Label fx:id="nombreDelPerfilLabel" layoutX="57.0" layoutY="57.0" text="Nombre del perfil">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
+                        <ImageView fx:id="banderaIdioma" fitHeight="24.0" fitWidth="47.0" layoutX="102.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true" />
                      </children></Pane>
-                  <TextField fx:id="nombrePerfil" alignment="CENTER" prefHeight="48.0" prefWidth="218.0" text="Jugador">
+               </children>
+            </VBox>
+            <Pane prefHeight="155.0" prefWidth="190.0">
+               <children>
+                  <ChoiceBox fx:id="selectorIdioma" layoutX="14.0" layoutY="12.0" prefWidth="150.0" />
+                  <TextField fx:id="nombrePerfil" alignment="CENTER" layoutX="-128.0" layoutY="86.0" prefHeight="48.0" prefWidth="218.0" text="Jugador">
                      <font>
                         <Font name="Bodoni MT Black" size="29.0" />
                      </font>
                   </TextField>
                </children>
-            </VBox>
-            <Pane prefHeight="155.0" prefWidth="190.0" />
+            </Pane>
             <VBox prefHeight="167.0" prefWidth="181.0">
                <children>
                   <Pane prefHeight="10.0" prefWidth="171.0" />
                   <HBox prefHeight="110.0" prefWidth="171.0">
                      <children>
-                        <ImageView fx:id="banderaIdioma" fitHeight="24.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true" />
-                        <ChoiceBox fx:id="selectorIdioma" prefWidth="150.0" />
                         <Pane prefHeight="110.0" prefWidth="35.0" />
                      </children>
                   </HBox>
@@ -61,114 +64,100 @@
          </children>
       </HBox>
    </top>
-   <right>
-      <VBox alignment="CENTER" prefHeight="405.0" prefWidth="239.0" BorderPane.alignment="CENTER">
+   <center>
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="estadisticasLabel" alignment="CENTER" prefHeight="17.0" prefWidth="242.0" text="Estadísticas">
-               <font>
-                  <Font size="25.0" />
-               </font>
-            </Label>
-            <Pane prefHeight="19.0" prefWidth="239.0" />
-            <Label fx:id="victoriaLabel" alignment="CENTER" prefHeight="17.0" prefWidth="241.0" text="Victorias">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <Label fx:id="numeroVictorias" alignment="CENTER" prefHeight="17.0" prefWidth="239.0" text="numeroVictorias">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <Pane prefHeight="19.0" prefWidth="239.0" />
-            <Label fx:id="derrotasLabel" alignment="CENTER" prefHeight="17.0" prefWidth="241.0" text="Derrotas">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <Label fx:id="numeroDerrotas" alignment="CENTER" prefHeight="17.0" prefWidth="239.0" text="numeroDerrotas">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <Pane prefHeight="19.0" prefWidth="239.0" />
-            <Label fx:id="mejorPuntuacionLabel" alignment="CENTER" prefHeight="17.0" prefWidth="241.0" text="Mejor Puntuación">
-               <font>
-                  <Font size="21.0" />
-               </font>
-            </Label>
-            <Label fx:id="numeroMejorPuntuacion" alignment="CENTER" prefHeight="17.0" prefWidth="239.0" text="numeroMejorPuntuacion">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <Pane prefHeight="19.0" prefWidth="239.0" />
-            <Label fx:id="puntuacionTotalLabel" alignment="CENTER" prefHeight="17.0" prefWidth="241.0" text="Puntuación Total">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <Label fx:id="numeroPuntuacionTotal" alignment="CENTER" prefHeight="17.0" prefWidth="239.0" text="numeroPuntuacionTotal">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <Pane prefHeight="31.0" prefWidth="239.0" />
-            <Button fx:id="verRanking" mnemonicParsing="false" onAction="#rankingOnClick" prefHeight="21.0" prefWidth="102.0" text="Ver ranking" />
-            <HBox prefHeight="83.0" prefWidth="239.0">
+            <Pane prefHeight="545.0" prefWidth="258.0" />
+            <VBox alignment="TOP_CENTER" prefHeight="612.0" prefWidth="245.0">
                <children>
-                  <VBox prefHeight="200.0" prefWidth="100.0" />
-                  <Pane prefHeight="200.0" prefWidth="200.0">
+                  <Pane prefHeight="44.0" prefWidth="250.0" />
+                  <VBox prefHeight="200.0" prefWidth="117.0" />
+               </children>
+            </VBox>
+            <Pane prefHeight="388.0" prefWidth="14.0" />
+            <VBox alignment="TOP_CENTER" prefHeight="545.0" prefWidth="496.0">
+               <children>
+                  <Pane prefHeight="44.0" prefWidth="250.0">
                      <children>
-                        <ImageView fx:id="guardarPerfil" fitHeight="37.0" fitWidth="63.0" layoutX="96.0" layoutY="16.0" onMouseClicked="#guadarPerfilOnClick" pickOnBounds="true" preserveRatio="true" visible="false">
+                        <Label fx:id="victoriaLabel" alignment="CENTER" layoutX="-102.0" layoutY="49.0" prefHeight="17.0" prefWidth="241.0" text="Victorias">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="derrotasLabel" alignment="CENTER" layoutX="-101.0" layoutY="83.0" prefHeight="17.0" prefWidth="241.0" text="Derrotas">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="mejorPuntuacionLabel" alignment="CENTER" layoutX="-56.0" layoutY="114.0" prefHeight="17.0" prefWidth="241.0" text="Mejor Puntuación">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="puntuacionTotalLabel" alignment="CENTER" layoutX="-64.0" layoutY="147.0" prefHeight="17.0" prefWidth="241.0" text="Puntuación Total">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="numeroVictorias" alignment="CENTER" layoutX="58.0" layoutY="52.0" prefHeight="17.0" prefWidth="239.0" text="numeroVictorias">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="numeroDerrotas" alignment="CENTER" layoutX="58.0" layoutY="83.0" prefHeight="17.0" prefWidth="239.0" text="numeroDerrotas">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="numeroMejorPuntuacion" alignment="CENTER" layoutX="66.0" layoutY="115.0" prefHeight="17.0" prefWidth="239.0" text="numeroMejorPuntuacion">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="numeroPuntuacionTotal" alignment="CENTER" layoutX="58.0" layoutY="147.0" prefHeight="17.0" prefWidth="239.0" text="numeroPuntuacionTotal">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="tableroPorDefectoLabel" alignment="CENTER" layoutX="-47.0" layoutY="222.0" prefHeight="25.0" prefWidth="250.0" text="Tablero por defecto">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Label>
+                        <ImageView fx:id="tableroPorDefecto" fitHeight="168.0" fitWidth="227.0" layoutX="-10.0" layoutY="263.0" nodeOrientation="INHERIT" onMouseClicked="#imagenTableroOnClick" pickOnBounds="true" preserveRatio="true" />
+                        <Label fx:id="numeroBarajas" alignment="CENTER" layoutX="113.0" layoutY="411.0" prefHeight="32.0" prefWidth="119.0" text="5">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="numeroDeBarajasLabel" alignment="CENTER" layoutX="-40.0" layoutY="410.0" prefHeight="30.0" prefWidth="226.0" text="Número de barajas">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="estadisticasLabel" alignment="CENTER" layoutX="-71.0" layoutY="15.0" prefHeight="17.0" prefWidth="242.0" text="Estadísticas">
+                           <font>
+                              <Font name="System Bold Italic" size="25.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="-13.0" layoutY="185.0" text="Ajustes">
+                           <font>
+                              <Font name="System Bold Italic" size="25.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Pane prefHeight="469.0" prefWidth="330.0">
+                     <children>
+                        <Button fx:id="buttonHistorial" layoutX="164.0" layoutY="419.0" mnemonicParsing="false" onAction="#historialOnAction" text="Historial" />
+                        <Button fx:id="verRanking" layoutX="30.0" layoutY="419.0" mnemonicParsing="false" onAction="#rankingOnClick" prefHeight="35.0" prefWidth="118.0" text="Ver ranking" />
+                        <ImageView fx:id="guardarPerfil" fitHeight="37.0" fitWidth="63.0" layoutX="263.0" layoutY="418.0" onMouseClicked="#guadarPerfilOnClick" pickOnBounds="true" preserveRatio="true" visible="false">
                            <image>
                               <Image url="@../imagenes/ImagenesSistema/iconoGuardar.png" />
                            </image>
                         </ImageView>
                      </children>
                   </Pane>
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-   </right>
-   <center>
-      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <Pane prefHeight="612.0" prefWidth="161.0" />
-            <VBox alignment="TOP_CENTER" prefHeight="612.0" prefWidth="245.0">
-               <children>
-                  <Pane prefHeight="44.0" prefWidth="250.0" />
-                  <VBox prefHeight="200.0" prefWidth="117.0">
-                     <children>
-                        <Label fx:id="tableroPorDefectoLabel" alignment="CENTER" prefHeight="25.0" prefWidth="250.0" text="Tablero por defecto">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </Label>
-                        <ImageView fx:id="tableroPorDefecto" fitHeight="168.0" fitWidth="227.0" nodeOrientation="INHERIT" onMouseClicked="#imagenTableroOnClick" pickOnBounds="true" preserveRatio="true" />
-                     </children>
-                  </VBox>
-               </children>
-            </VBox>
-            <Pane prefHeight="388.0" prefWidth="14.0" />
-            <VBox alignment="TOP_CENTER" prefHeight="612.0" prefWidth="245.0">
-               <children>
-                  <Pane prefHeight="44.0" prefWidth="250.0" />
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="117.0">
-                     <children>
-                        <Label fx:id="numeroDeBarajasLabel" alignment="CENTER" prefHeight="30.0" prefWidth="226.0" text="Número de barajas">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="numeroBarajas" alignment="CENTER" prefHeight="171.0" prefWidth="203.0" text="5">
-                           <font>
-                              <Font size="96.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </VBox>
                </children>
             </VBox>
          </children>
