@@ -108,7 +108,6 @@ public class MenuViewController implements Initializable {
         if(baraja != null) {
             this.setUp(new SeleccionNormal(),controller);
             controller.iniciarPartida(baraja);
-            controller.setTiempoPartida(9000000);
             Scene scene = new Scene(root,menuBorderPane.getWidth(), menuBorderPane.getHeight());
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
@@ -235,7 +234,6 @@ public class MenuViewController implements Initializable {
         elegirBaraja(event);
         if(baraja != null) {
             this.setUp(new SeleccionModoCarta(),controller);
-            controller.setTiempoPartida(900000);
             controller.iniciarPartida(baraja);
             Scene scene = new Scene(root,menuBorderPane.getWidth(), menuBorderPane.getHeight());
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
