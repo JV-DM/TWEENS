@@ -250,7 +250,7 @@ public class MenuViewController implements Initializable {
 
     public void elegirBaraja(Event event) throws IOException{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("SeleccionarBarajaView.fxml"));
-        SeleccionarBarajaViewController controller = new SeleccionarBarajaViewController(gestorBarajas,this);
+        SeleccionarBarajaViewController controller = new SeleccionarBarajaViewController(gestorBarajas,this,perfil);
         loader.setController(controller);
         Scene scene = new Scene(loader.load());
         Stage stage = new Stage();

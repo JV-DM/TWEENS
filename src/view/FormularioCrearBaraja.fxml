@@ -11,14 +11,14 @@
    <center>
       <Pane prefHeight="214.0" prefWidth="270.0" BorderPane.alignment="CENTER">
          <children>
-            <Label layoutX="78.0" layoutY="14.0" text="Crear una baraja">
+            <Label fx:id="crearUnaBarajaLabel" layoutX="78.0" layoutY="14.0" text="Crear una baraja">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <Label layoutX="85.0" layoutY="54.0" text="Nombre de la baraja" />
+            <Label fx:id="nombreBarajaLabel" layoutX="85.0" layoutY="54.0" text="Nombre de la baraja" />
             <TextField fx:id="nombreBaraja" layoutX="65.0" layoutY="79.0" promptText="ej: baraja de animales" styleClass="text-field" />
-            <Label layoutX="85.0" layoutY="120.0" text="Temática de la baraja" />
+            <Label fx:id="tematicaLabel" layoutX="85.0" layoutY="120.0" text="Temática de la baraja" />
             <TextField fx:id="tematicaBaraja" layoutX="65.0" layoutY="145.0" promptText="ej: animales" styleClass="text-field" stylesheets="@../css/perfil.css" />
             <Button layoutX="193.0" layoutY="186.0" mnemonicParsing="false" onAction="#aceptarOnClick" text="Aceptar" />
          </children>

@@ -11,10 +11,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-/**
- *
- * @author Javier
- */
+
+
 public class IdiomaProperty extends Properties {
     private static final long serialVersionUID = 1L;
     private static final String RUTA_FICHEROS = "\\src\\idiomas\\";

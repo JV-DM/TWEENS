@@ -28,6 +28,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -104,17 +105,11 @@ public class perfilViewController implements Initializable {
     private Label mejorPuntuacionLabel;
     @FXML
     private Label puntuacionTotalLabel;
+    @FXML
+    private Button verRanking;
     
     public void setElements(Perfil perfil){
-        idioma = new IdiomaProperty(perfil.getIdioma());
-        nombreDelPerfilLabel.setText(idioma.getProp().getProperty("Nombre_del_perfil"));
-        tableroPorDefectoLabel.setText(idioma.getProp().getProperty("Tablero_Por_Defecto"));   
-        numeroDeBarajasLabel.setText(idioma.getProp().getProperty("Numero_de_barajas"));
-        estadisticasLabel.setText(idioma.getProp().getProperty("Estadisticas"));
-        victoriaLabel.setText(idioma.getProp().getProperty("Victorias"));
-        derrotasLabel.setText(idioma.getProp().getProperty("Derrotas"));
-        mejorPuntuacionLabel.setText(idioma.getProp().getProperty("Mejor_Puntuacion"));
-        puntuacionTotalLabel.setText(idioma.getProp().getProperty("Puntuacion_total"));
+        setIdioma();
         nombrePerfil.setText(perfil.getNombre());
         imagenPerfil.setImage(new Image(perfil.getRutaImagen()));
         banderaIdioma.setImage(perfil.getIdioma().getImagenBandera());
@@ -127,6 +122,19 @@ public class perfilViewController implements Initializable {
         numeroPuntuacionTotal.setText(String.valueOf(perfil.getPuntuacionTotal()));
         selectorIdioma.getSelectionModel().selectedItemProperty().addListener(cambioIdioma);
         
+    }
+    
+    public void setIdioma(){
+        idioma = new IdiomaProperty(perfil.getIdioma());
+        nombreDelPerfilLabel.setText(idioma.getProp().getProperty("Nombre_del_perfil"));
+        tableroPorDefectoLabel.setText(idioma.getProp().getProperty("Tablero_Por_Defecto"));   
+        numeroDeBarajasLabel.setText(idioma.getProp().getProperty("Numero_de_barajas"));
+        estadisticasLabel.setText(idioma.getProp().getProperty("Estadisticas"));
+        victoriaLabel.setText(idioma.getProp().getProperty("Victorias"));
+        derrotasLabel.setText(idioma.getProp().getProperty("Derrotas"));
+        mejorPuntuacionLabel.setText(idioma.getProp().getProperty("Mejor_Puntuacion"));
+        puntuacionTotalLabel.setText(idioma.getProp().getProperty("Puntuacion_total"));
+        verRanking.setText(idioma.getProp().getProperty("Ver_Ranking"));
     }
     
     public void setIdiomas(){
@@ -208,7 +216,9 @@ public class perfilViewController implements Initializable {
             imagenCambiadaTablero = false;
         }
         perfil.guardarPerfil();
+        setIdioma();
         guardarPerfil.setVisible(false);
+        
     }
 
     @FXML
