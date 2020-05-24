@@ -48,13 +48,13 @@ public class FormularioCrearBarajaController implements Initializable {
     @FXML
     private BorderPane borderPane;
     @FXML
-    private Label nombreBarajaLabel;
+    private Label crearBarajaLabel;
+    @FXML
+    private Label nombreBarjaLabel;
     @FXML
     private Label tematicaLabel;
     private IdiomaProperty idioma;
     private Perfil perfil;
-    @FXML
-    private Label crearUnaBarajaLabel;
     
     public FormularioCrearBarajaController(GestorBarajas gestorBarajas, MenuGestorBarajasViewController controller,Perfil perfil){
         this.gestorBarajas = gestorBarajas; 
@@ -67,7 +67,6 @@ public class FormularioCrearBarajaController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        setElements();
         borderPane.setBackground(new Background(new BackgroundImage(new Image(RUTA_BACKGROUND),
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
@@ -75,13 +74,6 @@ public class FormularioCrearBarajaController implements Initializable {
                 new BackgroundSize(100, 100, true,true, false, true))));
     }    
 
-    public void setElements(){
-        idioma = new IdiomaProperty(perfil.getIdioma());
-        nombreBarajaLabel.setText(idioma.getProp().getProperty("Nombre_de_la_baraja"));
-        tematicaLabel.setText(idioma.getProp().getProperty("Tematica_de_la_baraja"));
-        crearUnaBarajaLabel.setText(idioma.getProp().getProperty("Crear_una_baraja"));
-    }
-    
     public void mensajeError(String texto){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Error");
@@ -103,5 +95,11 @@ public class FormularioCrearBarajaController implements Initializable {
             stage.close();
             }
         }
+    public void setElements(){
+        idioma = new IdiomaProperty(perfil.getIdioma());
+        nombreBarjaLabel.setText(idioma.getProp().getProperty("Nombre_de_la_baraja"));
+        tematicaLabel.setText(idioma.getProp().getProperty("Tematica_de_la_baraja"));
+        crearBarajaLabel.setText(idioma.getProp().getProperty("Crear_una_baraja"));
+    }
     }
  

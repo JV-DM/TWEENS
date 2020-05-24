@@ -9,7 +9,7 @@
     <top>
         <Pane prefHeight="42.0" prefWidth="680.0" BorderPane.alignment="CENTER">
             <children>
-                <Label fx:id="seleccioneBaraja" layoutX="242.0" layoutY="-1.0" text="Seleccione una baraja " textFill="WHITE">
+                <Label layoutX="242.0" layoutY="2.0" text="Seleccione una baraja " textFill="WHITE">
                     <font>
                         <Font size="20.0" />
                     </font>

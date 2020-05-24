@@ -2,8 +2,8 @@ package data_type.Puntuacion;
 
 public class DecoradorLogroPrimeraCorrecta extends DecoradorConcreto {
 
-    public DecoradorLogroPrimeraCorrecta(Decorador decorador){
-        this.decorador = decorador;
+    public DecoradorLogroPrimeraCorrecta(IPuntuacion IPuntuacion){
+        this.IPuntuacion = IPuntuacion;
     }
 
     @Override

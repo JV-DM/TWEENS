@@ -1,16 +1,15 @@
 package data_type;
 
 import data_type.Puntuacion.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class SeleccionTrios extends EstrategiaSeleccion {
-    //public SeleccionNormal(){};
-
+public class SeleccionCategoria extends EstrategiaSeleccion{
     @Override
-    public void pickCard(Carta card,Partida partida) {
+    public void pickCard(Carta card, Partida partida) {
         if (!partida.getBaraja().getCartas().contains(card) || card.isFound())
             return;
 
@@ -18,14 +17,44 @@ public class SeleccionTrios extends EstrategiaSeleccion {
         if (partida.getSelectedCards().stream().anyMatch(x -> x.getUuid() == card.getUuid())) {
             return;
         }
-
         partida.getSelectedCards().add(card);
 
-        if (!checkCardsCombination(partida) && partida.getSelectedCards().size() == 3) {
+        if(partida.getSelectedCards().size() == 1 &&
+                !partida.getCategoria().equals(((CartaCategoria)partida.getSelectedCards().get(0)).getCategoria())){
+            partida.clearSelection();
+            partida.soundManager.playErrorSound();
+            partida.resetParejasSeguidas();
+            partida.increaseErrors();
+            if (partida.getErrorCounter() > partida.getIntentos()) {
+                partida.setPuntuacion(new Puntuacion());
+                partida.finish();
+                try {
+                    partida.stopTimer();
+                } catch (ParserConfigurationException ex) {
+                    Logger.getLogger(SeleccionNormal.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (TransformerException ex) {
+                    Logger.getLogger(SeleccionNormal.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
+        if (!checkCardsCombination(partida) && partida.getSelectedCards().size() == 2) {
             partida.increaseErrors();
             partida.clearSelection();
-            if(partida.getSonido())
-                partida.soundManager.playErrorSound();
+            partida.soundManager.playErrorSound();
+            partida.resetParejasSeguidas();
+            partida.increaseErrors();
+            if (partida.getErrorCounter() > partida.getIntentos()) {
+                partida.setPuntuacion(new Puntuacion());
+                partida.finish();
+                try {
+                    partida.stopTimer();
+                } catch (ParserConfigurationException ex) {
+                    Logger.getLogger(SeleccionNormal.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (TransformerException ex) {
+                    Logger.getLogger(SeleccionNormal.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
             if(partida.esPrimera)
                 partida.esPrimera = false;
             if (partida.getPuntuacion().getPuntos() >= 3)
@@ -43,13 +72,13 @@ public class SeleccionTrios extends EstrategiaSeleccion {
                 }
             }
         }
-        if (checkCardsCombination(partida) && partida.getSelectedCards().size() == 3) {
+        if (checkCardsCombination(partida) && partida.getSelectedCards().size() == 2) {
             partida.getSelectedCards().stream().forEach(x -> x.foundCard());
             partida.clearSelection();
             partida.setPuntuacion(new DecoradorParejaCorrecta(partida.getPuntuacion()));
-            if(partida.getSonido())
-                partida.soundManager.playCorrectSound();
+            partida.soundManager.playCorrectSound();
             partida.parejaSeguida();
+            partida.categoriaABuscar(partida.getBaraja());
 
             if (partida.getParejasSeguidas() == 5){
                 partida.setPuntuacion(new DecoradorLogroParejasSeguidas(partida.getPuntuacion()));
@@ -63,7 +92,11 @@ public class SeleccionTrios extends EstrategiaSeleccion {
                 partida.finish();
                 try {
                     partida.stopTimer();
-                } catch (ParserConfigurationException ex) {} catch (TransformerException ex) {}
+                } catch (ParserConfigurationException ex) {
+                    Logger.getLogger(SeleccionNormal.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (TransformerException ex) {
+                    Logger.getLogger(SeleccionNormal.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
         if (partida.getController() != null)

@@ -126,7 +126,7 @@ public class DesafioViewController implements Initializable {
     public boolean mensajeDeConfirmacion(String texto){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText(null);
-        alert.setTitle("¿Deseas aceptar el desafio?");
+        alert.setTitle(idioma.getProp().getProperty("Aceptar_Desafio"));
         alert.setContentText(texto);
         Optional<ButtonType> action = alert.showAndWait();
         return action.get() == ButtonType.OK;

@@ -165,4 +165,20 @@ public class GestorBarajas {
                 return baraja;              
     return null;
     }
+    public void añadirCartaCategoria(){
+
+    }
+    public Baraja barajaCategorias(){
+        Baraja barajaCategoria = new Baraja();
+        int id = 0;
+        for(Baraja baraja : barajas){
+            for(int i = 0; i <=3; i+=2){
+                Carta carta = baraja.getCartas().get(i);
+                barajaCategoria.añadirCartaCategoria(new CartaCategoria(carta.getImagen(),carta.getNombre(),id,baraja.getTematica()));
+                id++;
+            }
+        }
+        barajaCategoria.setCaraPosterior(caraPosterior);
+        return barajaCategoria;
+    }
 }

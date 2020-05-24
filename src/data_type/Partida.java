@@ -1,7 +1,7 @@
 package data_type;
 
 import data_type.Desafio.Desafio;
-import data_type.Puntuacion.Decorador;
+import data_type.Puntuacion.IPuntuacion;
 import data_type.Puntuacion.Puntuacion;
 import javafx.scene.image.Image;
 import view.mainViewController;
@@ -19,7 +19,7 @@ public class Partida {
     private boolean isFinished = false;
     private Timer timer;
     private boolean running;
-    private Decorador decorador = new Puntuacion();
+    private IPuntuacion IPuntuacion = new Puntuacion();
     private long startTime = 0L, endTime = 0L;
     private mainViewController controller;
     private EstrategiaSeleccion modoJuego;
@@ -33,7 +33,12 @@ public class Partida {
     public boolean esPrimera;
     private boolean sonido = true;
     private Desafio desafio;
+    private List<CartaCategoria> selectedCardsCategoria = new ArrayList<>();
+    private String categoria;
 
+    public Partida() {
+        this.getInstance(null,null);
+    }
     private Partida(Baraja b, Image back){
         this.baraja = b;
         this.background = back;
@@ -50,6 +55,30 @@ public class Partida {
         }
         return instancia;
     }
+    public String categoriaABuscar(Baraja baraja){
+        if(!(baraja.getCartas().get(0) instanceof CartaCategoria))
+            return null;
+        CartaCategoria cartaaencontrar = null;
+        Collections.shuffle(baraja.getCartas());
+        if(isGameCompleted()){
+            return " ";
+        }
+        for (int i = 0; i < baraja.getCartas().size(); i++) {
+            if (!baraja.getCartas().get(i).isFound()) {
+                cartaaencontrar = (CartaCategoria) baraja.getCartas().get(i);
+                this.categoria = cartaaencontrar.getCategoria();
+                controller.setLabelCategoria(categoria);
+                return cartaaencontrar.getCategoria();
+            }
+        }
+        this.categoria = cartaaencontrar.getCategoria();
+        controller.setLabelCategoria(categoria);
+        return cartaaencontrar.getCategoria();
+
+    }
+    public String getCategoria(){
+        return this.categoria;
+    }
 
     /**
      * @return Lista de cartas seleccionadas
@@ -63,7 +92,7 @@ public class Partida {
      * @param card
      */
     public void pickCard(Carta card){
-        modoJuego.pickCard(card);
+        modoJuego.pickCard(card,this);
     }
 
     /**
@@ -81,8 +110,8 @@ public class Partida {
         selectedCards.clear();
     }
 
-    public Decorador getPuntuacion(){
-        return decorador;
+    public IPuntuacion getPuntuacion(){
+        return IPuntuacion;
     }
 
 
@@ -118,7 +147,7 @@ public class Partida {
 
     public void setSonido(boolean nuevoSonido){sonido = nuevoSonido;}
     public boolean getSonido(){return sonido;}
-    
+
     /**
      * Para el tiempo de la partida
      * @throws javax.xml.parsers.ParserConfigurationException
@@ -127,7 +156,7 @@ public class Partida {
    public void stopTimer() throws ParserConfigurationException, TransformerException{
        if (isNivel == false ||isNivel && level == 1 || isNivel && level == 3){
            if(timer == null) return;
-           
+
            if(isGameCompleted()) {
                if(sonido)
                 soundManager.playVictoriaSound();
@@ -141,7 +170,7 @@ public class Partida {
            }
        }else if(isNivel && level == 2){
            if (timer == null) return;
-           
+
            if(isGameCompleted() && getPuntuacion().getPuntos() >= 60) {
                if(sonido)
                 soundManager.playVictoriaSound();
@@ -217,12 +246,12 @@ public class Partida {
     public void setDesafio(Desafio desafio){
         this.desafio = desafio;
     }
-    
+
     public void setTime(long tiempo){
         controller.setTime(tiempo);
     }
-    public void setPuntuacion(Decorador decorador){
-        this.decorador = decorador;
+    public void setPuntuacion(IPuntuacion IPuntuacion){
+        this.IPuntuacion = IPuntuacion;
     }
 
     public void setErrorCounter(int errors){
@@ -251,4 +280,26 @@ public class Partida {
         this.parejasSeguidas += 1;
     }
     public int getParejasSeguidas(){return this.parejasSeguidas;}
+
+    public Carta cartaABuscar(Baraja baraja){
+        Carta cartaaencontrar = null;
+        if(isGameCompleted()){
+            return cartaaencontrar;
+        }
+
+        for (int i = 0; baraja.getCartas().size() > i; i++) {
+            if (!baraja.getCartas().get(i).isFound()) {
+                cartaaencontrar = baraja.getCartas().get(i);
+                return cartaaencontrar;
+            }
+        }
+        return cartaaencontrar;
+    }
+
+    public List<CartaCategoria> getlSelectedCardsCategoria(){
+        return this.selectedCardsCategoria;
+    }
+    public void setCategoria(String categoriaABuscar) {
+        this.categoria = categoriaABuscar;
+    }
 }

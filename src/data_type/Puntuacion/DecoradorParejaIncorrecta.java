@@ -1,13 +1,12 @@
 package data_type.Puntuacion;
 
 public class DecoradorParejaIncorrecta extends DecoradorConcreto {
-    Decorador decorador;
-    public DecoradorParejaIncorrecta(Decorador decorador){
-        this.decorador = decorador;
+    public DecoradorParejaIncorrecta(IPuntuacion IPuntuacion){
+        this.IPuntuacion = IPuntuacion;
     }
 
     @Override
     public int getPuntos() {
-        return decorador.getPuntos() - 3;
+        return IPuntuacion.getPuntos() - 3;
     }
 }

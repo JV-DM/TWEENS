@@ -1,9 +1,9 @@
 package data_type.Puntuacion;
 
-public class Puntuacion implements Decorador {
+public class Puntuacion implements IPuntuacion {
 
     @Override
     public int getPuntos() {
-        return decorador.getPuntos();
+        return 0;
     }
 }

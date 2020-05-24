@@ -7,8 +7,6 @@ package view;
 
 import data_type.Baraja;
 import data_type.GestorBarajas;
-import data_type.IdiomaProperty;
-import data_type.Perfil;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -50,17 +48,11 @@ public class SeleccionarBarajaViewController implements Initializable {
 
     private GridPane gridPaneBarajas = new GridPane();
     private MenuViewController controller;
-    @FXML
-    private Label seleccioneBaraja;
-    private Perfil perfil;
-    private IdiomaProperty idioma;
     /**
-     *
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        setElements();
         createGridPaneBarajas();
         mainBorderPane.setBackground(new Background(new BackgroundImage(new Image(RUTA_BACKGROUND),
                 BackgroundRepeat.NO_REPEAT,
@@ -69,10 +61,9 @@ public class SeleccionarBarajaViewController implements Initializable {
                 new BackgroundSize(100, 100, true,true, false, true))));
     }
 
-    public SeleccionarBarajaViewController(GestorBarajas gestorBarajas,MenuViewController controller,Perfil perfil){
+    public SeleccionarBarajaViewController(GestorBarajas gestorBarajas,MenuViewController controller){
         this.gestorBarajas = gestorBarajas;
         this.controller = controller;
-        this.perfil = perfil;
     }
 
     public void createGridPaneBarajas(){
@@ -109,10 +100,5 @@ public class SeleccionarBarajaViewController implements Initializable {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
     };
-    
-    public void setElements(){
-        idioma = new IdiomaProperty(perfil.getIdioma());
-        seleccioneBaraja.setText(idioma.getProp().getProperty("Seleccione_Baraja"));
-    }
 
 }

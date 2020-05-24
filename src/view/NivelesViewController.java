@@ -70,7 +70,6 @@ public class NivelesViewController implements Initializable {
     private GestorBarajas gestorBarajas;
     private GestorDesafios gestorDesafios;
     Baraja baraja;
-    private IdiomaProperty idioma;
 
 
     /**
@@ -82,7 +81,7 @@ public class NivelesViewController implements Initializable {
         this.gestorBarajas = gestorBarajas;
     }*/
 
-    public void setPerfil(Perfil p) {this.perfil = p; setElements(); }
+    public void setPerfil(Perfil p) {this.perfil = p; }
     public void setGestorBarajas(GestorBarajas gestorBarajas) {this.gestorBarajas = gestorBarajas;}
     public void setBaraja(Baraja baraja){this.baraja = baraja;}
     public void setGestorDesafios(GestorDesafios gestorDesafios){this.gestorDesafios = gestorDesafios;}
@@ -146,7 +145,7 @@ public class NivelesViewController implements Initializable {
     private void setUp(EstrategiaSeleccion estrategia, mainViewController controller){
         GestorBarajas gestor = new GestorBarajas();
         controller.modoJuego = estrategia;
-        controller.modoJuego.setPartida(controller.getPartida());
+       // controller.modoJuego.setPartida(controller.getPartida());
         controller.gestor = gestor;
         controller.gestor.cargarBarajas();
         controller.gestor.cargarBarajaPorDefecto();
@@ -154,24 +153,17 @@ public class NivelesViewController implements Initializable {
         controller.setPerfil(this.perfil);
     }
 
-    public void setElements(){
-        idioma = new IdiomaProperty(perfil.getIdioma());
-        this.bt_nivel1.setText(idioma.getProp().getProperty("Nivel1"));
-        this.bt_nivel2.setText(idioma.getProp().getProperty("Nivel2"));
-        this.bt_nivel3.setText(idioma.getProp().getProperty("Nivel3"));
-        labelNivel1.setText(idioma.getProp().getProperty("Texto_nivel1"));
-        labelNivel2.setText(idioma.getProp().getProperty("Texto_nivel2"));
-        labelNivel3.setText(idioma.getProp().getProperty("Texto_nivel3"));     
-    }
-    
     @Override
-    public void initialize(URL url, ResourceBundle rb) {        
+    public void initialize(URL url, ResourceBundle rb) {
         borderPane.setPrefSize(829, 543);
         borderPane.setBackground(new Background(new BackgroundImage(new Image("imagenes/ImagenesBackground/fondo-verde.jpg"),
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.DEFAULT,
                 new BackgroundSize(100, 100, true, true, false, true))));
+        labelNivel1.setText("Tiempo reducido a 40 segundos");
+        labelNivel2.setText("Puntuación mínima de 60");
+        labelNivel3.setText("5 intentos antes de perder");
 
         labelNivel1.setFont(Font.font("anton"));
         labelNivel1.setFont(Font.font(10));

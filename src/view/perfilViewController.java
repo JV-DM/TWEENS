@@ -218,7 +218,6 @@ public class perfilViewController implements Initializable {
         perfil.guardarPerfil();
         setIdioma();
         guardarPerfil.setVisible(false);
-        
     }
 
     @FXML
