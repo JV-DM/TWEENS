@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+
+
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="484.0" prefWidth="677.0" stylesheets="@../css/perfil.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <Pane prefHeight="26.0" prefWidth="677.0" BorderPane.alignment="CENTER" />
+   </top>
+   <left>
+      <Pane prefHeight="434.0" prefWidth="31.0" BorderPane.alignment="CENTER" />
+   </left>
+   <right>
+      <Pane prefHeight="458.0" prefWidth="20.0" BorderPane.alignment="CENTER" />
+   </right>
+   <bottom>
+      <Pane prefHeight="24.0" prefWidth="677.0" BorderPane.alignment="CENTER" />
+   </bottom>
+</BorderPane>

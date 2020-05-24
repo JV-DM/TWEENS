@@ -1,29 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.mainViewController">
+<BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.mainViewController">
    <top>
-      <Label fx:id="timeLabel" text="tiempo" BorderPane.alignment="CENTER">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font></Label>
+      <HBox fx:id="topBorderPane" prefHeight="34.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Pane prefHeight="42.0" prefWidth="17.0" />
+            <Pane prefHeight="39.0" prefWidth="448.0" />
+            <Label fx:id="timeLabel" prefHeight="39.0" prefWidth="124.0" text="tiempo" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="27.0" />
+               </font>
+            </Label>
+            <Pane prefHeight="39.0" prefWidth="211.0" />
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="18.0">
+               <children>
+                  <ImageView fx:id="salirPartida" fitHeight="32.0" fitWidth="32.0" onMouseClicked="#salirPartidaOnClick" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imagenes/ImagenesSistema/iconoAtras.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="replay" fitHeight="32.0" fitWidth="32.0" layoutX="52.0" layoutY="10.0" onMouseClicked="#replayOnClick" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imagenes/ImagenesSistema/AjustesPartida/iconoReplay.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="pause" fitHeight="32.0" fitWidth="32.0" layoutX="94.0" layoutY="10.0" onMouseClicked="#pauseOnClick" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imagenes/ImagenesSistema/AjustesPartida/iconoPause.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="sound" fitHeight="32.0" fitWidth="32.0" layoutX="136.0" layoutY="10.0" onMouseClicked="#soundOnClick" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imagenes/ImagenesSistema/AjustesPartida/iconoSoundOn.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="menu" fitHeight="38.0" fitWidth="38.0" layoutX="178.0" layoutY="10.0" onMouseClicked="#menuOnClick" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../imagenes/ImagenesSistema/AjustesPartida/iconoMenu.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+         </children>
+      </HBox>
    </top>
    <bottom>
-      <Label fx:id="puntuationLabel" text="Puntuación" BorderPane.alignment="CENTER">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-         <graphic>
-            <Label fx:id="intentosLabel" text="Intentos">
-               <padding>
-                  <Insets left="30.0" right="50.0" />
-               </padding>
+      <HBox fx:id="bottomBorderPane" alignment="BOTTOM_LEFT" prefHeight="37.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Pane prefHeight="39.0" prefWidth="288.0" />
+            <Label fx:id="intentosLabel" text="Intentos" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="27.0" />
+               </font>
             </Label>
-         </graphic>
-      </Label>
+            <Pane prefHeight="39.0" prefWidth="144.0" />
+            <Label fx:id="puntuationLabel" text="Puntuacion" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="27.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
    </bottom>
 </BorderPane>

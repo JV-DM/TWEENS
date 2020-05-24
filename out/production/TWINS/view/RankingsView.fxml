@@ -14,7 +14,7 @@
     <top>
         <Pane prefHeight="80.0" prefWidth="600.0" BorderPane.alignment="CENTER">
             <children>
-                <Label layoutX="182.0" layoutY="14.0" text="RANKINGS" textFill="#fcfcfc">
+                <Label fx:id="rankingLabel" layoutX="182.0" layoutY="14.0" text="RANKINGS" textFill="#fcfcfc">
                     <font>
                         <Font name="System Bold" size="36.0" />
                     </font></Label>
@@ -36,11 +36,11 @@
                 <Label fx:id="puntuacion1" layoutX="293.0" layoutY="69.0" text="Puntuación" textFill="WHITE" />
                 <Label fx:id="puntuacion2" layoutX="293.0" layoutY="119.0" text="Puntuación" textFill="WHITE" />
                 <Label fx:id="puntuacion3" layoutX="293.0" layoutY="169.0" text="Puntuación" textFill="WHITE" />
-                <Label layoutX="34.0" layoutY="14.0" text="POSICIÓN" textFill="WHITE">
+                <Label fx:id="posicionLabel" layoutX="34.0" layoutY="14.0" text="POSICIÓN" textFill="WHITE">
                     <font>
                         <Font name="System Bold Italic" size="18.0" />
                     </font></Label>
-                <Label layoutX="240.0" layoutY="14.0" text="PUNTUACIÓN" textFill="WHITE">
+                <Label fx:id="puntuacionLabel" layoutX="240.0" layoutY="14.0" text="PUNTUACIÓN" textFill="WHITE">
                     <font>
                         <Font name="System Bold Italic" size="18.0" />
                     </font></Label>
