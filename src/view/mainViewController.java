@@ -7,22 +7,32 @@ import data_type.Puntuacion.DecoradorLogroFinPartidaRapido;
 import data_type.Puntuacion.Puntuacion;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyDoubleProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.input.MouseEvent;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
@@ -68,7 +78,7 @@ public class mainViewController {
 
     private boolean partidaAcabada;
 
-    private Map<Carta, ImageView> cardImageViewMap;
+    public Map<Carta, ImageView> cardImageViewMap;
 
     private long time;
     EstrategiaSeleccion modoJuego;
@@ -149,22 +159,77 @@ public class mainViewController {
                     for (Carta cardFromMap : cardImageViewMap.keySet())
                         if (!cardFromMap.isFound())
                             cardImageViewMap.get(cardFromMap).setImage(partida.getBaraja().getCaraPosterior().getImagen());
+                    if (partida.esDinamico) {
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                ObservableList<Node> nodos = playGridPane.getChildren();
+                                ArrayList<ArrayList<Node>> filas = new ArrayList<>();
+
+                                int columnCount = playGridPane.getColumnCount();
+
+                                for (int i = 0; i < nodos.size(); i += columnCount) {
+                                    ArrayList<Node> temp = new ArrayList<>();
+                                    for (int j = i; j < columnCount + i; j++) {
+                                        temp.add(nodos.get(j));
+                                    }
+                                    filas.add(temp);
+                                }
+                                for (ArrayList<Node> fila : filas) {
+                                    int ultimo = fila.size() - 1;
+                                    for (int i = 0; i < fila.size(); i++) {
+                                        if (i == ultimo) {
+                                            swap(fila.get(0), fila.get(ultimo));
+                                        } else if (i != 0) swap(fila.get(i), fila.get(i + 1));
+
+                                    }
+                                }
+
+
+                            }
+                        });
+
+                    }
+
                     if (modoJuego instanceof SeleccionModoCarta && partidaAcabada == false)
                         imageViewCarta.setImage(partida.cartaABuscar(partida.getBaraja()).getImagen());
-                    else if (partidaAcabada)  mainBorderPane.getChildren().remove(imageViewCarta);;
+                    else if (partidaAcabada) mainBorderPane.getChildren().remove(imageViewCarta);
+                    ;
                     playGridPane.setDisable(false);
                 }
             }).start();
-        };
+        }
+
+                ;
     }
+
+  /*  @FXML
+    public void clickDebug(ActionEvent event) throws IOException {
+        for (Map.Entry<Carta, ImageView> entry : cardImageViewMap.entrySet()) {
+            Carta c = entry.getKey();
+            ImageView image = entry.getValue();
+            image.setImage(c.getImagen());
+
+        }
+
+    }*/
 
     public void cartaASeleccionar() {
         imageViewCarta = new ImageView();
         mainBorderPane.setRight(imageViewCarta);
-        Insets insets = new Insets(0,10,0,0);
+        Insets insets = new Insets(0, 10, 0, 0);
         mainBorderPane.setPadding(insets);
     }
 
+    public void swap(Node n1, Node n2) {
+        Integer temp = playGridPane.getRowIndex(n1);
+        playGridPane.setRowIndex(n1, playGridPane.getRowIndex(n2));
+        playGridPane.setRowIndex(n2, temp);
+
+        temp = playGridPane.getColumnIndex(n1);
+        playGridPane.setColumnIndex(n1, playGridPane.getColumnIndex(n2));
+        playGridPane.setColumnIndex(n2, temp);
+    }
 
     /**
      * Cambia el valor de la puntuación
@@ -433,6 +498,10 @@ public class mainViewController {
 
     public void setHistorial(Historial historial) {
         this.historial = historial;
+    }
+
+    public void setPartidaDinamica(boolean b) {
+        partida.setDinamico(b);
     }
 
     /**

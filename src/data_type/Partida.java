@@ -28,6 +28,7 @@ public class Partida {
     private int level;
     private int parejasSeguidas;
     public boolean esPrimera;
+    public boolean esDinamico;
 
     private Partida(Baraja b, Image back){
         this.baraja = b;
@@ -37,6 +38,7 @@ public class Partida {
         timer = new Timer();
         soundManager = new GestorSonido();
         esPrimera = true;
+        esDinamico = false;
     }
 
     public static Partida getInstance(Baraja baraja, Image back){
@@ -238,6 +240,10 @@ public class Partida {
     public int getLevel() { return level; }
 
     public boolean isNivel(){ return isNivel; }
+
+    public void setDinamico(boolean b){ esDinamico = b; }
+
+    public boolean isEsDinamico(){ return esDinamico; }
 
     public void resetParejasSeguidas(){this.parejasSeguidas = 0;}
     public void parejaSeguida(){
