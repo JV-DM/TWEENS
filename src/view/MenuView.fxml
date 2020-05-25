@@ -12,42 +12,88 @@
 
 <BorderPane fx:id="menuBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" stylesheets="@../css/menu.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MenuViewController">
    <center>
-      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <HBox BorderPane.alignment="TOP_CENTER">
          <children>
-            <Pane prefHeight="113.0" prefWidth="1024.0" />
-            <Button fx:id="modosDeJuego" mnemonicParsing="false" onAction="#modosDeJuegoOnClick" prefHeight="36.0" prefWidth="147.0" text="Modos de juego" />
-            <Pane prefHeight="9.0" prefWidth="200.0" />
-            <VBox fx:id="modoVBox" prefHeight="1.0" prefWidth="1024.0" spacing="9.0">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </VBox>
-            <VBox fx:id="modosDeJuegoVBox" alignment="CENTER" prefHeight="159.0" prefWidth="1024.0" spacing="9.0">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Button fx:id="partidaEstandar" mnemonicParsing="false" onMouseClicked="#clickPartidaEstandar" prefHeight="46.0" prefWidth="147.0" text="Partida Estandar" />
-                  <Button fx:id="modoTrios" mnemonicParsing="false" onAction="#clickModoTrios" prefHeight="46.0" prefWidth="147.0" text="Modo trios" />
-                  <Button fx:id="niveles" mnemonicParsing="false" onAction="#clickNiveles" prefHeight="46.0" prefWidth="147.0" text="Niveles" />
-                  <Button fx:id="btnModoCartas" mnemonicParsing="false" onAction="#clickModoCartas" onMouseClicked="#clickPartidaEstandar" prefHeight="46.0" prefWidth="147.0" text="Modo por cartas" />
-                  <Button fx:id="btnModoCategoria" mnemonicParsing="false" onAction="#clickCategoria" onMouseClicked="#clickPartidaEstandar" prefHeight="46.0" prefWidth="147.0" text="Modo por categoria" />
+                  <Button fx:id="modosDeJuego" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#modosDeJuegoOnClick" prefHeight="175.0" prefWidth="250.0" text="Modos de juego" VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Button>
+                  <VBox fx:id="modoVBox" prefHeight="1.0" prefWidth="1024.0" spacing="9.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </VBox>
+                  <VBox fx:id="otrosButtons" alignment="TOP_CENTER" prefHeight="149.0" prefWidth="1024.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Button fx:id="gestorDeBarajas" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#gestorDeBarajasOnClick" prefHeight="175.0" prefWidth="250.0" text="Gestor de Barajas" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="desafios" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#desafiosOnClick" prefHeight="175.0" prefWidth="250.0" text="Desafios" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </VBox>
                </children>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
             </VBox>
-            <Pane prefHeight="9.0" prefWidth="200.0" />
-            <VBox fx:id="otrosButtons" alignment="TOP_CENTER" prefHeight="176.0" prefWidth="1024.0" spacing="9.0">
+            <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Button fx:id="gestorDeBarajas" mnemonicParsing="false" onMouseClicked="#gestorDeBarajasOnClick" prefHeight="46.0" prefWidth="147.0" text="Gestor de Barajas" />
-                  <Button fx:id="desafios" mnemonicParsing="false" onAction="#desafiosOnClick" prefHeight="46.0" prefWidth="147.0" text="Desafios" />
+                  <VBox fx:id="modosDeJuegoVBox" alignment="CENTER" prefHeight="345.0" prefWidth="1024.0" spacing="9.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Button fx:id="partidaEstandar" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#clickPartidaEstandar" prefHeight="100.0" prefWidth="250.0" text="Partida Estandar" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="modoTrios" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickModoTrios" prefHeight="100.0" prefWidth="250.0" text="Modo trios" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="niveles" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickNiveles" prefHeight="100.0" prefWidth="250.0" text="Niveles" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="btnModoCartas" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickModoCartas" onMouseClicked="#clickPartidaEstandar" prefHeight="100.0" prefWidth="250.0" text="Modo por cartas" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="btnModoCategoria" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickCategoria" onMouseClicked="#clickPartidaEstandar" prefHeight="100.0" prefWidth="250.0" text="Modo por categoria" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </VBox>
                </children>
             </VBox>
          </children>
-      </VBox>
+      </HBox>
    </center>
    <top>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Pane prefHeight="219.0" prefWidth="300.0">
+            <Pane prefHeight="219.0" prefWidth="213.0" HBox.hgrow="ALWAYS">
                <children>
                   <ImageView fx:id="imagenPerfil" fitHeight="65.0" fitWidth="77.0" layoutX="14.0" layoutY="14.0" onMouseClicked="#clickPerfil" pickOnBounds="true" preserveRatio="true" />
                   <Label fx:id="nombrePerfil" layoutX="99.0" layoutY="31.0" prefHeight="32.0" prefWidth="90.0" text="Jugador 1" textFill="WHITE">
@@ -62,6 +108,7 @@
                   <Font size="150.0" />
                </font>
             </Label>
+            <Pane prefHeight="219.0" prefWidth="214.0" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
    </top>

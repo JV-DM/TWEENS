@@ -12,6 +12,8 @@ import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -38,6 +40,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import javax.xml.parsers.ParserConfigurationException;
+
+import javafx.stage.Window;
 import org.xml.sax.SAXException;
 
 /**
@@ -85,13 +89,25 @@ public class MenuViewController implements Initializable {
     private Button historialButton;
     @FXML
     private Button btnModoCategoria;
+    @FXML
+    private Button btnModoCartas;
     private Historial historial;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        gestorDeBarajas.prefWidthProperty().bind(modosDeJuegoVBox.widthProperty().divide(1.5));
+        modosDeJuego.prefWidthProperty().bind(modosDeJuegoVBox.widthProperty().divide(1.5));
+        desafios.prefWidthProperty().bind(modosDeJuegoVBox.widthProperty().divide(1.5));
+
+        partidaEstandar.prefWidthProperty().bind(modosDeJuegoVBox.widthProperty().divide(1.5));
+        modoTrios.prefWidthProperty().bind(modosDeJuegoVBox.widthProperty().divide(1.5));
+        niveles.prefWidthProperty().bind(modosDeJuegoVBox.widthProperty().divide(1.5));
+        btnModoCategoria.prefWidthProperty().bind(modosDeJuegoVBox.widthProperty().divide(1.5));
+        btnModoCartas.prefWidthProperty().bind(modosDeJuegoVBox.widthProperty().divide(1.5));
+
+
         gestorBarajas = new GestorBarajas();
         gestorBarajas.cargarBarajas();
         perfil = new Perfil();
@@ -285,18 +301,18 @@ public class MenuViewController implements Initializable {
         if(verModosDeJuego){
             verModosDeJuego = false;
             modosDeJuego.getStyleClass().remove("button-pressed");
-            modoVBox.getChildren().clear();
-            modoVBox.getChildren().add(otrosButtons);    
+            //modoVBox.getChildren().clear();
+            //modoVBox.getChildren().add(otrosButtons);
             modosDeJuegoVBox.setVisible(false);
-            otrosButtons.setVisible(true);
+            //otrosButtons.setVisible(true);
         }
         else {
             verModosDeJuego = true;
             modosDeJuego.getStyleClass().add("button-pressed");
-            modoVBox.getChildren().clear();
-            modoVBox.getChildren().add(modosDeJuegoVBox);    
+            //modoVBox.getChildren().clear();
+            //modoVBox.getChildren().add(modosDeJuegoVBox);
             modosDeJuegoVBox.setVisible(true);
-            otrosButtons.setVisible(false);
+            //otrosButtons.setVisible(false);
         }
     }
 
@@ -315,7 +331,7 @@ public class MenuViewController implements Initializable {
         stage.setResizable(false);
         stage.showAndWait();
     }
-    
+
     public void setGestorDesafios(GestorDesafios gestorDesafios){
         this.gestorDesafios = gestorDesafios;
     }
