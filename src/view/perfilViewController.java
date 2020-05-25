@@ -80,9 +80,9 @@ public class perfilViewController implements Initializable {
     private Perfil perfil;
     private String rutaImagenPerfil;
     private String rutaImagenTablero;
-    
+
     @FXML
-    private ImageView guardarPerfil;   
+    private ImageView guardarPerfil;
     private boolean imagenCambiadaPerfil = false;
     private boolean imagenCambiadaTablero = false;
     @FXML
