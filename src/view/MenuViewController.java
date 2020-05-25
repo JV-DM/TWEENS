@@ -348,7 +348,7 @@ public class MenuViewController implements Initializable {
             this.setUp(new SeleccionNormal(),controller);
             controller.setTiempoPartida(90000);
             controller.setPartidaDinamica(true);
-            controller.iniciarPartida(gestorBarajas.barajaATrios(baraja));
+            controller.iniciarPartida(baraja);
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
