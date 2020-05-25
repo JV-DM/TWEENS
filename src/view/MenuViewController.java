@@ -91,6 +91,8 @@ public class MenuViewController implements Initializable {
     private Button btnModoCategoria;
     @FXML
     private Button btnModoCartas;
+    @FXML
+    private Button btnTableroDInamico;
     private Historial historial;
     /**
      * Initializes the controller class.
@@ -106,7 +108,7 @@ public class MenuViewController implements Initializable {
         niveles.prefWidthProperty().bind(modosDeJuegoVBox.widthProperty().divide(1.5));
         btnModoCategoria.prefWidthProperty().bind(modosDeJuegoVBox.widthProperty().divide(1.5));
         btnModoCartas.prefWidthProperty().bind(modosDeJuegoVBox.widthProperty().divide(1.5));
-
+        btnTableroDInamico.prefWidthProperty().bind(modosDeJuegoVBox.widthProperty().divide(1.5));
 
         gestorBarajas = new GestorBarajas();
         gestorBarajas.cargarBarajas();
@@ -335,4 +337,23 @@ public class MenuViewController implements Initializable {
     public void setGestorDesafios(GestorDesafios gestorDesafios){
         this.gestorDesafios = gestorDesafios;
     }
+
+    @FXML
+    private void clickTableroDinamico(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainView.fxml"));
+        Parent root = loader.load();
+        mainViewController controller = loader.getController();
+        elegirBaraja(event);
+        if(baraja != null) {
+            this.setUp(new SeleccionNormal(),controller);
+            controller.setTiempoPartida(90000);
+            controller.setPartidaDinamica(true);
+            controller.iniciarPartida(gestorBarajas.barajaATrios(baraja));
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        }
+    }
+
 }

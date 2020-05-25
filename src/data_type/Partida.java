@@ -35,6 +35,7 @@ public class Partida {
     private Desafio desafio;
     private List<CartaCategoria> selectedCardsCategoria = new ArrayList<>();
     private String categoria;
+    public boolean esDinamico;
 
     public Partida() {
         this.getInstance(null,null);
@@ -45,6 +46,7 @@ public class Partida {
         errorCounter = 0;
         running = false;
         timer = new Timer();
+        esDinamico = false;
         soundManager = new GestorSonido();
         esPrimera = true;
     }
@@ -302,4 +304,9 @@ public class Partida {
     public void setCategoria(String categoriaABuscar) {
         this.categoria = categoriaABuscar;
     }
+
+    public void setDinamico(boolean b){ esDinamico = b; }
+
+    public boolean isEsDinamico(){ return esDinamico; }
+
 }

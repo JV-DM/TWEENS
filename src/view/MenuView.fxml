@@ -55,27 +55,32 @@
                <children>
                   <VBox fx:id="modosDeJuegoVBox" alignment="CENTER" prefHeight="345.0" prefWidth="1024.0" spacing="9.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <Button fx:id="partidaEstandar" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#clickPartidaEstandar" prefHeight="100.0" prefWidth="250.0" text="Partida Estandar" VBox.vgrow="ALWAYS">
+                        <Button fx:id="partidaEstandar" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#clickPartidaEstandar" prefHeight="75.0" prefWidth="250.0" text="Partida Estandar" VBox.vgrow="ALWAYS">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Button>
-                        <Button fx:id="modoTrios" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickModoTrios" prefHeight="100.0" prefWidth="250.0" text="Modo trios" VBox.vgrow="ALWAYS">
+                        <Button fx:id="modoTrios" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickModoTrios" prefHeight="75.0" prefWidth="250.0" text="Modo trios" VBox.vgrow="ALWAYS">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Button>
-                        <Button fx:id="niveles" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickNiveles" prefHeight="100.0" prefWidth="250.0" text="Niveles" VBox.vgrow="ALWAYS">
+                        <Button fx:id="niveles" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickNiveles" prefHeight="75.0" prefWidth="250.0" text="Niveles" VBox.vgrow="ALWAYS">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btnModoCartas" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickModoCartas" onMouseClicked="#clickPartidaEstandar" prefHeight="100.0" prefWidth="250.0" text="Modo por cartas" VBox.vgrow="ALWAYS">
+                        <Button fx:id="btnModoCartas" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickModoCartas" onMouseClicked="#clickPartidaEstandar" prefHeight="75.0" prefWidth="250.0" text="Modo por cartas" VBox.vgrow="ALWAYS">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btnModoCategoria" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickCategoria" onMouseClicked="#clickPartidaEstandar" prefHeight="100.0" prefWidth="250.0" text="Modo por categoria" VBox.vgrow="ALWAYS">
+                        <Button fx:id="btnModoCategoria" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickCategoria" onMouseClicked="#clickPartidaEstandar" prefHeight="75.0" prefWidth="250.0" text="Modo por categoria" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="btnTableroDInamico" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clickTableroDinamico" onMouseClicked="#clickPartidaEstandar" prefHeight="75.0" prefWidth="250.0" text="Tablero dinámico">
                            <font>
                               <Font size="20.0" />
                            </font>

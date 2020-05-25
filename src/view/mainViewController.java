@@ -7,6 +7,8 @@ package view;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import data_type.*;
 import data_type.Puntuacion.DecoradorLogroFinPartidaRapido;
@@ -18,6 +20,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -67,7 +70,7 @@ public class mainViewController implements Initializable {
     public Label labelCategoria;
 
     GridPane playGridPane;
-
+    private boolean esDinamico = false;
     private Partida partida;
     
     GestorBarajas gestor;
@@ -112,6 +115,7 @@ public class mainViewController implements Initializable {
     private ImageView sound;
     @FXML
     private ImageView menu;
+
     private AjustesPartida ajustes = new AjustesPartida();
 
     private boolean partidaPausada = false;
@@ -199,6 +203,38 @@ public class mainViewController implements Initializable {
                     for (Carta cardFromMap : cardImageViewMap.keySet())
                         if(!cardFromMap.isFound())
                             cardImageViewMap.get(cardFromMap).setImage(partida.getBaraja().getCaraPosterior().getImagen());
+                    if (partida.esDinamico) {
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                ObservableList<Node> nodos = playGridPane.getChildren();
+                                ArrayList<ArrayList<Node>> filas = new ArrayList<>();
+
+                                int columnCount = playGridPane.getColumnCount();
+
+                                for (int i = 0; i < nodos.size(); i += columnCount) {
+                                    ArrayList<Node> temp = new ArrayList<>();
+                                    for (int j = i; j < columnCount + i; j++) {
+                                        temp.add(nodos.get(j));
+                                    }
+                                    filas.add(temp);
+                                }
+                                for (ArrayList<Node> fila : filas) {
+                                    int ultimo = fila.size() - 1;
+                                    for (int i = 0; i < fila.size(); i++) {
+                                        if (i == ultimo) {
+                                            swap(fila.get(0), fila.get(ultimo));
+                                        } else if (i != 0) swap(fila.get(i), fila.get(i + 1));
+
+                                    }
+                                }
+
+
+                            }
+                        });
+
+                    }
+
                     if (modoJuego instanceof SeleccionModoCarta && partidaAcabada == false)
                         imageViewCarta.setImage(partida.cartaABuscar(partida.getBaraja()).getImagen());
                     else if (partidaAcabada)  mainBorderPane.getChildren().remove(imageViewCarta);;
@@ -206,6 +242,16 @@ public class mainViewController implements Initializable {
                 }
             }).start();
         };
+    }
+
+    public void swap(Node n1, Node n2) {
+        Integer temp = playGridPane.getRowIndex(n1);
+        playGridPane.setRowIndex(n1, playGridPane.getRowIndex(n2));
+        playGridPane.setRowIndex(n2, temp);
+
+        temp = playGridPane.getColumnIndex(n1);
+        playGridPane.setColumnIndex(n1, playGridPane.getColumnIndex(n2));
+        playGridPane.setColumnIndex(n2, temp);
     }
 
     /**
@@ -385,6 +431,7 @@ public class mainViewController implements Initializable {
         partida.setLevel(lvl);
         setIntentos(intentos);
         setTime(TIEMPO_PARTIDA);
+        partida.setDinamico(esDinamico);
         reiniciarTablero();     
         updateTimer();
         gridCreation(partida.getBaraja().getCartas(), mainBorderPane.heightProperty(), mainBorderPane.widthProperty());
@@ -542,6 +589,11 @@ public class mainViewController implements Initializable {
         Insets insets = new Insets(0,10,0,0);
         mainBorderPane.setPadding(insets);
     }
+    public void setPartidaDinamica(boolean bol) {
+        this.esDinamico = bol;
+    }
+
+
 
 }
 
