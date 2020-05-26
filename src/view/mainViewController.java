@@ -394,6 +394,8 @@ public class mainViewController implements Initializable {
         puntuacionLabel.setStyle("-fx-font-weight: bold");
         puntuacionLabel.setFont(Font.font(30));
 
+
+
         partida.restartTimer();
         vBox = new VBox(20, finPartida, puntuacionLabel, puntuacion, timeText, tiempo);
         mainBorderPane.setCenter(vBox);
@@ -448,6 +450,9 @@ public class mainViewController implements Initializable {
             Collections.shuffle(partida.getBaraja().getCartas());
             partida.setCategoria(partida.categoriaABuscar(partida.getBaraja()));
             labelCategoria.setText(partida.getCategoria());
+            labelCategoria.setTextFill(Paint.valueOf("white"));
+            labelCategoria.setStyle("-fx-font-weight: bold");
+            labelCategoria.setFont(Font.font(30));
         }
 
         imageViewCarta.setDisable(true);

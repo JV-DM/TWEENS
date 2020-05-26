@@ -25,7 +25,9 @@ public class SeleccionCategoria extends EstrategiaSeleccion{
             partida.soundManager.playErrorSound();
             partida.resetParejasSeguidas();
             partida.increaseErrors();
-            if (partida.getErrorCounter() > partida.getIntentos()) {
+            if (partida.getPuntuacion().getPuntos() >= 3)
+                partida.setPuntuacion(new DecoradorParejaIncorrecta(partida.getPuntuacion()));
+            else if (partida.getErrorCounter() > partida.getIntentos()) {
                 partida.setPuntuacion(new Puntuacion());
                 partida.finish();
                 try {
