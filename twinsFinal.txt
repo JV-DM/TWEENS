@@ -1,0 +1,4 @@
+Codigo del juego + ejecutable en:
+https://github.com/SHEKK0/TWEENS
+
+Para ejecutar el juego simplemente hacer doble click en run.bat

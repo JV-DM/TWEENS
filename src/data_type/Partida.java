@@ -22,24 +22,20 @@ public class Partida {
     private IPuntuacion IPuntuacion = new Puntuacion();
     private long startTime = 0L, endTime = 0L;
     private mainViewController controller;
-    private EstrategiaSeleccion modoJuego;
     private boolean victoria = false;
     public GestorSonido soundManager;
-    private static Partida instancia;
     private int intentos;
     private boolean isNivel = false;
     private int level;
     private int parejasSeguidas;
     public boolean esPrimera;
     private boolean sonido = true;
-    private Desafio desafio;
     private List<CartaCategoria> selectedCardsCategoria = new ArrayList<>();
     private String categoria;
     public boolean esDinamico;
 
-    public Partida() {
-        this.getInstance(null,null);
-    }
+    private EstrategiaSeleccion modoJuego;
+    private static Partida instancia;
     private Partida(Baraja b, Image back){
         this.baraja = b;
         this.background = back;
@@ -77,6 +73,10 @@ public class Partida {
         controller.setLabelCategoria(categoria);
         return cartaaencontrar.getCategoria();
 
+    }
+
+    public Partida() {
+        this.getInstance(null,null);
     }
     public String getCategoria(){
         return this.categoria;
@@ -243,10 +243,6 @@ public class Partida {
 
     public void restartTimer(){
         this.timer = new Timer();
-    }
-
-    public void setDesafio(Desafio desafio){
-        this.desafio = desafio;
     }
 
     public void setTime(long tiempo){
