@@ -1,1 +1,1 @@
-"jbr\bin\java.exe" -Dfile.encoding=windows-1252 -jar C:\Users\JVDM\Documents\GitHub\TWEENS\out\artifacts\TWINS_jar\TWINS.jar
+"jbr\bin\java.exe" -jar "out\artifacts\TWINS_jar\TWINS.jar"
